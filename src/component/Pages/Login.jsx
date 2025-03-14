@@ -60,12 +60,12 @@ const Login = () => {
                     <h1>Don't have accout?</h1>
                     <NavLink to="/register"><h1 className="text-[#004290] ">SIGN UP</h1></NavLink>
                 </div>
-                
+
                 <div className="flex justify-center mt-3 cursor-pointer ">
-                <FcGoogle className="text-[50px] border p-1 rounded-full border-gray-500  " />
+                    <FcGoogle className="text-[50px] border p-1 rounded-full border-gray-500  " />
                 </div>
 
-                
+
             </div>
 
             {/* Right Side - Image */}

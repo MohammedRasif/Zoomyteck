@@ -6,16 +6,17 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Roots from './Root/Roots.jsx';
-import ErrorPage from './component/ErrorPage/ErrorPage.jsx';
 import Home from './component/Home/Home.jsx';
 import Login from './component/Pages/Login.jsx';
 import Register from './component/Pages/Register.jsx';
+import ForgetPassword from './component/Pages/ForgetPassword.jsx';
+import Verification from './component/Pages/Verification.jsx';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:<Roots/> ,
-    errorElement:<ErrorPage/>,
     children: [
       {
         path: "/",
@@ -29,6 +30,15 @@ const router = createBrowserRouter([
         path: "/register",
         element:<Register/> ,
       },
+      {
+        path:"/forgetPassword",
+        element:<ForgetPassword/>
+      },
+      {
+        path:"/verification",
+        element:<Verification/>
+      },
+      
     ],
   },
 ]);
