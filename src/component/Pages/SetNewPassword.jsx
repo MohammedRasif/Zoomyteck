@@ -33,8 +33,8 @@ const SetNewPassword = () => {
                     <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                 </div>
                 {/* Title */}
-                <h1 className="text-4xl font-medium text-center mb-4">Set New Password</h1>
-                <p className="font-medium text-xl text-center mb-6">
+                <h1 className="lg:text-4xl md:text-4xl text-3xl font-medium text-center mb-4 text-[#004290]">Set New Password</h1>
+                <p className="font-medium lg:text-xl text-center mb-6">
                     Create a new password. <br /> Ensure it differs from the previous one.
                 </p>
 
