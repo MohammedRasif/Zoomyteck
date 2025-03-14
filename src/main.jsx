@@ -11,6 +11,7 @@ import Login from './component/Pages/Login.jsx';
 import Register from './component/Pages/Register.jsx';
 import ForgetPassword from './component/Pages/ForgetPassword.jsx';
 import Verification from './component/Pages/Verification.jsx';
+import SetNewPassword from './component/Pages/SetNewPassword.jsx';
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path:"/verification",
         element:<Verification/>
+      },
+      {
+        path:"/setNewPassoword",
+        element:<SetNewPassword/>
       },
       
     ],
