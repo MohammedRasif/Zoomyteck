@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -49,16 +50,27 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="mt-8 sm:mt-10 w-full px-7 rounded-full h-12 text-lg font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] transition cursor-pointer"
+                        className="mt-8 sm:mt-10 w-full px-7 rounded-md h-12 text-lg font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] transition cursor-pointer"
                     >
                         SIGN IN
                     </button>
                 </form>
+
+                <div className="flex mt-4  space-x-4 justify-center">
+                    <h1>Don't have accout?</h1>
+                    <NavLink to="/register"><h1 className="text-[#004290] ">SIGN UP</h1></NavLink>
+                </div>
+                
+                <div className="flex justify-center mt-3 cursor-pointer ">
+                <FcGoogle className="text-[50px] border p-1 rounded-full border-gray-500  " />
+                </div>
+
+                
             </div>
 
             {/* Right Side - Image */}
             <div className="w-full lg:w-1/2 h-20 lg:h-full hidden md:block">
-                <img src={img} className="w-full h-screen" alt="Login Image" />
+                <img src={img} className="w-full h-full" alt="Login Image" />
             </div>
         </div>
     );
