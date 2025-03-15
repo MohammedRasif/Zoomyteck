@@ -28,7 +28,7 @@ const SetNewPassword = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row min-h-screen bg-white dark:bg-gray-900 transition-colors">
+        <div className="flex flex-col lg:flex-row min-h-screen bg-white dark:bg-black transition-colors">
             {/* Left Section */}
             <div className="w-full lg:w-1/2 px-6 py-10 lg:px-20 lg:py-12 flex flex-col justify-center">
                 <div className="flex justify-center mb-6">
@@ -100,7 +100,7 @@ const SetNewPassword = () => {
 
             {/* Right Section (Image) */}
             <div className="w-full lg:w-1/2 h-1/2 lg:h-full hidden lg:block">
-                <img src={img} className="w-full h-full object-cover" alt="Login Image" />
+                <img src={img} className="w-full h-screen object-cover" alt="Login Image" />
             </div>
         </div>
     );

@@ -51,7 +51,7 @@ const Verification = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row bg-white dark:bg-gray-900 transition-colors min-h-screen">
+        <div className="flex flex-col lg:flex-row bg-white dark:bg-black transition-colors ">
             {/* Left Section */}
             <div className="w-full lg:w-1/2 px-8 lg:px-28 py-8 lg:mt-44 md:mt-32 mt-20">
                 <div>
@@ -66,7 +66,7 @@ const Verification = () => {
                     </p>
 
                     {/* OTP Inputs */}
-                    <div className="flex justify-center mt-8 space-x-4">
+                    <div className="flex justify-center pt-8 space-x-4">
                         {otp.map((digit, index) => (
                             <input
                                 key={index}
@@ -102,7 +102,7 @@ const Verification = () => {
 
             {/* Right Image Section */}
             <div className="w-full lg:w-1/2 hidden lg:block">
-                <img src={img} className="w-full h-full object-cover" alt="Login Image" />
+                <img src={img} className="w-full h-screen object-cover" alt="Login Image" />
             </div>
         </div>
     );

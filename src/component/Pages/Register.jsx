@@ -29,7 +29,7 @@ const Register = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-auto lg:h-screen bg-white dark:bg-gray-900 transition-colors">
+        <div className="flex flex-col lg:flex-row h-auto lg:h-screen bg-white dark:bg-black transition-colors">
             {/* Left Side - Form */}
             <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-20 lg:px-36 py-10 lg:py-0">
                 <div className="flex justify-center mb-6">
@@ -112,7 +112,7 @@ const Register = () => {
 
                 <div className="flex mt-4 space-x-4 justify-center">
                     <h1 className="text-gray-800 dark:text-gray-200">Don't have an account?</h1>
-                    <NavLink to="/register">
+                    <NavLink to="/login">
                         <h1 className="text-[#004290] dark:text-[#3b82f6] hover:text-[#001a90] dark:hover:text-[#2563eb]">SIGN UP</h1>
                     </NavLink>
                 </div>

@@ -38,7 +38,7 @@ const ForgetPassword = () => {
     };
 
     return (
-        <div className="flex flex-col-reverse lg:flex-row items-center justify-center h-screen bg-white dark:bg-gray-900 transition-colors">
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-center h-screen bg-white dark:bg-black transition-colors">
             {/* Form Section */}
             <div className="w-full lg:w-1/2 px-4 sm:px-6 md:px-8 lg:px-20">
                 <div className="flex justify-center mb-6">

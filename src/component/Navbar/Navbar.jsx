@@ -121,14 +121,14 @@ const Navbar = () => {
             </svg>
           </button>
 
-          <NavLink to="/signin">
-            <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-black dark:text-white text-base">
+          <NavLink to="/login">
+            <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-black dark:text-white text-base cursor-pointer">
               Sign in
             </button>
           </NavLink>
 
-          <NavLink to="/signup">
-            <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-black text-base">
+          <NavLink to="/register">
+            <button className="px-4 py-2 bg-black dark:bg-gray-700 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-900 text-base cursor-pointer">
               Sign up
             </button>
           </NavLink>

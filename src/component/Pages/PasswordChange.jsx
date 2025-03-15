@@ -6,7 +6,7 @@ const PasswordChange = () => {
     const { darkMode } = useDarkMood(); // Get darkMode state from context
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4 transition-colors">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-black px-4 transition-colors">
             {/* Image Section */}
             <img src={img} className="h-[150px] w-[150px] sm:h-[200px] sm:w-[200px] mb-6" alt="Password Change" />
 

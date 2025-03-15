@@ -31,13 +31,13 @@ const Banner = () => {
                         size={20}
                     />
                 </div>
-                <NavLink to="/register">
+                {/* <NavLink to="/register">
                     <button
                         className={`mt-6 text-xl sm:mt-8 w-full sm:w-[180px] md:w-[200px] h-12 sm:h-14 font-medium rounded-full ${darkMode ? "bg-green-500 text-gray-900 hover:bg-green-600" : "bg-green-600 text-white hover:bg-[#b3a002]"}  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 dark:focus:ring-grebg-green-500`}
                     >
                         Get Started
                     </button>
-                </NavLink>
+                </NavLink> */}
             </div>
 
             {/* Right Section - Image */}
