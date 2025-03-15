@@ -36,7 +36,7 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   return (
-    <nav className="px-4 py-5 bg-white dark:bg-gray-800 lg:border-b lg:border-gray-200 dark:lg:border-gray-700">
+    <nav className="px-4 py-5 bg-white dark:bg-black lg:border-b lg:border-gray-200 dark:lg:border-gray-700">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div>
@@ -128,7 +128,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink to="/signup">
-            <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-800 text-base">
+            <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-black text-base">
               Sign up
             </button>
           </NavLink>
@@ -140,39 +140,40 @@ const Navbar = () => {
       {/* Mobile Modal (only for < md) */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 mt-7 bg-opacity-50 z-40 md:hidden"
+          className="fixed  inset-0 mt-7 bg-opacity-50 z-40 md:hidden"
           onClick={toggleMenu}
         >
           <div
             ref={menuRef}
-            className="absolute top-16 left-0 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 mx-4 rounded-lg shadow-lg z-50"
+            className="absolute top-16 left-0 right-0 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 p-4 mx-4 rounded-lg shadow-lg z-50"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col space-y-4">
               <NavLink
                 to="/"
-                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base"
+                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={toggleMenu}
               >
                 Home
               </NavLink>
+              
               <NavLink
                 to="/about"
-                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base"
+                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={toggleMenu}
               >
                 About
               </NavLink>
               <NavLink
                 to="/faq"
-                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base"
+                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={toggleMenu}
               >
                 FAQ
               </NavLink>
               <NavLink
                 to="/pricing"
-                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base"
+                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={toggleMenu}
               >
                 Pricing
@@ -217,7 +218,7 @@ const Navbar = () => {
                 className="w-full"
                 onClick={toggleMenu}
               >
-                <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-800 text-base">
+                <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-black text-base">
                   Sign up
                 </button>
               </NavLink>

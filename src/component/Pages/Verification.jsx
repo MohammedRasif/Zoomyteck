@@ -2,8 +2,10 @@ import { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import { useDarkMood } from "../../context/ThemeContext";
 
 const Verification = () => {
+    const { darkMode } = useDarkMood(); // Get darkMode state from context
     const [otp, setOtp] = useState(["", "", "", "", "", ""]); // 6 OTP inputs
     const inputs = useRef([]);
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ const Verification = () => {
         setOtp(updatedOtp);
 
         // Move to the next input field
-        if (value !== "" && index < 5) { // Update to 5 as we now have 6 inputs
+        if (value !== "" && index < 5) {
             inputs.current[index + 1].focus();
         }
     };
@@ -40,7 +42,7 @@ const Verification = () => {
     // Handle verification
     const handleVerify = () => {
         const otpValue = otp.join("");
-        if (otpValue.length === 6) { // Check for 6 digits
+        if (otpValue.length === 6) {
             console.log("OTP Verified:", otpValue);
             navigate("/success"); // Redirect after successful verification
         } else {
@@ -49,17 +51,17 @@ const Verification = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col lg:flex-row bg-white dark:bg-gray-900 transition-colors min-h-screen">
             {/* Left Section */}
-            <div className="w-full lg:w-1/2 px-8 lg:px-28 py-8 lg:mt-44 md:mt-32 mt-20 ">
+            <div className="w-full lg:w-1/2 px-8 lg:px-28 py-8 lg:mt-44 md:mt-32 mt-20">
                 <div>
                     <div className="flex justify-center mb-6">
                         <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-semibold text-center text-[#364636]">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text-center text-[#364636] dark:text-gray-200">
                         Verification Code
                     </h2>
-                    <p className="text-center mt-4 text-gray-600">
+                    <p className="text-center mt-4 text-gray-600 dark:text-gray-300">
                         Please enter the 6-digit code sent to your email.
                     </p>
 
@@ -75,23 +77,23 @@ const Verification = () => {
                                 onChange={(e) => handleInputChange(e, index)}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                                 onPaste={handlePaste}
-                                className="lg:w-12 lg:h-12 md:w-12 md:h-12 w-10 h-10 text-center border border-gray-400 rounded-md text-xl font-medium focus:outline-none focus:ring-2 focus:ring-[#8CAB91] bg-gray-200"
+                                className="lg:w-12 lg:h-12 md:w-12 md:h-12 w-10 h-10 text-center border border-gray-400 dark:border-gray-600 rounded-md text-xl font-medium focus:outline-none focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6] bg-white dark:bg-gray-800 text-[#364636] dark:text-gray-200"
                             />
                         ))}
-                    </div> 
+                    </div>
 
                     {/* Verify Button */}
                     <button
                         onClick={handleVerify}
-                        className="w-full mt-8 h-12 rounded-md bg-[#004290] text-[#FAF1E6] font-medium text-lg hover:opacity-90 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full mt-8 h-12 rounded-md bg-[#004290] dark:bg-[#3b82f6] text-[#FAF1E6] font-medium text-lg hover:bg-[#001a90] dark:hover:bg-[#2563eb] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6] transition-colors"
                     >
                         VERIFY
                     </button>
 
                     {/* Resend Option */}
-                    <p className="text-center text-sm mt-5">
+                    <p className="text-center text-sm mt-5 text-gray-600 dark:text-gray-300">
                         Didn’t receive the email?{" "}
-                        <NavLink to="/forgetPassword" className="text-blue-400 hover:underline cursor-pointer">
+                        <NavLink to="/forgetPassword" className="text-[#004290] dark:text-[#3b82f6] hover:text-[#001a90] dark:hover:text-[#2563eb] hover:underline cursor-pointer">
                             Resend
                         </NavLink>
                     </p>
