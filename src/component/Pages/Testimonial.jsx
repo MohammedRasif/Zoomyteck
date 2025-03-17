@@ -131,14 +131,15 @@ const Testimonial = () => {
                                     transition={{ delay: 0.2, duration: 0.5 }}
                                 >
                                     <motion.div
-                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 cursor-pointer rounded-full overflow-hidden border-2 border-gray-300"
+                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 cursor-pointer rounded-full overflow-hidden border-2 border-gray-300"
                                         whileHover={{ scale: 1.1, rotate: 5 }}
                                     >
                                         <img
                                             src={testimonials[currentIndex].image || "/placeholder.svg"}
                                             alt={testimonials[currentIndex].name}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-cover border-4 rounded-full from-gray-200 to-gray-950  transition-colors duration-300"
                                         />
+
                                     </motion.div>
                                 </motion.div>
 

@@ -67,7 +67,7 @@ const Streamlined = () => {
                         >
                             {/* Connection Dot */}
                             <div
-                                className={`absolute left-1/2 top-1/2 w-2 sm:w-3 h-2 sm:h-3 ${
+                                className={`absolute left-1/2 top-1/2 w-2 sm:w-5 h-3 sm:h-5 ${
                                     darkMode ? "bg-white" : "bg-gray-800"
                                 } rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 shadow-[0_0_10px_4px_rgba(255,255,255,0.3)] hidden md:block`} // Hide on small screens
                             />
