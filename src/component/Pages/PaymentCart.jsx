@@ -3,9 +3,11 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check } from "lucide-react"
+import { useDarkMood } from "../../context/ThemeContext"
 
-const PaymentCart = () => {
+const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly")
+  const { darkMode } = useDarkMood()
 
   const monthlyPlans = [
     {
@@ -85,31 +87,27 @@ const PaymentCart = () => {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 300,
+        stiffness: 200,
         damping: 24,
       },
     },
   }
 
   return (
-    <div className="w-full min-h-screen bg-black text-white py-16 px-4 sm:px-6 md:px-8 lg:px-10">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full bg-black text-white py-16 px-4 sm:px-6 md:px-8 lg:px-10">
+      <div className="max-w-4xl mx-auto">
         {/* Toggle Button */}
         <div className="flex justify-center mb-12">
           <div className="bg-gray-800 p-1 rounded-full inline-flex">
             <button
               onClick={() => setBillingCycle("monthly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
-                billingCycle === "monthly" ? "bg-white text-black" : "text-gray-300"
-              }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${billingCycle === "monthly" ? "bg-white text-black" : "text-gray-300"}`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingCycle("yearly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
-                billingCycle === "yearly" ? "bg-white text-black" : "text-gray-300"
-              }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${billingCycle === "yearly" ? "bg-white text-black" : "text-gray-300"}`}
             >
               Yearly
             </button>
@@ -124,13 +122,13 @@ const PaymentCart = () => {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
           >
             {activePlans.map((plan, index) => (
               <motion.div
                 key={`${plan.name}-${index}`}
                 variants={cardVariants}
-                className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 h-full"
+                className="border border-gray-800 rounded-lg overflow-hidden h-[550px] transform transition-transform duration-200 hover:scale-105"
               >
                 {/* Card Header */}
                 <div className="p-6 relative">
@@ -139,9 +137,9 @@ const PaymentCart = () => {
                       Most Popular
                     </div>
                   )}
-                  <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
-                  <p className="text-gray-400 text-sm mb-4">{plan.description}</p>
-                  <div className="flex items-baseline mb-4">
+                  <h3 className="text-xl font-bold text-center lg:mt-5">{plan.name}</h3>
+                  <p className="text-gray-400 text-sm text-center mb-4">{plan.description}</p>
+                  <div className="flex items-center justify-center lg:mt-5">
                     <span className="text-3xl font-bold">${plan.price}</span>
                     <span className="text-gray-400 ml-2">per {billingCycle === "monthly" ? "month" : "year"}</span>
                   </div>
@@ -149,10 +147,10 @@ const PaymentCart = () => {
                 </div>
 
                 {/* Features List */}
-                <div className="px-6 pb-6">
+                <div className="px-6 pb-6 lg:mt-16">
                   <ul className="space-y-3">
                     {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start">
+                      <li key={idx} className="flex items-center">
                         <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
                         <span className="text-sm text-gray-300">{feature}</span>
                       </li>
@@ -163,11 +161,7 @@ const PaymentCart = () => {
                 {/* CTA Button */}
                 <div className="px-6 pb-6">
                   <button
-                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
-                      plan.popular
-                        ? "bg-white text-black hover:bg-gray-200"
-                        : "border border-white text-white hover:bg-gray-800"
-                    }`}
+                    className={`w-full py-3 px-4 rounded-lg font-medium transition-transform duration-200 transform hover:scale-105 ${plan.popular ? "bg-white text-black hover:bg-gray-200" : "border border-white text-white hover:bg-gray-800"}`}
                   >
                     Get Started
                   </button>
@@ -181,5 +175,4 @@ const PaymentCart = () => {
   )
 }
 
-export default PaymentCart
-
+export default Pricing
