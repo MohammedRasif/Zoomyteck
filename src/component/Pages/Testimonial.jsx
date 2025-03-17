@@ -94,7 +94,7 @@ const Testimonial = () => {
             </h1>
 
             {/* Testimonial carousel */}
-            <div className="relative max-w-[85%] mx-auto pb-16">
+            <div className="relative max-w-[90%] sm:max-w-[85%] mx-auto pb-16">
                 <div className="flex items-center justify-between">
                     {/* Left navigation arrow */}
                     <motion.button
@@ -112,7 +112,7 @@ const Testimonial = () => {
                     </motion.button>
 
                     {/* Testimonial card with AnimatePresence for smooth transitions */}
-                    <div className="w-full h-[350px] max-w-5xl mx-auto pb-16 overflow-hidden border border-gray-800 dark:border-gray-400 rounded-xl">
+                    <div className="w-full h-[350px] sm:h-[350px] max-w-5xl mx-auto pb-16 overflow-hidden border border-gray-800 dark:border-gray-400 rounded-xl">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
                             <motion.div
                                 key={currentIndex}
@@ -121,7 +121,7 @@ const Testimonial = () => {
                                 initial="enter"
                                 animate="center"
                                 exit="exit"
-                                className={`w-full  ${darkMode ? "" : ""} rounded-lg p-6 sm:p-8`}
+                                className={`w-full ${darkMode ? "" : ""} rounded-lg p-4 sm:p-6 md:p-8`}
                             >
                                 {/* Profile image with animation */}
                                 <motion.div
@@ -131,7 +131,7 @@ const Testimonial = () => {
                                     transition={{ delay: 0.2, duration: 0.5 }}
                                 >
                                     <motion.div
-                                        className="w-20 h-20 sm:w-28 sm:h-28 cursor-pointer rounded-full overflow-hidden border-2 border-gray-300"
+                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 cursor-pointer rounded-full overflow-hidden border-2 border-gray-300"
                                         whileHover={{ scale: 1.1, rotate: 5 }}
                                     >
                                         <img
@@ -144,26 +144,13 @@ const Testimonial = () => {
 
                                 {/* Testimonial text with animation */}
                                 <motion.p
-                                    className="text-center text-sm sm:text-base lg:mt-4 lg:px-20"
+                                    className="text-center text-sm sm:text-base lg:mt-4 lg:px-20 px-10"
                                     initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.3, duration: 0.5 }}
                                 >
                                     {testimonials[currentIndex].text}
                                 </motion.p>
-
-
-                                {/* <motion.div
-                                    className="text-center"
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 0.4, duration: 0.5 }}
-                                >
-                                    <h3 className="font-semibold">{testimonials[currentIndex].name}</h3>
-                                    <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                                        {testimonials[currentIndex].position}
-                                    </p>
-                                </motion.div> */}
                             </motion.div>
                         </AnimatePresence>
                     </div>
@@ -211,4 +198,3 @@ const Testimonial = () => {
 }
 
 export default Testimonial
-
