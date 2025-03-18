@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import img from "../Image/OBJECTS.png";
 import { useDarkMood } from "../../context/ThemeContext";
 import { useState, useEffect, useRef } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Navbar = () => {
   const { darkMode, setDarkMode } = useDarkMood();
@@ -99,27 +100,73 @@ const Navbar = () => {
           >
             Home
           </NavLink>
-          <NavLink
-            to="#about"
-            className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-            onClick={() => handleNavClick("about")} // Scroll to "about" section
-          >
-            About
-          </NavLink>
-          <NavLink
-            to="#faq"
-            className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-            onClick={() => handleNavClick("faq")} // Scroll to "faq" section
-          >
-            FAQ
-          </NavLink>
-          <NavLink
-            to="#pricing"
-            className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-            onClick={() => handleNavClick("pricing")} // Scroll to "pricing" section
-          >
-            Pricing
-          </NavLink>
+          <div className="relative group">
+            <NavLink
+              to="#Feature"
+              className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
+              onClick={() => handleNavClick("Feature")} // Scroll to "Feature" section
+            >
+              <div className="flex items-center space-x-1">
+                <h1>Feature</h1>
+                <IoIosArrowDown className="text-black dark:text-white mt-1" />
+              </div>
+            </NavLink>
+
+            {/* Simplified Popup with Description */}
+            <div
+              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
+            >
+              <p className="p-2 text-[12px]">
+                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+              </p>
+            </div>
+          </div>
+
+
+          <div className="relative group">
+            <NavLink
+              to="#about"
+              className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
+              onClick={() => handleNavClick("about")} // Scroll to "about" section
+            >
+              <div className="flex items-center space-x-1">
+                <h1>About</h1>
+                <IoIosArrowDown className="text-black dark:text-white mt-1" />
+              </div>
+            </NavLink>
+
+            {/* Simplified Popup with Description */}
+            <div
+              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
+            >
+              <p className="p-2 text-[12px]">
+                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+              </p>
+            </div>
+          </div>
+
+
+          <div className="relative group">
+            <NavLink
+              to="#Pricing"
+              className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
+              onClick={() => handleNavClick("Pricing")} // Scroll to "Pricing" section
+            >
+              <div className="flex items-center space-x-1">
+                <h1>Pricing</h1>
+                <IoIosArrowDown className="text-black dark:text-white mt-1" />
+              </div>
+            </NavLink>
+
+            {/* Simplified Popup with Description */}
+            <div
+              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
+            >
+              <p className="p-2 text-[12px]">
+                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Dark Mode Toggle and Auth Buttons */}

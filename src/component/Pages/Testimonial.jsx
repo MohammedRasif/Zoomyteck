@@ -112,7 +112,7 @@ const Testimonial = () => {
                     </motion.button>
 
                     {/* Testimonial card with AnimatePresence for smooth transitions */}
-                    <div className="w-full h-[350px] sm:h-[350px] max-w-5xl mx-auto pb-16 overflow-hidden border border-gray-800 dark:border-gray-400 rounded-xl">
+                    <div className="w-full h-[350px] sm:h-[350px] max-w-5xl mx-auto pb-16 overflow-hidden border border-gray-500 dark:border-gray-400 rounded-xl">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
                             <motion.div
                                 key={currentIndex}

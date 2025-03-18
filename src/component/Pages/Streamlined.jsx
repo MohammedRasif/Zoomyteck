@@ -90,7 +90,7 @@ const Streamlined = () => {
                                         className={`absolute -inset-[1px] bg-gradient-to-r ${
                                             darkMode
                                                 ? "from-white/40 via-white/20 to-white/100"
-                                                : "from-gray-800/40 via-gray-800/20 to-gray-800/40"
+                                                : "from-gray-800/40 via-gray-800/20 to-gray-100/100"
                                         } rounded-xl blur-[2px] opacity-20 group-hover:opacity-200 group-hover:blur-[10px] transition-all duration-500`}
                                     />
                                     {/* Additional glow layers for more intense effect */}
