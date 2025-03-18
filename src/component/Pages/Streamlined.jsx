@@ -76,13 +76,13 @@ const Streamlined = () => {
                             <div
                                 className={`relative w-full sm:w-[90%] md:w-[42%] rounded-xl inset-0 bg-gradient-to-r ${
                                     darkMode
-                                        ? "from-white via-gray-900 to-black"
-                                        : "from-gray-800/40 via-gray-100 to-white"
+                                        ? "from-white via-gray-900 to-black hover:from-white hover:via-gray-100 hover:to-gray-50"
+                                        : "from-gray-800/40 via-gray-100 to-white hover:from-gray-800/40 hover:via-gray-800 hover:to-gray-900"
                                 } p-[2px] sm:p-[3px] md:p-[4px] ${
                                     step.position === "left"
                                         ? "md:mr-auto md:ml-0"
                                         : "md:ml-auto md:mr-0"
-                                } mx-auto order-2 md:order-none`}
+                                } mx-auto order-2 md:order-none`} 
                             >
                                 <div className="relative group transition-all duration-500">
                                     {/* Glowing border effect */}
