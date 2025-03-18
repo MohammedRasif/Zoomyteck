@@ -1,3 +1,4 @@
+import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import Banner from "../Pages/Banner";
 import Featured from "../Pages/Featured";
@@ -16,6 +17,7 @@ const Home = () => {
            <Testimonial></Testimonial>
            <PaymentCart></PaymentCart>
            <Proposals></Proposals>
+           <Footer></Footer>
         </div>
     );
 }
