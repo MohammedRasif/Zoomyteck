@@ -66,7 +66,7 @@ const Featured = () => {
     return (
         <div
             className={`pt-10   ${darkMode ? "bg-black text-white" : "bg-white text-gray-800"
-                } transition-colors`}
+                }`}
         >
             <h1
                 className={`text-3xl sm:text-4xl md:text-5xl text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-50"

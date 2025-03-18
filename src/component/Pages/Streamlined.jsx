@@ -76,8 +76,8 @@ const Streamlined = () => {
                             <div
                                 className={`relative w-full sm:w-[90%] md:w-[42%] rounded-xl inset-0 bg-gradient-to-r ${
                                     darkMode
-                                        ? "from-white via-gray-900 to-black hover:from-white hover:via-gray-100 hover:to-gray-50"
-                                        : "from-gray-800/40 via-gray-100 to-white hover:from-gray-800/40 hover:via-gray-800 hover:to-gray-900"
+                                        ? "from-white via-gray-900 to-black "
+                                        : "from-gray-800/40 via-gray-100 to-white "
                                 } p-[2px] sm:p-[3px] md:p-[4px] ${
                                     step.position === "left"
                                         ? "md:mr-auto md:ml-0"
@@ -89,9 +89,9 @@ const Streamlined = () => {
                                     <div
                                         className={`absolute -inset-[1px] bg-gradient-to-r ${
                                             darkMode
-                                                ? "from-white/40 via-white/20 to-white/40"
+                                                ? "from-white/40 via-white/20 to-white/100"
                                                 : "from-gray-800/40 via-gray-800/20 to-gray-800/40"
-                                        } rounded-xl blur-[2px] opacity-20 group-hover:opacity-100 group-hover:blur-[3px] transition-all duration-500`}
+                                        } rounded-xl blur-[2px] opacity-20 group-hover:opacity-200 group-hover:blur-[10px] transition-all duration-500`}
                                     />
                                     {/* Additional glow layers for more intense effect */}
                                     <div
@@ -99,12 +99,12 @@ const Streamlined = () => {
                                             darkMode
                                                 ? "from-white/20 via-white/10 to-white/20"
                                                 : "from-gray-800/20 via-gray-800/10 to-gray-800/20"
-                                        } rounded-xl blur-[4px] opacity-0 group-hover:opacity-100 transition-all duration-500`}
+                                        } rounded-xl blur-[4px] opacity-0 group-hover:opacity-200 transition-all duration-500`}
                                     />
 
                                     {/* Card content */}
                                     <div
-                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer border-amber-400 ${
+                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer border-amber-800 ${
                                             darkMode ? "bg-zinc-900 border-white/10" : "bg-gray-100 border-gray-200"
                                         }`}
                                     >
