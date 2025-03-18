@@ -62,7 +62,7 @@ const Navbar = () => {
 
   return (
     <nav className="px-4 py-5 bg-white dark:bg-black lg:border-b lg:border-gray-200 dark:lg:border-gray-700">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div>
           <img src={img} className="h-12 md:h-16" alt="Logo" />
@@ -148,9 +148,9 @@ const Navbar = () => {
 
           <div className="relative group">
             <NavLink
-              to="#Pricing"
+              to="#pricing"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-              onClick={() => handleNavClick("Pricing")} // Scroll to "Pricing" section
+              onClick={() => handleNavClick("pricing")} // Scroll to "Pricing" section
             >
               <div className="flex items-center space-x-1">
                 <h1>Pricing</h1>
@@ -174,7 +174,7 @@ const Navbar = () => {
           <div className="space-x-5 flex items-center">
             <button
               onClick={toggleDarkMode}
-              className="h-14 w-14 rounded-lg p-2 transition duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 bg-gray-200 dark:bg-gray-700 cursor-pointer"
+              className="h-14 w-14 rounded-lg p-2 transition duration-300  cursor-pointer"
             >
               <svg
                 className="fill-gray-500 block dark:hidden"
@@ -197,13 +197,13 @@ const Navbar = () => {
             </button>
 
             <NavLink to="#login">
-              <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-black dark:text-white text-base cursor-pointer">
+              <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
                 Sign in
               </button>
             </NavLink>
 
             <NavLink to="#register">
-              <button className="px-4 py-2 bg-black dark:bg-gray-700 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-900 text-base cursor-pointer">
+              <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
                 Sign up
               </button>
             </NavLink>
@@ -277,13 +277,13 @@ const Navbar = () => {
               </button>
 
               <NavLink to="/signin" className="w-full" onClick={toggleMenu}>
-                <button className="w-full px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 text-black dark:text-white text-base">
+                <button className="w-full px-4 py-2 border rounded-md hover:bg-black dark:hover:bg-gray-700 text-black dark:text-white text-base">
                   Sign in
                 </button>
               </NavLink>
 
               <NavLink to="/signup" className="w-full" onClick={toggleMenu}>
-                <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700 dark:hover:bg-black text-base">
+                <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-950 dark:hover:bg-black text-base">
                   Sign up
                 </button>
               </NavLink>

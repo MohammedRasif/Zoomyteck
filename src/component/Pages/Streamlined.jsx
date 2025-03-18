@@ -19,19 +19,20 @@ const Streamlined = () => {
         {
             id: 3,
             title: "Analyze Proposal",
-            description: "Use Our AI To Create Detailed Proposals Based On Contract Requirements And Your Company Profile.",
+            description: "Use Our AI To Analyze And Optimize Your Proposals For Maximum Success",
             position: "right",
         },
         {
             id: 4,
             title: "Submit & Track",
-            description: "Use Our AI To Create Detailed Proposals Based On Contract Requirements And Your Company Profile.",
+            description: "Submit Your Proposals And Track Progress With Real-Time Updates",
             position: "left",
         },
     ];
 
     return (
         <div
+            id="about"
             className={`pt-6 sm:pt-8 md:pt-10 lg:pt-12 px-4 sm:px-6 md:px-8 lg:px-10 ${
                 darkMode ? "bg-black text-white" : "bg-white text-gray-800"
             } transition-colors`}
@@ -59,30 +60,47 @@ const Streamlined = () => {
                     } transform -translate-x-1/2 hidden md:block`} // Hide on small screens
                 />
 
-                <div className="max-w-7xl mx-auto relative">
+                <div className="container mx-auto relative">
                     {steps.map((step, index) => (
                         <div
                             key={step.id}
-                            className="relative mb-8 sm:mb-5 md:mb-5 lg:mb-5 flex flex-col md:flex-row items-center md:items-stretch"
+                            className="relative mb-8 sm:mb-10 md:mb-12 lg:mb-14 flex flex-col md:flex-row items-center md:items-stretch  "
                         >
                             {/* Connection Dot */}
                             <div
-                                className={`absolute left-1/2 top-1/2 w-2 sm:w-5 h-3 sm:h-5 ${
+                                className={`absolute left-1/2 top-1/2 w-2 sm:w-5 h-3 sm:h-5  ${
                                     darkMode ? "bg-white" : "bg-gray-800"
-                                } rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10 shadow-[0_0_10px_4px_rgba(255,255,255,0.3)] hidden md:block`} // Hide on small screens
+                                } rounded-full  transform -translate-x-1/2 -translate-y-1/2 z-10 shadow-[0_0_10px_4px_rgba(255,255,255,0.3)] hidden md:block`} // Hide on small screens
                             />
+
+                            {/* Horizontal Dashed Connection Line */}
+                            {index < steps.length - 0 && ( // Line appears between all cards except after the last one
+                                <div
+                                    className={`absolute top-1/2 w-16 sm:w-24 md:w-[125px] h-[3px] ${
+                                        darkMode ? "bg-white/50" : "bg-gray-500"
+                                    } border-dashed border-[1px] transform -translate-y-1/2 ${
+                                        step.position === "left" ? "right-1/2" : "left-1/2"
+                                    } hidden md:block`}
+                                    style={{ zIndex: 5 }} // Ensure line is above other elements
+                                >
+                                    {/* Debug: Check if this line renders */}
+                                    <span className="text-xs text-red-500 hidden">
+                                        Line for step {index} to {index + 1}
+                                    </span>
+                                </div>
+                            )}
 
                             {/* Card */}
                             <div
                                 className={`relative w-full sm:w-[90%] md:w-[42%] rounded-xl inset-0 bg-gradient-to-r ${
                                     darkMode
-                                        ? "from-white via-gray-900 to-black "
-                                        : "from-gray-800/40 via-gray-100 to-white "
+                                        ? "from-white via-gray-900 to-black"
+                                        : "from-gray-800/40 via-gray-100 to-white"
                                 } p-[2px] sm:p-[3px] md:p-[4px] ${
                                     step.position === "left"
                                         ? "md:mr-auto md:ml-0"
                                         : "md:ml-auto md:mr-0"
-                                } mx-auto order-2 md:order-none`} 
+                                } mx-auto order-2 md:order-none`}
                             >
                                 <div className="relative group transition-all duration-500">
                                     {/* Glowing border effect */}
@@ -97,14 +115,14 @@ const Streamlined = () => {
                                     <div
                                         className={`absolute -inset-[2px] bg-gradient-to-r ${
                                             darkMode
-                                                ? "from-white/20 via-white/10 to-white/20"
-                                                : "from-gray-800/20 via-gray-800/10 to-gray-800/20"
+                                                ? "from-white/20 via-white/100 to-white/20"
+                                                : "from-gray-100/10 via-gray-500/100 to-gray-800/100"
                                         } rounded-xl blur-[4px] opacity-0 group-hover:opacity-200 transition-all duration-500`}
                                     />
 
                                     {/* Card content */}
                                     <div
-                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer border-amber-800 ${
+                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer ${
                                             darkMode ? "bg-zinc-900 border-white/10" : "bg-gray-100 border-gray-200"
                                         }`}
                                     >

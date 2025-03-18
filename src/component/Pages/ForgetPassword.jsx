@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
-import { useDarkMood } from "../../context/ThemeContext";
+// import { useDarkMood } from "../../context/ThemeContext";
 
 const ForgetPassword = () => {
-    const { darkMode } = useDarkMood(); // Get darkMode state from context
+    // const { darkMode } = useDarkMood(); // Get darkMode state from context
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);

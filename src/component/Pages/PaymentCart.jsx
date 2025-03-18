@@ -171,7 +171,7 @@ const Pricing = () => {
                 {/* CTA Button */}
                 <div className="px-6 pb-6 pt-5">
                   <button
-                    className="w-full py-3 px-4 rounded-lg font-medium transition-transform duration-200 transform hover:scale-105 bg-white text-black hover:bg-gray-200 cursor-pointer "
+                    className="w-full py-3 px-4 rounded-lg font-medium transition-transform duration-200 transform hover:scale-105 bg-gray-300 text-black hover:bg-gray-200 cursor-pointer  dark:bg-none dark:hover:bg-white dark:text-black "
                   >
                     Get Started
                   </button>

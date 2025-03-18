@@ -50,33 +50,26 @@ const Testimonial = () => {
         setCurrentIndex(index)
     }
 
-    // Variants for the testimonial card animation
-    const variants = {
+    // Updated animation variants for the full card (including border)
+    const cardVariants = {
         enter: (direction) => ({
-            x: direction > 0 ? 300 : -300,
+            x: direction > 0 ? "100%" : "-100%", // Slide in from right or left
             opacity: 0,
-            scale: 0.5,
         }),
         center: {
             x: 0,
             opacity: 1,
-            scale: 1,
             transition: {
-                duration: 0.3,
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
+                duration: 0.5,
+                ease: "easeInOut",
             },
         },
         exit: (direction) => ({
-            x: direction < 0 ? 300 : -300,
+            x: direction < 0 ? "100%" : "-100%", // Slide out to right or left
             opacity: 0,
-            scale: 0.5,
             transition: {
-                duration: 0.3,
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
+                duration: 0.5,
+                ease: "easeInOut",
             },
         }),
     }
@@ -99,31 +92,31 @@ const Testimonial = () => {
                     {/* Left navigation arrow */}
                     <motion.button
                         onClick={prevTestimonial}
-                        className={`absolute left-0 z-10 p-2 py-4 rounded-full cursor-pointer ${darkMode ? "text-white hover:bg-gray-800" : "text-gray-800 hover:bg-gray-200"
+                        className={`absolute left-0 z-10 p-2 py-4 rounded-full cursor-pointer ${darkMode ? "text-white" : "text-gray-800"
                             } focus:outline-none`}
                         aria-label="Previous testimonial"
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
                     >
-                        <div className="flex items-center -space-x-5">
-                            <ChevronLeft size={24} className="w-6 h-6 sm:w-8 sm:h-8" />
-                            <ChevronLeft size={24} className="w-6 h-6 sm:w-8 sm:h-8" />
+                        <div className="flex items-center -space-x-10">
+                            <ChevronLeft size={24} className="w-6 h-6 sm:w-16 sm:h-16" />
+                            <ChevronLeft size={24} className="w-6 h-6 sm:w-16 sm:h-16" />
                         </div>
                     </motion.button>
 
-                    {/* Testimonial card with AnimatePresence for smooth transitions */}
-                    <div className="w-full h-[350px] sm:h-[350px] max-w-5xl mx-auto pb-16 overflow-hidden border border-gray-500 dark:border-gray-400 rounded-xl">
+                    {/* Testimonial card with AnimatePresence */}
+                    <div className="w-full h-[350px] sm:h-[350px] max-w-5xl mx-auto overflow-hidden">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
                             <motion.div
                                 key={currentIndex}
                                 custom={direction}
-                                variants={variants}
+                                variants={cardVariants}
                                 initial="enter"
                                 animate="center"
                                 exit="exit"
-                                className={`w-full ${darkMode ? "" : ""} rounded-lg p-4 sm:p-6 md:p-8`}
+                                className={`w-full h-full border ${darkMode ? "border-gray-400" : "border-gray-600"} rounded-xl p-4 sm:p-6 md:p-8`}
                             >
-                                {/* Profile image with animation */}
+                                {/* Profile image */}
                                 <motion.div
                                     className="flex justify-center pb-4"
                                     initial={{ y: 20, opacity: 0 }}
@@ -131,19 +124,18 @@ const Testimonial = () => {
                                     transition={{ delay: 0.2, duration: 0.5 }}
                                 >
                                     <motion.div
-                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 cursor-pointer rounded-full overflow-hidden border-2 border-gray-300"
+                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 cursor-pointer rounded-full overflow-hidden"
                                         whileHover={{ scale: 1.1, rotate: 5 }}
                                     >
                                         <img
                                             src={testimonials[currentIndex].image || "/placeholder.svg"}
                                             alt={testimonials[currentIndex].name}
-                                            className="w-full h-full object-cover border-4 rounded-full from-gray-200 to-gray-950  transition-colors duration-300"
+                                            className="w-full h-full object-cover border-4 rounded-full border-gray-400 dark:border-gray-800 transition-colors duration-300"
                                         />
-
                                     </motion.div>
                                 </motion.div>
 
-                                {/* Testimonial text with animation */}
+                                {/* Testimonial text */}
                                 <motion.p
                                     className="text-center text-sm sm:text-base lg:mt-4 lg:px-20 px-10"
                                     initial={{ y: 20, opacity: 0 }}
@@ -159,20 +151,20 @@ const Testimonial = () => {
                     {/* Right navigation arrow */}
                     <motion.button
                         onClick={nextTestimonial}
-                        className={`absolute right-0 z-10 p-2 py-4 rounded-full cursor-pointer ${darkMode ? "text-white hover:bg-gray-800" : "text-gray-800 hover:bg-gray-200"
+                        className={`absolute right-0 z-10 p-2 py-4 rounded-full cursor-pointer ${darkMode ? "text-white" : "text-gray-800"
                             } focus:outline-none`}
                         aria-label="Next testimonial"
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
                     >
-                        <div className="flex items-center -space-x-5">
-                            <ChevronRight size={24} className="w-6 h-6 sm:w-8 sm:h-8" />
-                            <ChevronRight size={24} className="w-6 h-6 sm:w-8 sm:h-8" />
+                        <div className="flex items-center -space-x-10">
+                            <ChevronRight size={24} className="w-6 h-6 sm:w-16 sm:h-16" />
+                            <ChevronRight size={24} className="w-6 h-6 sm:w-16 sm:h-16" />
                         </div>
                     </motion.button>
                 </div>
 
-                {/* Pagination dots with animation */}
+                {/* Pagination dots */}
                 <div className="flex justify-center pt-6 space-x-2">
                     {testimonials.map((_, index) => (
                         <motion.button
