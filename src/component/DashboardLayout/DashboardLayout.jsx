@@ -40,7 +40,7 @@ const DashboardLayout = () => {
             >
                 {/* Navbar - Fixed & Only Navbar BG White */}
                 <div
-                    className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+                    className={`fixed top-0 z-50 w-full transition-all duration-300 border-b border-gray-500 ${
                         darkMode ? "bg-black text-white" : "bg-white text-black"
                     }`}
                     style={{
