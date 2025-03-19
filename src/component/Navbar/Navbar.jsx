@@ -184,7 +184,7 @@ const Navbar = () => {
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
               </svg>
               <svg
-                className="fill-yellow-500 hidden dark:block"
+                className="fill-gray-200 hidden dark:block"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >

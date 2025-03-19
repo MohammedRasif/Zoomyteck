@@ -61,7 +61,7 @@ const Footer = () => {
                 placeholder="Email.."
                 className={`bg-transparent border rounded-full px-4 py-2 w-full text-sm focus:outline-none transition-colors ${darkMode ? "border-gray-700 text-white focus:border-gray-500" : "border-gray-400 text-black focus:border-gray-600"}`}
               />
-              <button className={`font-medium text-sm px-6 py-2 rounded-full -ml-6 transition-colors ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"}`}>
+              <button className={`font-medium text-sm px-6 py-2 rounded-full -ml-8 transition-colors ${darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"}`}>
                 Subscribe
               </button>
             </div>

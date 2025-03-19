@@ -93,64 +93,67 @@ const Featured = () => {
                 >
                     {projects.map((project) => (
                         <div
-                            key={project.id}
-                            className="mx-2 sm:mx-4 md:mx-6 lg:mx-8 cursor-pointer pb-20"
-                            style={{
-                                width: "clamp(300px, 28vw, 450px)", // Responsive width using clamp
-                            }}
+                        key={project.id}
+                        className="mx-2 sm:mx-4 md:mx-6 lg:mx-8 cursor-pointer pb-20"
+                        style={{
+                            width: "clamp(300px, 28vw, 450px)", // Responsive width using clamp
+                        }}
+                    >
+                        {/* Custom Card Component */}
+                        <div
+                            className={`rounded-lg border overflow-hidden h-56 sm:h-60 md:h-64 transition-shadow duration-300 hover:shadow-2xl ${
+                                darkMode
+                                    ? "bg-gradient-to-b from-zinc-900 to-black border-zinc-800 text-white shadow-gray-500/50"
+                                    : "bg-gradient-to-b from-gray-100 to-white border-gray-200 text-gray-800 shadow-gray-300"
+                            }`}
                         >
-                            {/* Custom Card Component */}
-                            <div
-                                className={`rounded-lg border shadow-xl overflow-hidden h-56 sm:h-60 md:h-64   ${darkMode
-                                        ? "bg-zinc-900 border-zinc-800 text-white shadow-gray-500/50"
-                                        : "bg-gray-100 border-gray-200 text-gray-800 shadow-gray-300"
-                                    } transition-shadow duration-300 hover:shadow-2xl`}
-                            >
-                                {/* Card Header */}
-                                <div className="flex items-center justify-between p-3 sm:p-4 md:p-5 pb-2">
-                                    {/* Custom Badge */}
-                                    <div
-                                        className={`px-2 sm:px-3 py-1 rounded-md text-xs font-medium ${darkMode ? "bg-zinc-800 text-white" : "bg-gray-100 text-gray-800"
-                                            }`}
-                                    >
-                                        {project.type}
-                                    </div>
-                                    <span className="text-sm sm:text-base md:text-lg font-semibold">
-                                        {project.amount}
-                                    </span>
+                            {/* Card Header */}
+                            <div className="flex items-center justify-between p-3 sm:p-4 md:p-5 pb-2">
+                                {/* Custom Badge */}
+                                <div
+                                    className={`px-2 sm:px-3 py-1 rounded-md text-xs font-medium ${
+                                        darkMode ? "bg-zinc-800 text-white" : "bg-gray-100 text-gray-800"
+                                    }`}
+                                >
+                                    {project.type}
                                 </div>
-
-                                {/* Card Content */}
-                                <div className="p-3 sm:p-4 md:p-5 pt-2 sm:pt-3 space-y-3 sm:space-y-4">
-                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mt-1 sm:mt-2">
-                                        {project.title}
-                                    </h3>
-
-                                    <div
-                                        className={`space-y-2 sm:space-y-3 text-xs sm:text-sm ${darkMode ? "text-zinc-400" : "text-gray-500"
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            <span className="text-xs sm:text-sm md:text-base">
-                                                {project.department}
-                                            </span>
-                                        </div>
-
-                                        <div className="flex items-center gap-2 flex-wrap">
-                                            <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            <span className="text-xs sm:text-sm md:text-base">
-                                                Due: {project.dueDate}
-                                            </span>
-                                            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3" />
-                                            <span className="text-xs sm:text-sm md:text-base">
-                                                {project.budget}
-                                            </span>
-                                        </div>
+                                <span className="text-sm sm:text-base md:text-lg font-semibold">
+                                    {project.amount}
+                                </span>
+                            </div>
+                    
+                            {/* Card Content */}
+                            <div className="p-3 sm:p-4 md:p-5 pt-2 sm:pt-3 space-y-3 sm:space-y-4">
+                                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mt-1 sm:mt-2">
+                                    {project.title}
+                                </h3>
+                    
+                                <div
+                                    className={`space-y-2 sm:space-y-3 text-xs sm:text-sm ${
+                                        darkMode ? "text-zinc-400" : "text-gray-500"
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        <span className="text-xs sm:text-sm md:text-base">
+                                            {project.department}
+                                        </span>
+                                    </div>
+                    
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        <span className="text-xs sm:text-sm md:text-base">
+                                            Due: {project.dueDate}
+                                        </span>
+                                        <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3" />
+                                        <span className="text-xs sm:text-sm md:text-base">
+                                            {project.budget}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     ))}
                 </Marquee>
             </div>
