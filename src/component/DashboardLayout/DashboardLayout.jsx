@@ -14,7 +14,7 @@ const DashboardLayout = () => {
         <div className={`flex h-screen transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
             {/* Sidebar */}
             <div
-                className={`h-full fixed transition-all duration-300 ease-in-out ${darkMode ? "bg-black text-white" : "bg-white text-black"} ${isSidebarOpen ? "w-[280px]" : "w-16"}`}
+                className={`h-full fixed border-r-[1px] border-gray-500 transition-all duration-300 ease-in-out ${darkMode ? "bg-black text-white" : "bg-white text-black"} ${isSidebarOpen ? "w-[280px]" : "w-16"}`}
             >
                 <div className="h-full flex flex-col justify-between">
                     {/* Sidebar Content */}

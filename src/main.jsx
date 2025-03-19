@@ -17,6 +17,8 @@ import { ThemeProvider } from './context/ThemeContext.jsx';
 import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
 import CompanyDetails from './component/DashboardPages/CompanyDetails.jsx';
 import RecentContact from './component/DashboardPages/RecentContact.jsx';
+import Generalinformation from './component/DashboardPages/Generalinformation.jsx';
+import Subscription from './component/DashboardPages/Subscription.jsx';
 
 
 const router = createBrowserRouter([
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
       {
        path:"/dashboard/recent_contract",
         element: <RecentContact />
+      },
+      {
+       path:"/dashboard/general_information",
+        element: <Generalinformation />
+      },
+      {
+       path:"/dashboard/subscription",
+        element: <Subscription />
       },
       
     ]

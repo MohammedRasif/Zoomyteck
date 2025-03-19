@@ -9,7 +9,7 @@ const DashboardSidebar = () => {
   const isProjectActive = location.pathname.startsWith("/dashboard/Project");
 
   return (
-    <div className="bg-white border-r border-gray-300 dark:bg-black dark:border-gray-600 text-black dark:text-white h-full">
+    <div className="bg-white  dark:bg-black dark:border-gray-600 text-black dark:text-white h-full">
       <NavLink to="/">
         <div>
           <img src={img} className="h-16 mt-7 pl-16 lg:mb-14" alt="Logo" />
