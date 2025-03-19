@@ -37,7 +37,7 @@ const CompanyDetails = () => {
             </div>
 
             <div className="flex gap-2">
-              <label className="dark:bg-white bg-white border text-black text-[16px] font-[500] px-4 py-1.5 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+              <label className="dark:bg-black dark:text-white bg-white border dark:hover:bg-zinc-800 dark:border-gray-500 text-black text-[16px] font-[500] px-4 py-1.5 rounded-lg cursor-pointer hover:bg-gray-200 transition">
                 <input type="file" className="hidden" accept="image/*" />
                 Upload
               </label>

@@ -19,6 +19,7 @@ import CompanyDetails from './component/DashboardPages/CompanyDetails.jsx';
 import RecentContact from './component/DashboardPages/RecentContact.jsx';
 import Generalinformation from './component/DashboardPages/Generalinformation.jsx';
 import Subscription from './component/DashboardPages/Subscription.jsx';
+import ContractProposal from './component/DashboardPages/Contract_Proposal.jsx';
 
 
 const router = createBrowserRouter([
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
        path:"/dashboard/subscription",
         element: <Subscription />
+      },
+      {
+       path:"/dashboard/contract_proposal",
+        element: <ContractProposal />
       },
       
     ]
