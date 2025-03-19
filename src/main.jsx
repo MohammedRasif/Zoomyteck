@@ -16,6 +16,7 @@ import PasswordChange from './component/Pages/PasswordChange.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
 import CompanyDetails from './component/DashboardPages/CompanyDetails.jsx';
+import RecentContact from './component/DashboardPages/RecentContact.jsx';
 
 
 const router = createBrowserRouter([
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <CompanyDetails />
+      },
+      {
+       path:"/dashboard/recent_contract",
+        element: <RecentContact />
       },
       
     ]

@@ -4,10 +4,9 @@ import { NavLink } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
 import { FcGoogle } from "react-icons/fc";
-import { useDarkMood } from "../../context/ThemeContext";
 
 const Login = () => {
-  const { darkMode } = useDarkMood(); // Get darkMode state from context
+
   const [showPassword, setShowPassword] = useState(false);
 
   return (
