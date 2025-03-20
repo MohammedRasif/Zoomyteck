@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
-// Styles for the PDF document
+// [Styles remain unchanged...]
 const styles = StyleSheet.create({
   page: {
     padding: 40,
@@ -30,11 +30,10 @@ const styles = StyleSheet.create({
   },
 });
 
-// PDF Document Component
+// [MyDocument component remains unchanged...]
 const MyDocument = ({ coverLetterData, proposalData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      {/* Cover Letter Section */}
       <View style={styles.section}>
         <Text style={styles.title}>{coverLetterData.title}</Text>
         <Text style={styles.text}>{coverLetterData.companyName}</Text>
@@ -49,8 +48,6 @@ const MyDocument = ({ coverLetterData, proposalData }) => (
           </Text>
         ))}
       </View>
-
-      {/* Proposal Section */}
       <View style={styles.section}>
         <Text style={styles.title}>{proposalData.title}</Text>
         <Text style={styles.text}>{proposalData.projectTitle}</Text>
@@ -81,9 +78,11 @@ const MyDocument = ({ coverLetterData, proposalData }) => (
 );
 
 const ContractProposal = () => {
-  // State for editable fields
   const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState("");
+
   const [coverLetterData, setCoverLetterData] = useState({
+    // [Your existing coverLetterData...]
     title: "Cover Letter",
     companyName: "Your Company Letterhead",
     date: "April 17, 2024",
@@ -107,6 +106,7 @@ const ContractProposal = () => {
   });
 
   const [proposalData, setProposalData] = useState({
+    // [Your existing proposalData...]
     title: "Contract Proposal",
     projectTitle: "Project Title: Substance Abuse and Sex Offender Treatment Services",
     solicitation: "Solicitation Number: 140C7523Q0000007",
@@ -170,32 +170,93 @@ const ContractProposal = () => {
     ],
   });
 
+  // Combine all content into a single string for initial display
+  const getCombinedContent = () => {
+    return [
+      coverLetterData.title,
+      coverLetterData.companyName,
+      coverLetterData.date,
+      coverLetterData.recipient.organization,
+      coverLetterData.recipient.department,
+      coverLetterData.recipient.location,
+      coverLetterData.subject,
+      ...coverLetterData.content,
+      "",
+      proposalData.title,
+      proposalData.projectTitle,
+      proposalData.solicitation,
+      proposalData.preparedFor,
+      proposalData.preparedBy,
+      proposalData.date,
+      ...proposalData.sections.map(
+        (section) =>
+          `${section.id}. ${section.title}\n${section.content}${
+            section.subItems ? '\n' + section.subItems.map((item) => `• ${item}`).join('\n') : ''
+          }`
+      ),
+    ].join('\n');
+  };
+
+  const handleEditToggle = () => {
+    if (isEditing) {
+      // Save logic when toggling from edit to view mode
+      const lines = editedContent.split('\n').filter(line => line.trim() !== '');
+      
+      // Update cover letter data
+      setCoverLetterData({
+        title: lines[0],
+        companyName: lines[1],
+        date: lines[2],
+        recipient: {
+          organization: lines[3],
+          department: lines[4],
+          location: lines[5],
+        },
+        subject: lines[6],
+        content: lines.slice(7, lines.indexOf('') > -1 ? lines.indexOf('') : lines.length),
+      });
+
+      // Update proposal data
+      const proposalStartIndex = lines.indexOf('') + 1;
+      const proposalLines = lines.slice(proposalStartIndex);
+      setProposalData(prev => ({
+        title: proposalLines[0],
+        projectTitle: proposalLines[1],
+        solicitation: proposalLines[2],
+        preparedFor: proposalLines[3],
+        preparedBy: proposalLines[4],
+        date: proposalLines[5],
+        sections: prev.sections.map((section, index) => {
+          const sectionStart = 6 + (index * 3); // Adjust based on section structure
+          const sectionLines = proposalLines.slice(sectionStart);
+          return {
+            ...section,
+            title: sectionLines[0]?.split('. ')[1] || section.title,
+            content: sectionLines[1] || section.content,
+            subItems: sectionLines.slice(2).filter(line => line.startsWith('• ')).map(line => line.substring(2)) || section.subItems,
+          };
+        }),
+      }));
+    } else {
+      // Set initial content when entering edit mode
+      setEditedContent(getCombinedContent());
+    }
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className="bg-black text-white p-4 font-sans container mx-auto">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-4xl font-bold">Contract Proposal</h1>
         <div className="flex space-x-2">
-          {/* Download Button */}
           <PDFDownloadLink
             document={<MyDocument coverLetterData={coverLetterData} proposalData={proposalData} />}
             fileName="contract_proposal.pdf"
           >
             {({ loading }) => (
               <button className="flex items-center px-3 py-2 rounded text-sm border border-gray-300 hover:bg-white hover:text-black cursor-pointer">
-                <svg
-                  className="w-4 h-4 mr-1"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 {loading ? "Loading..." : "Download"}
               </button>
@@ -203,189 +264,79 @@ const ContractProposal = () => {
           </PDFDownloadLink>
           <button
             className="flex items-center px-3 py-2 rounded text-sm border border-gray-500 hover:bg-white hover:text-black cursor-pointer"
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={handleEditToggle}
           >
-            <svg
-              className="w-4 h-4 mr-1"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+            <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             {isEditing ? "Save" : "Edit Proposal"}
           </button>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="border border-gray-700 rounded-lg p-4 mb-4">
-        {/* Cover Letter */}
-        <div className="mb-6">
-          <h2 className="font-bold mb-2">{coverLetterData.title}</h2>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.companyName}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.date}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.recipient.organization}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.recipient.department}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.recipient.location}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {coverLetterData.subject}
-          </div>
-          {coverLetterData.content.map((paragraph, index) => (
-            <div
-              key={index}
-              contentEditable={isEditing}
-              suppressContentEditableWarning={true}
-              className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"} mb-2`}
-            >
-              {paragraph}
+        {isEditing ? (
+          <textarea
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+            className="w-full h-[60vh] p-2 bg-transparent text-white border border-gray-500 rounded resize-none focus:outline-none"
+            placeholder="Edit your proposal here..."
+          />
+        ) : (
+          <>
+            <div className="mb-6">
+              <h2 className="font-bold mb-2">{coverLetterData.title}</h2>
+              <p className="text-sm">{coverLetterData.companyName}</p>
+              <p className="text-sm">{coverLetterData.date}</p>
+              <p className="text-sm">{coverLetterData.recipient.organization}</p>
+              <p className="text-sm">{coverLetterData.recipient.department}</p>
+              <p className="text-sm">{coverLetterData.recipient.location}</p>
+              <p className="text-sm mb-2">{coverLetterData.subject}</p>
+              {coverLetterData.content.map((paragraph, index) => (
+                <p key={index} className="text-sm mb-2">
+                  {paragraph}
+                </p>
+              ))}
             </div>
-          ))}
-        </div>
-
-        {/* Proposal */}
-        <div>
-          <h2 className="font-bold mb-2">{proposalData.title}</h2>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {proposalData.projectTitle}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {proposalData.solicitation}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {proposalData.preparedFor}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"}`}
-          >
-            {proposalData.preparedBy}
-          </div>
-          <div
-            contentEditable={isEditing}
-            suppressContentEditableWarning={true}
-            className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"} mb-4`}
-          >
-            {proposalData.date}
-          </div>
-
-          {proposalData.sections.map((section) => (
-            <div key={section.id} className="mb-4">
-              <h3 className="font-bold text-sm mb-1">
-                {section.id}. {section.title}
-              </h3>
-              <div
-                contentEditable={isEditing}
-                suppressContentEditableWarning={true}
-                className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"} mb-2`}
-              >
-                {section.content}
-              </div>
-              {section.subItems && (
-                <ul className="list-disc pl-6 mb-2">
-                  {section.subItems.map((item, index) => (
-                    <li
-                      key={index}
-                      contentEditable={isEditing}
-                      suppressContentEditableWarning={true}
-                      className={`text-sm ${isEditing ? "cursor-text" : "cursor-default"} mb-1`}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div>
+              <h2 className="font-bold mb-2">{proposalData.title}</h2>
+              <p className="text-sm">{proposalData.projectTitle}</p>
+              <p className="text-sm">{proposalData.solicitation}</p>
+              <p className="text-sm">{proposalData.preparedFor}</p>
+              <p className="text-sm">{proposalData.preparedBy}</p>
+              <p className="text-sm mb-4">{proposalData.date}</p>
+              {proposalData.sections.map((section) => (
+                <div key={section.id} className="mb-4">
+                  <h3 className="font-bold text-sm mb-1">
+                    {section.id}. {section.title}
+                  </h3>
+                  <p className="text-sm mb-2">{section.content}</p>
+                  {section.subItems && (
+                    <ul className="list-disc pl-6 mb-2">
+                      {section.subItems.map((item, index) => (
+                        <li key={index} className="text-sm mb-1">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
 
-      {/* Footer */}
       <div className="flex space-x-2">
         <button className="flex items-center px-3 py-1 rounded text-sm border border-gray-500 hover:bg-gray-800 transition">
-          <svg
-            className="w-4 h-4 mr-1"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19 12H5M12 19l-7-7 7-7"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+          <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           Back
         </button>
         <button className="flex items-center px-3 py-1 rounded text-sm bg-blue-600 text-white hover:bg-blue-700 transition">
-          <svg
-            className="w-4 h-4 mr-1"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+          <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           Submit Proposal
         </button>
