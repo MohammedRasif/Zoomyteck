@@ -76,7 +76,7 @@ const AllApplication = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 bg-white dark:bg-black text-black dark:text-white">
+    <div className=" p-4 bg-white dark:bg-black text-black dark:text-white">
       {/* Tabs */}
       <div className="flex mb-4">
         <button
@@ -106,10 +106,10 @@ const AllApplication = () => {
         {currentProposals.map((proposal) => (
           <div
             key={proposal.id}
-            className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900"
+            className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#373737] "
           >
-            <div className="flex items-center flex-grow">
-              <div className="mr-3 bg-gray-100 dark:bg-gray-800 p-2 rounded-full">
+            <div className="flex items-center flex-grow ">
+              <div className="mr-3 bg-gray-100 dark:bg-black border p-2 rounded-full">
                 <FileText size={18} className="text-gray-600 dark:text-gray-300" />
               </div>
               <div className="flex-grow">
@@ -121,7 +121,7 @@ const AllApplication = () => {
                       value={editedTitle}
                       onChange={(e) => setEditedTitle(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSaveRename()}
-                      className="w-full bg-gray-100 dark:bg-gray-800 text-black dark:text-white p-1 rounded mr-2 border border-gray-300 dark:border-gray-600"
+                      className="w-full bg-gray-100 dark:bg-black  text-black dark:text-white p-1 rounded mr-2 border border-gray-300 dark:border-gray-600"
                     />
                     <button
                       onClick={handleSaveRename}
@@ -179,13 +179,13 @@ const AllApplication = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm"></div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg z-10 max-w-md w-full border border-gray-200 dark:border-gray-700">
+          <div className="absolute inset-0  bg-opacity-50 dark:bg-opacity-70 backdrop-blur-[2px] shadow-xl "></div>
+          <div className="bg-white dark:bg-[#373737] p-6 rounded-lg z-10 max-w-md w-full border border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Confirm Delete</h3>
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full cursor-pointer"
               >
                 <X size={20} className="text-gray-600 dark:text-gray-300" />
               </button>
@@ -196,13 +196,13 @@ const AllApplication = () => {
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700  cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 dark:hover:bg-red-500"
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 dark:hover:bg-red-500  cursor-pointer"
               >
                 Delete
               </button>
