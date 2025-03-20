@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { NavLink } from "react-router-dom";
+import { RiDraftLine } from "react-icons/ri";
+
 
 // [Styles remain unchanged...]
 const styles = StyleSheet.create({
@@ -190,8 +193,7 @@ const ContractProposal = () => {
       proposalData.date,
       ...proposalData.sections.map(
         (section) =>
-          `${section.id}. ${section.title}\n${section.content}${
-            section.subItems ? '\n' + section.subItems.map((item) => `• ${item}`).join('\n') : ''
+          `${section.id}. ${section.title}\n${section.content}${section.subItems ? '\n' + section.subItems.map((item) => `• ${item}`).join('\n') : ''
           }`
       ),
     ].join('\n');
@@ -201,7 +203,7 @@ const ContractProposal = () => {
     if (isEditing) {
       // Save logic when toggling from edit to view mode
       const lines = editedContent.split('\n').filter(line => line.trim() !== '');
-      
+
       // Update cover letter data
       setCoverLetterData({
         title: lines[0],
@@ -245,7 +247,7 @@ const ContractProposal = () => {
   };
 
   return (
-    <div className="bg-black text-white p-4 font-sans container mx-auto">
+    <div className="dark:bg-black dark:text-white bg-white text-black p-4 font-sans container mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-4xl font-bold">Contract Proposal</h1>
         <div className="flex space-x-2">
@@ -254,23 +256,20 @@ const ContractProposal = () => {
             fileName="contract_proposal.pdf"
           >
             {({ loading }) => (
-              <button className="flex items-center px-3 py-2 rounded text-sm border border-gray-300 hover:bg-white hover:text-black cursor-pointer">
+              <button className="flex items-center px-3 py-2 rounded text-sm border bg-white text-black hover:bg-gray-300 border-gray-300  hover:text-black cursor-pointer">
                 <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {loading ? "Loading..." : "Download"}
               </button>
             )}
           </PDFDownloadLink>
-          <button
-            className="flex items-center px-3 py-2 rounded text-sm border border-gray-500 hover:bg-white hover:text-black cursor-pointer"
-            onClick={handleEditToggle}
-          >
-            <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            {isEditing ? "Save" : "Edit Proposal"}
-          </button>
+          <div className="flex items-center px-3 py-2 rounded text-sm border bg-white text-black hover:bg-gray-300 border-gray-300  hover:text-black cursor-pointer space-x-2">
+            <h1>Draft</h1>
+            <RiDraftLine />
+
+          </div>
+
         </div>
       </div>
 
@@ -279,7 +278,7 @@ const ContractProposal = () => {
           <textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="w-full h-[60vh] p-2 bg-transparent text-white border border-gray-500 rounded resize-none focus:outline-none"
+            className="w-full h-[60vh] p-2  dark:text-white bg-white text-black dark:bg-black   border border-gray-500 rounded resize-none focus:outline-none"
             placeholder="Edit your proposal here..."
           />
         ) : (
@@ -328,15 +327,26 @@ const ContractProposal = () => {
       </div>
 
       <div className="flex space-x-2">
-        <button className="flex items-center px-3 py-1 rounded text-sm border border-gray-500 hover:bg-gray-800 transition">
+        <NavLink to="/dashboard/recent_contract">
+          <button className="flex items-center px-3 py-2 rounded text-sm border bg-white text-black hover:bg-gray-300 border-gray-500 dark:hover:bg-gray-300 cursor-pointer transition">
+            <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Back
+          </button>
+        </NavLink>
+        <button
+          className="flex items-center px-3 py-2 rounded text-sm border dark:border-gray-500 bg-white text-black hover:bg-gray-300 dark:hover:bg-gray-300 dark:hover:text-black cursor-pointer"
+          onClick={handleEditToggle}
+        >
           <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Back
+          {isEditing ? "Save" : "Edit Proposal"}
         </button>
-        <button className="flex items-center px-3 py-1 rounded text-sm bg-blue-600 text-white hover:bg-blue-700 transition">
+        <button className="flex items-center px-3 py-1 rounded text-sm bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">
           <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           Submit Proposal
         </button>

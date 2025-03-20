@@ -20,6 +20,7 @@ import RecentContact from './component/DashboardPages/RecentContact.jsx';
 import Generalinformation from './component/DashboardPages/Generalinformation.jsx';
 import Subscription from './component/DashboardPages/Subscription.jsx';
 import ContractProposal from './component/DashboardPages/Contract_Proposal.jsx';
+import AllApplication from './component/DashboardPages/AllApplication.jsx';
 
 
 const router = createBrowserRouter([
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
        path:"/dashboard/contract_proposal",
         element: <ContractProposal />
+      },
+      {
+       path:"/dashboard/all_application",
+        element: <AllApplication />
       },
       
     ]

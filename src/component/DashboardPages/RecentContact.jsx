@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, FileText, Calendar, Clock, FileOutput } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const RecentContact = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -138,11 +139,11 @@ const RecentContact = () => {
                 </div>
 
                 {/* View Button */}
-                <div className="flex justify-end mt-4">
-                  <button className="bg-black dark:bg-white text-white dark:text-black px-4 py-1 rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition">
+                <NavLink to="/dashboard/general_information"><div className="flex justify-end mt-4 ">
+                  <button className="bg-gray-300 text-black dark:bg-white hover:bg-gray-400 dark:text-black  px-4 py-1 cursor-pointer rounded-md  dark:hover:bg-gray-200 transition">
                     View
                   </button>
-                </div>
+                </div></NavLink>
               </div>
             ))
           ) : (
