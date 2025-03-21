@@ -21,6 +21,7 @@ import Generalinformation from './component/DashboardPages/Generalinformation.js
 import Subscription from './component/DashboardPages/Subscription.jsx';
 import ContractProposal from './component/DashboardPages/Contract_Proposal.jsx';
 import AllApplication from './component/DashboardPages/AllApplication.jsx';
+import Setting from './component/DashboardPages/Setting.jsx';
 
 
 const router = createBrowserRouter([
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
        path:"/dashboard/all_application",
         element: <AllApplication />
+      },
+      {
+       path:"/dashboard/setting",
+        element: <Setting />
       },
       
     ]

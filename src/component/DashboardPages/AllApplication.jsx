@@ -106,7 +106,7 @@ const AllApplication = () => {
         {currentProposals.map((proposal) => (
           <div
             key={proposal.id}
-            className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#373737] "
+            className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#0B0B0C] "
           >
             <div className="flex items-center flex-grow ">
               <div className="mr-3 bg-gray-100 dark:bg-black border p-2 rounded-full">
@@ -180,7 +180,7 @@ const AllApplication = () => {
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0  bg-opacity-50 dark:bg-opacity-70 backdrop-blur-[2px] shadow-xl "></div>
-          <div className="bg-white dark:bg-[#373737] p-6 rounded-lg z-10 max-w-md w-full border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[#0B0B0C] p-6 rounded-lg z-10 max-w-md w-full border border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Confirm Delete</h3>
               <button
