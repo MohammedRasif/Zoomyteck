@@ -33,7 +33,7 @@ const Setting = () => {
                 </button>
               </div>
             </div>
-            <div className="text-[20px] text-[#FAF1E6] dark:text-[#e0d8c9]">
+            <div className="text-[20px] text-black dark:text-[#e0d8c9]">
               <h1>Mohammad Rasif</h1>
             </div>
           </div>

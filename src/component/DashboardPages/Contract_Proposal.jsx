@@ -59,7 +59,7 @@ const ContractProposal = () => {
       {/* Popup Modal */}
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50 backdrop-blur-[3px] ">
-          <div className="dar:bg-zinc-900 bg-gray-200 p-6 rounded-md shadow-lg dark:text-white">
+          <div className="dar:bg-zinc-900 bg-gray-200 p-6 rounded-md shadow-lg dark:text-white dark:bg-zinc-800">
           <div className="flex justify-center">
           <MdOutlineVerifiedUser className=" text-8xl text-green-600" />
           </div>

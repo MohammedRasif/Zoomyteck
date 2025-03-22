@@ -57,7 +57,7 @@ const CompanyDetails = () => {
               <input
                 type="text"
                 placeholder="Enter company name"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
 
@@ -66,7 +66,7 @@ const CompanyDetails = () => {
               <input
                 type="text"
                 placeholder="Enter street address"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
           </div>
@@ -77,7 +77,7 @@ const CompanyDetails = () => {
               <input
                 type="email"
                 placeholder="Enter company email"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
 
@@ -86,7 +86,7 @@ const CompanyDetails = () => {
               <input
                 type="text"
                 placeholder="Enter city"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
           </div>
@@ -97,7 +97,7 @@ const CompanyDetails = () => {
               <input
                 type="tel"
                 placeholder="Enter company phone"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
 
@@ -106,7 +106,7 @@ const CompanyDetails = () => {
               <input
                 type="text"
                 placeholder="Enter postal/zipcode"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ const CompanyDetails = () => {
               <input
                 type="url"
                 placeholder="Enter company website"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
 
@@ -126,7 +126,7 @@ const CompanyDetails = () => {
               <input
                 type="text"
                 placeholder="Enter state/province/region"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
           </div>
@@ -138,12 +138,12 @@ const CompanyDetails = () => {
           <textarea
             rows={4}
             placeholder="Enter company description..."
-            className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black  placeholder-gray-500 dark:placeholder-gray-400 resize-none dark:bg-zinc-900"
+            className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none dark:bg-zinc-900"
           ></textarea>
         </div>
 
         {/* Update Button */}
-        <button className="mt-6 bg-black cursor-pointer hover:bg-gray-300 px-10 py-3 rounded-lg font-[500] text-xl text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700">
+        <button className="mt-6 bg-black cursor-pointer hover:bg-gray-300 px-10 py-3 rounded-lg font-[500] text-xl text-white dark:bg-zinc-800  dark:text-white dark:hover:bg-zinc-700">
           Update Information
         </button>
       </div>
