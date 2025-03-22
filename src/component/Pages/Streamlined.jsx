@@ -60,7 +60,7 @@ const Streamlined = () => {
                     {steps.map((step, index) => (
                         <div
                             key={step.id}
-                            className="relative mb-8 sm:mb-10 md:mb-12 lg:mb-14 flex flex-col md:flex-row items-center md:items-stretch  "
+                            className="relative mb-8 sm:mb-10 md:mb-12 lg:mb-14 flex flex-col md:flex-row items-center md:items-stretch"
                         >
                             {/* Connection Dot */}
                             <div
@@ -85,7 +85,7 @@ const Streamlined = () => {
 
                             {/* Card */}
                             <div
-                                className={`relative w-full sm:w-[90%] md:w-[42%] rounded-xl inset-0 bg-gradient-to-r ${darkMode
+                                className={`relative w-full sm:w-[80%] md:w-[32%] rounded-xl inset-0 bg-gradient-to-r ${darkMode
                                         ? "from-white via-gray-900 to-black"
                                         : "from-gray-800/40 via-gray-100 to-white"
                                     } p-[2px] sm:p-[3px] md:p-[4px] ${step.position === "left"
