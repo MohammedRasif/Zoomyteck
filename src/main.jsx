@@ -22,6 +22,7 @@ import Subscription from './component/DashboardPages/Subscription.jsx';
 import ContractProposal from './component/DashboardPages/Contract_Proposal.jsx';
 import AllApplication from './component/DashboardPages/AllApplication.jsx';
 import Setting from './component/DashboardPages/Setting.jsx';
+import Feature from './component/Pages/Feature.jsx';
 
 
 const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path:"/passwordChange",
         element:<PasswordChange/>
+      },
+      {
+        path:"/feature",
+        element:<Feature/>
       },
       
     ],

@@ -10,7 +10,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex flex-col lg:flex-row h-auto lg:h-screen bg-white dark:bg-black">
+    <div className="flex flex-col lg:flex-row h-auto lg:h-screen bg-white dark:bg-black z-50">
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-20 lg:px-36 py-10 lg:py-0">
         <div className="flex justify-center mb-6">

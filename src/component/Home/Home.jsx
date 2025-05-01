@@ -8,6 +8,7 @@ import Streamlined from "../Pages/Streamlined";
 import Testimonial from "../Pages/Testimonial";
 
 const Home = () => {
+    
     return (
         <div>
            <Navbar></Navbar>

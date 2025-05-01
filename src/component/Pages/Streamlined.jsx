@@ -86,8 +86,8 @@ const Streamlined = () => {
                             {/* Card */}
                             <div
                                 className={`relative w-full sm:w-[80%] md:w-[32%] rounded-xl inset-0 bg-gradient-to-r ${darkMode
-                                        ? "from-white via-gray-900 to-black"
-                                        : "from-gray-800/40 via-gray-100 to-white"
+                                    ? "from-white via-gray-900 to-black"
+                                    : "from-gray-800/40 via-gray-100 to-white"
                                     } p-[2px] sm:p-[3px] md:p-[4px] ${step.position === "left"
                                         ? "md:mr-auto md:ml-0"
                                         : "md:ml-auto md:mr-0"
@@ -97,25 +97,24 @@ const Streamlined = () => {
                                     {/* Glowing border effect */}
                                     <div
                                         className={`absolute -inset-[1px] bg-gradient-to-r ${darkMode
-                                                ? "from-white/40 via-white/20 to-white/100"
-                                                : "from-gray-800/40 via-gray-800/20 to-gray-100/100"
+                                            ? "from-white/40 via-white/20 to-white/100"
+                                            : "from-gray-800/40 via-gray-800/20 to-gray-100/100"
                                             } rounded-xl blur-[2px] opacity-20 group-hover:opacity-200 group-hover:blur-[10px] transition-all duration-500`}
                                     />
                                     {/* Additional glow layers for more intense effect */}
                                     <div
                                         className={`absolute -inset-[2px] bg-gradient-to-r ${darkMode
-                                                ? "from-white/20 via-white/100 to-white/20"
-                                                : "from-gray-100/10 via-gray-500/100 to-gray-800/100"
+                                            ? "from-white/20 via-white/100 to-white/20"
+                                            : "from-gray-100/10 via-gray-500/100 to-gray-800/100"
                                             } rounded-xl blur-[4px] opacity-0 group-hover:opacity-200 transition-all duration-500`}
                                     />
 
                                     {/* Card content */}
                                     <div
-                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer ${
-                                            darkMode
+                                        className={`relative bg-opacity-80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer ${darkMode
                                                 ? "bg-gradient-to-b from-zinc-900 to-black border-white/10" // Light at top to black at bottom
                                                 : "bg-gradient-to-b from-gray-100 to-white border-gray-200"   // Light at top to black at bottom
-                                        }`}
+                                            }`}
                                     >
                                         <h3
                                             className={`text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${darkMode ? "from-white to-white/90" : "from-gray-800 to-gray-400"
