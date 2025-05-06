@@ -96,7 +96,7 @@ const Pricing = () => {
   return (
     <div
     id="pricing"
-    className={`w-full py-16 px-4 sm:px-6 md:px-8 lg:px-10 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "  text-black"}`}>
+    className={`w-full py-16 px-4 sm:px-6 md:px-8 lg:px-10 transition-colors duration-300 ${darkMode ? "bg-black text-white" : " bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]  text-black"}`}>
       <h1
         className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-100"
           } text-transparent bg-clip-text font-bold pb-4 sm:pb-6 md:pb-8 lg:pb-10`}

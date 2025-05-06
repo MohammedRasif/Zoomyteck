@@ -6,7 +6,7 @@ const CompanyDetails = () => {
   const [logoPreview, setLogoPreview] = useState("https://res.cloudinary.com/dfsu0cuvb/image/upload/v1742376506/OBJECTS_w80o4b.png")
 
   return (
-    <div className="dark:bg-black dark:text-white bg-white text-black p-4">
+    <div className="dark:bg-black dark:text-white  text-black p-4">
       <div className="container mx-auto">
         <h1 className="text-4xl font-medium mb-1">Company Details</h1>
         <p className="text-sm text-gray-400 mb-6">Manage Your Company Details</p>

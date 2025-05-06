@@ -66,7 +66,7 @@ const Featured = () => {
     return (
         <div
         id="Feature"
-            className={`pt-10   ${darkMode ? "bg-black text-white" : "bg-white text-gray-800"
+            className={`pt-10   ${darkMode ? "bg-black text-white" : " text-gray-800"
                 }`}
         >
             <h1

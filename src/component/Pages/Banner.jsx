@@ -7,7 +7,7 @@ const Banner = () => {
 
   return (
     <div
-      className={`w-full ${darkMode ? "bg-black" : "bg-white"} py-6 sm:py-10 md:py-12 lg:py-16`}
+      className={`w-full ${darkMode ? "bg-black" : "bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]"} py-6 sm:py-10 md:py-12 lg:py-16`}
     >
       <div
         className={`container mx-auto flex flex-col lg:flex-row items-center justify-between lg:px-0 md:px-0 px-5   ${

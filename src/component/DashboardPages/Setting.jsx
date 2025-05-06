@@ -16,7 +16,7 @@ const Setting = () => {
   const toggleConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
   return (
-    <div className="border-t border-gray-300 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white">
+    <div className="border-t border-gray-300 dark:border-gray-700  dark:bg-black text-black dark:text-white">
       <h1 className="text-[35px] font-[500] pb-2 mt-4 ml-4">Profile</h1>
       <div className="flex items-center justify-center pb-10">
         <div className="w-[715px] h-auto">

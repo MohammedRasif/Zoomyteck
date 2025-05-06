@@ -25,7 +25,7 @@ const DashboardSidebar = () => {
     location.pathname === "/dashboard/review";      // Hypothetical related route
 
   return (
-    <div className="bg-white dark:bg-black dark:border-gray-600 text-black dark:text-white h-full">
+    <div className=" dark:bg-black dark:border-gray-600 text-black dark:text-white h-full">
       <NavLink to="/">
         <div>
           <img src={img} className="h-16 mt-7 pl-16 lg:mb-14" alt="Logo" />

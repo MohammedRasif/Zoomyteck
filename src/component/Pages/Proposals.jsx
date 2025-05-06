@@ -4,7 +4,7 @@ const Proposals = () => {
   const { darkMode } = useDarkMood()
 
   return (
-    <div className={`w-full py-10 relative transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+    <div className={`w-full py-10 relative transition-colors duration-300 ${darkMode ? "bg-black text-white" : " text-black"}`}>
       {/* Top dashed line */}
       <div className={`absolute top-0 left-0 w-full h-px border-t-2 border-dashed ${darkMode ? "border-gray-600" : "border-gray-300"}`}></div>
 

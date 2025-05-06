@@ -76,7 +76,7 @@ const Testimonial = () => {
 
     return (
         <div
-            className={`pt-10 px-4 sm:px-6 md:px-8 lg:px-10 ${darkMode ? "bg-black text-white" : "bg-white text-gray-800"
+            className={`pt-10 px-4 sm:px-6 md:px-8 lg:px-10 ${darkMode ? "bg-black text-white" : " text-gray-800"
                 } transition-colors duration-300`}
         >
             <h1

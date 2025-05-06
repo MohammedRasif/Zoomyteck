@@ -76,7 +76,7 @@ const AllApplication = () => {
   }
 
   return (
-    <div className=" container mx-auto pt-8 bg-white dark:bg-black text-black dark:text-white">
+    <div className=" container mx-auto pt-8  dark:bg-black text-black dark:text-white">
       {/* Tabs */}
       <div className="flex mb-4">
         <button

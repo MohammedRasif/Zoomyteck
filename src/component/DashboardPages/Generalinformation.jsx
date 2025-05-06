@@ -86,7 +86,7 @@ const GeneralInformation = () => {
   };
 
   return (
-    <div className="relative bg-white dark:bg-black text-black dark:text-white p-4 font-sans container mx-auto">
+    <div className="relative  dark:bg-black text-black dark:text-white p-4 font-sans container mx-auto">
       {/* Main Content */}
       <div className={`${isModalOpen ? "blur-sm" : ""} transition duration-300`}>
         <h1 className="text-3xl font-bold text-black dark:text-white mb-8">General Information</h1>

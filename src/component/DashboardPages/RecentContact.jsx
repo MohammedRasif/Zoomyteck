@@ -53,7 +53,7 @@ const RecentContact = () => {
   );
 
   return (
-    <div className="min-h-screen p-6 dark:bg-black bg-white">
+    <div className="min-h-screen p-6 dark:bg-black ">
       <div className="container mx-auto">
         {/* Search Field */}
         <div className="relative mb-6">

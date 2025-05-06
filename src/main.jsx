@@ -23,6 +23,8 @@ import ContractProposal from './component/DashboardPages/Contract_Proposal.jsx';
 import AllApplication from './component/DashboardPages/AllApplication.jsx';
 import Setting from './component/DashboardPages/Setting.jsx';
 import Feature from './component/Pages/Feature.jsx';
+import About from './component/Pages/About.jsx';
+import Pricing from './component/Pages/PaymentCart.jsx';
 
 
 const router = createBrowserRouter([
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element:<Home/> ,
+      },
+      {
+        path: "/feature",
+        element:<About/> ,
+      },
+      {
+        path: "/pricing",
+        element:<Pricing/> ,
       },
       {
         path: "/login",
@@ -59,7 +69,7 @@ const router = createBrowserRouter([
         element:<PasswordChange/>
       },
       {
-        path:"/feature",
+        path:"/about",
         element:<Feature/>
       },
       

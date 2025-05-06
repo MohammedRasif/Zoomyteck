@@ -1,6 +1,6 @@
 const Subscription = () => {
     return (
-      <div className="bg-white dark:bg-black min-h-screen container mx-auto pt-8">
+      <div className=" dark:bg-black min-h-screen container mx-auto pt-8">
         {/* Heading */}
         <h1 className="text-3xl font-semibold text-black dark:text-white mb-8">
           Manage Subscription

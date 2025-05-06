@@ -4,7 +4,7 @@ const Footer = () => {
   const { darkMode } = useDarkMood()
 
   return (
-    <footer className={`pt-32 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+    <footer className={`pt-32 transition-colors duration-300 ${darkMode ? "bg-black text-white" : "bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] text-black"}`}>
       {/* Top border */}
       <div className={`h-px w-full ${darkMode ? "bg-gray-800" : "bg-gray-300"}`}></div>
 

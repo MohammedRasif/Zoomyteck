@@ -61,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="px-4 py-5 bg-white dark:bg-black lg:border-b lg:border-gray-200 dark:lg:border-gray-700">
+    <nav className="px-4 py-5  dark:bg-black lg:border-b lg:border-gray-200  dark:lg:border-gray-700 bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div>
@@ -94,7 +94,7 @@ const Navbar = () => {
         {/* Desktop Navigation and Buttons */}
         <div className="hidden md:flex md:items-center md:space-x-8">
           <NavLink
-            to="#home"
+            to="/"
             className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
             onClick={() => handleNavClick("home")} // Scroll to "home" section
           >
@@ -102,7 +102,7 @@ const Navbar = () => {
           </NavLink>
           <div className="relative group">
             <NavLink
-              to="#Feature"
+              to="/feature"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
               onClick={() => handleNavClick("Feature")} // Scroll to "Feature" section
             >
@@ -125,7 +125,7 @@ const Navbar = () => {
 
           <div className="relative group">
             <NavLink
-              to="#about"
+              to="/about"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
               onClick={() => handleNavClick("about")} // Scroll to "about" section
             >
@@ -148,7 +148,7 @@ const Navbar = () => {
 
           <div className="relative group">
             <NavLink
-              to="#pricing"
+              to="/pricing"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
               onClick={() => handleNavClick("pricing")} // Scroll to "Pricing" section
             >

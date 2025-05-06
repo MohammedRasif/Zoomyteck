@@ -33,7 +33,7 @@ const Streamlined = () => {
     return (
         <div
             id="about"
-            className={`pt-6 sm:pt-8 md:pt-10 lg:pt-12 px-4 sm:px-6 md:px-8 lg:px-10 ${darkMode ? "bg-black text-white" : "bg-white text-gray-800"
+            className={`pt-6 sm:pt-8 md:pt-10 lg:pt-12 px-4 sm:px-6 md:px-8 lg:px-10 ${darkMode ? "bg-black text-white" : " text-gray-800"
                 } transition-colors`}
         >
             <h1
