@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
-import img from "../Image/Group 1597882214.png";
+
+import img1 from "../Image/OBJECTS.png";
+import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
 
 const PasswordChange = () => {
@@ -8,7 +10,7 @@ const PasswordChange = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-black px-4 transition-colors">
             {/* Image Section */}
-            <img src={img} className="h-[150px] w-[150px] sm:h-[200px] sm:w-[200px] mb-6" alt="Password Change" />
+            <img src={darkMode ? img2 : img1} className="h-[150px] w-[150px] sm:h-[200px] sm:w-[200px] mb-6" alt="Logo" />
 
             {/* Title */}
             <h1 className="text-2xl sm:text-3xl font-bold text-center text-[#004290] dark:text-[#3b82f6] mb-4">

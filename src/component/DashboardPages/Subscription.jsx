@@ -7,14 +7,14 @@ const Subscription = () => {
         </h1>
   
         {/* Subscription Pack Name */}
-        <div className="bg-white dark:bg-black border border-gray-300 dark:border-gray-800 py-6 px-12 rounded-lg shadow-md mb-6">
+        <div className="bg-white dark:bg-black border border-gray-300 dark:border-gray-800 py-6 px-12 rounded-lg  mb-6">
           <h2 className="text-xl font-medium text-black dark:text-white">
             Subscription Pack Name
           </h2>
         </div>
   
         {/* Bill Info */}
-        <div className="bg-white dark:bg-black border border-gray-300 dark:border-gray-800 py-6 px-12 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-black border border-gray-300 dark:border-gray-800 py-6 px-12 rounded-lg ">
           <h2 className="text-2xl font-bold text-black dark:text-white mb-4">
             Bill Info
           </h2>

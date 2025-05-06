@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import img2 from "../Image/OBJECTS (2).png";
+
 import { useDarkMood } from "../../context/ThemeContext";
 
 const SetNewPassword = () => {
@@ -32,7 +34,7 @@ const SetNewPassword = () => {
             {/* Left Section */}
             <div className="w-full lg:w-1/2 px-6 py-10 lg:px-20 lg:py-12 flex flex-col justify-center">
                 <div className="flex justify-center mb-6">
-                    <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
+                <img src={darkMode ? img2 : img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                 </div>
                 {/* Title */}
                 <h1 className="lg:text-4xl md:text-4xl text-3xl font-medium text-center mb-4 text-[#004290] dark:text-[#3b82f6]">Set New Password</h1>

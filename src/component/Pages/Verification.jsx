@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import img2 from "../Image/OBJECTS (2).png";
+
 import { useDarkMood } from "../../context/ThemeContext";
 
 const Verification = () => {
@@ -56,7 +58,7 @@ const Verification = () => {
             <div className="w-full lg:w-1/2 px-8 lg:px-28 py-8 lg:mt-44 md:mt-32 mt-20">
                 <div>
                     <div className="flex justify-center mb-6">
-                        <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
+                    <img src={darkMode ? img2 : img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-semibold text-center text-[#364636] dark:text-gray-200">
                         Verification Code

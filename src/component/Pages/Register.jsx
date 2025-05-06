@@ -3,6 +3,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import img2 from "../Image/OBJECTS (2).png";
+
 import { FcGoogle } from "react-icons/fc";
 import { useDarkMood } from "../../context/ThemeContext";
 
@@ -33,7 +35,7 @@ const Register = () => {
             {/* Left Side - Form */}
             <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-20 lg:px-36 py-10 lg:py-0">
                 <div className="flex justify-center mb-6">
-                    <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
+                <img src={darkMode ? img2 : img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-medium text-center text-[#004290] dark:text-[#3b82f6]">Welcome Back</h1>
                 <p className="text-sm sm:text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">

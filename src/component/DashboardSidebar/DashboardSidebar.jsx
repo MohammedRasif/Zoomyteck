@@ -2,9 +2,13 @@ import { NavLink, useLocation } from "react-router-dom";
 import img from "../Image/OBJECTS.png";
 import { Bot, Briefcase, Clock, FileText, Settings, Users } from "lucide-react";
 import { MdRecentActors } from "react-icons/md";
+import img1 from "../Image/OBJECTS (2).png";
+import { useDarkMood } from "../../context/ThemeContext";
+
 
 const DashboardSidebar = () => {
   const location = useLocation();
+  const { darkMode } = useDarkMood();
 
   // Recent Contract active routes
   const isRecentContractActive =
@@ -27,9 +31,9 @@ const DashboardSidebar = () => {
   return (
     <div className=" dark:bg-black dark:border-gray-600 text-black dark:text-white h-full">
       <NavLink to="/">
-        <div>
-          <img src={img} className="h-16 mt-7 pl-16 lg:mb-14" alt="Logo" />
-        </div>
+         <div>
+                  <img src={darkMode ? img1 : img} className="h-16 mt-7 pl-16 lg:mb-14" alt="Logo" />
+                </div>
       </NavLink>
       <div className="flex flex-col gap-2">
         <NavLink

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
+import img2 from "../Image/OBJECTS (2).png";
+
+import { useDarkMood } from "../../context/ThemeContext";
 // import { useDarkMood } from "../../context/ThemeContext";
 
 const ForgetPassword = () => {
@@ -10,6 +13,7 @@ const ForgetPassword = () => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { darkMode } = useDarkMood();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,7 +46,7 @@ const ForgetPassword = () => {
             {/* Form Section */}
             <div className="w-full lg:w-1/2 px-4 sm:px-6 md:px-8 lg:px-20">
                 <div className="flex justify-center mb-6">
-                    <img src={img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
+                    <img src={darkMode ? img2 : img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl text-center text-[#004290] dark:text-[#3b82f6] font-semibold">Forgot Password</h1>
                 <p className="text-center mt-3 text-gray-600 dark:text-gray-300 lg:px-20">

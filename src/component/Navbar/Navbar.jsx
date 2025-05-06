@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import img from "../Image/OBJECTS.png";
+import img1 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
 import { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown } from "react-icons/io";
@@ -61,11 +62,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`px-4 py-5 ${darkMode ? 'bg-black' : ' bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]'} lg:border-b ${darkMode ? 'lg:border-gray-700' : 'lg:border-gray-200'}`}>
+    <nav className={`px-4 py-5 ${darkMode ? 'bg-black' : 'bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]'} lg:border-b ${darkMode ? 'lg:border-gray-700' : 'lg:border-gray-200'}`}>
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div>
-          <img src={img} className="h-12 md:h-16" alt="Logo" />
+          <img src={darkMode ? img1 : img} className="h-12 md:h-16" alt="Logo" />
         </div>
 
         {/* Hamburger Menu for Mobile */}
@@ -194,13 +195,13 @@ const Navbar = () => {
               </svg>
             </button>
 
-            <NavLink to="#login">
+            <NavLink to="/login">
               <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
                 Sign in
               </button>
             </NavLink>
 
-            <NavLink to="#register">
+            <NavLink to="/register">
               <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
                 Sign up
               </button>
