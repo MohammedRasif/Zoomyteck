@@ -20,7 +20,7 @@ const Setting = () => {
       <h1 className="text-[35px] font-[500] pb-2 mt-4 ml-4">Profile</h1>
       <div className="flex items-center justify-center pb-10">
         <div className="w-[715px] h-auto">
-          <div className="w-[715px] h-[184px] shadow-2xl bg-gray-200 dark:bg-black flex items-center justify-center space-x-3 relative">
+          <div className="w-[715px] h-[184px]   dark:bg-black flex items-center justify-center space-x-3 relative">
             <div>
               <div className="relative">
                 <img
@@ -68,7 +68,7 @@ const Setting = () => {
           </div>
 
           {activeSection === "editProfile" && (
-            <div className="bg-white dark:bg-black px-32 pt-3 shadow-2xl">
+            <div className=" dark:bg-black px-32 pt-3 ">
               <h1 className="text-center py-3 text-[20px] font-[500] text-gray-900 dark:text-white">
                 Edit Your Profile
               </h1>
@@ -91,7 +91,7 @@ const Setting = () => {
           )}
 
           {activeSection === "changePassword" && (
-            <div className="bg-white dark:bg-black px-32 pt-3 shadow-2xl">
+            <div className=" dark:bg-black px-32 pt-3 ">
               <h1 className="text-center py-3 text-[20px] font-[500] text-gray-900 dark:text-white">
                 Change Password
               </h1>
