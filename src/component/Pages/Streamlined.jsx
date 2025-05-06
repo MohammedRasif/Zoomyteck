@@ -43,7 +43,7 @@ const Streamlined = () => {
                 Streamlined Proposal Creation
             </h1>
             <p
-                className={`text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-100"
+                className={`text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-500"
                     } text-transparent bg-clip-text font-bold text-xs sm:text-sm md:text-base lg:text-lg mb-6 sm:mb-8 md:mb-10 lg:mb-12 max-w-3xl mx-auto`}
             >
                 Our platform guides you through a simple process to find contracts and create winning proposals.

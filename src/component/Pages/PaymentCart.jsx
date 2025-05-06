@@ -96,7 +96,7 @@ const Pricing = () => {
   return (
     <div
     id="pricing"
-    className={`w-full py-16 px-4 sm:px-6 md:px-8 lg:px-10 transition-colors duration-300 ${darkMode ? "bg-black text-white" : " bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]  text-black"}`}>
+    className={`w-full py-16 px-4 sm:px-6 md:px-8 lg:px-10 ${darkMode ? "bg-black text-white" : " bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]  text-black"}`}>
       <h1
         className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-100"
           } text-transparent bg-clip-text font-bold pb-4 sm:pb-6 md:pb-8 lg:pb-10`}
@@ -110,13 +110,13 @@ const Pricing = () => {
           <div className={`p-1 rounded-full inline-flex  ${darkMode ? "bg-zinc-900" : "bg-gray-300"}`}>
             <button
               onClick={() => setBillingCycle("monthly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium cursor-pointer  transition-colors duration-200 ${billingCycle === "monthly" ? "bg-white text-black" : "text-gray-500"}`}
+              className={`px-6 py-2 rounded-full text-sm font-medium cursor-pointer   ${billingCycle === "monthly" ? "bg-white text-black" : "text-gray-500"}`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingCycle("yearly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium cursor-pointer transition-colors duration-200 ${billingCycle === "yearly" ? "bg-white text-black" : "text-gray-500"}`}
+              className={`px-6 py-2 rounded-full text-sm font-medium cursor-pointer  ${billingCycle === "yearly" ? "bg-white text-black" : "text-gray-500"}`}
             >
               Yearly
             </button>
@@ -137,7 +137,7 @@ const Pricing = () => {
              <motion.div
              key={`${plan.name}-${index}`}
              variants={cardVariants}
-             className={`border rounded-lg overflow-hidden h-[550px] transition-transform duration-200 hover:scale-105 ${
+             className={`border rounded-lg overflow-hidden h-[550px]  hover:scale-105 ${
                  darkMode
                      ? "border-gray-800 bg-gradient-to-b from-zinc-900 to-black" // Light at top to black at bottom
                      : "border-gray-200 bg-gradient-to-b from-gray-100 to-white"   // Light at top to black at bottom
@@ -202,7 +202,7 @@ const Pricing = () => {
              {/* CTA Button */}
              <div className="px-6 pb-6 pt-5">
                  <button
-                     className="w-full py-3 px-4 rounded-lg font-medium transition-transform duration-200 transform hover:scale-105 border border-gray-400  text-black hover:bg-black hover:text-white cursor-pointer dark:bg-none  dark:text-white dark:border dark:border-gray-400 dark:hover:bg-gray-300 dark:hover:text-black"
+                     className="w-full py-3 px-4 rounded-lg font-medium  hover:scale-105 border border-gray-400  text-black hover:bg-black hover:text-white cursor-pointer dark:bg-none  dark:text-white dark:border dark:border-gray-400 dark:hover:bg-gray-300 dark:hover:text-black"
                  >
                      Get Started
                  </button>

@@ -61,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="px-4 py-5  dark:bg-black lg:border-b lg:border-gray-200  dark:lg:border-gray-700 bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]">
+    <nav className={`px-4 py-5 ${darkMode ? 'bg-black' : ' bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]'} lg:border-b ${darkMode ? 'lg:border-gray-700' : 'lg:border-gray-200'}`}>
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div>
@@ -117,11 +117,10 @@ const Navbar = () => {
               className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
             >
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
               </p>
             </div>
           </div>
-
 
           <div className="relative group">
             <NavLink
@@ -140,11 +139,10 @@ const Navbar = () => {
               className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
             >
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
               </p>
             </div>
           </div>
-
 
           <div className="relative group">
             <NavLink
@@ -163,7 +161,7 @@ const Navbar = () => {
               className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
             >
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts,  generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
               </p>
             </div>
           </div>
@@ -174,7 +172,7 @@ const Navbar = () => {
           <div className="space-x-5 flex items-center">
             <button
               onClick={toggleDarkMode}
-              className="h-14 w-14 rounded-lg p-2 transition duration-300  cursor-pointer"
+              className="h-14 w-14 rounded-lg p-2 transition duration-300 cursor-pointer"
             >
               <svg
                 className="fill-gray-500 block dark:hidden"
@@ -231,21 +229,21 @@ const Navbar = () => {
                 Home
               </NavLink>
               <NavLink
-                to="#about"
+                to="/feature"
+                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
+                onClick={() => handleNavClick("Feature")} // Scroll to "Feature" section
+              >
+                Feature
+              </NavLink>
+              <NavLink
+                to="/about"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={() => handleNavClick("about")} // Scroll to "about" section
               >
                 About
               </NavLink>
               <NavLink
-                to="#faq"
-                className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
-                onClick={() => handleNavClick("faq")} // Scroll to "faq" section
-              >
-                FAQ
-              </NavLink>
-              <NavLink
-                to="#pricing"
+                to="/pricing"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
                 onClick={() => handleNavClick("pricing")} // Scroll to "pricing" section
               >

@@ -41,7 +41,7 @@ const Feature = () => {
   ];
 
   return (
-    <div className={` ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] text-black'} transition-colors duration-300`}>
+    <div className={` ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] text-black'}`}>
       <div className="container mx-auto  py-8">
         {/* Header */}
         <header className="mb-8">
@@ -54,7 +54,7 @@ const Feature = () => {
         {/* Charts Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Spending by Category Chart */}
-          <div className={`${darkMode ? 'bg-[#1A1F2C]/60 border-white/10' : 'bg-white/80 border-gray-200'} border rounded-xl  backdrop-blur-sm p-4`}>
+          <div className={`${darkMode ? '' : ' '}  rounded-xl  backdrop-blur-sm p-4`}>
             <h3 className="text-sm font-medium mb-4">Spending by Project Type</h3>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -94,7 +94,7 @@ const Feature = () => {
           </div>
 
           {/* Contracts by Value Chart */}
-          <div className={`${darkMode ? 'bg-[#1A1F2C]/60 border-white/10' : 'bg-white/80 border-gray-200'} border rounded-xl  backdrop-blur-sm p-4`}>
+          <div className={`${darkMode ? '' : ''}  rounded-xl  backdrop-blur-sm p-4`}>
             <h3 className="text-sm font-medium mb-4">Contracts by Value (Monthly)</h3>
             <div className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">

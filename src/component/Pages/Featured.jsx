@@ -76,7 +76,7 @@ const Featured = () => {
                 Featured Opportunities
             </h1>
             <p
-                className={`text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-50"
+                className={`text-center bg-gradient-to-r ${darkMode ? "from-white to-gray-500" : "from-black to-gray-500"
                     } text-transparent bg-clip-text font-bold text-sm sm:text-base md:text-lg mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto`}
             >
                 Discover top contract opportunities tailored for you. Explore, apply, and secure the best deals effortlessly.
