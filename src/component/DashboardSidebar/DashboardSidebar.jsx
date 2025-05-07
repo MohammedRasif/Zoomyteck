@@ -40,7 +40,7 @@ const DashboardSidebar = () => {
           to="/dashboard"
           end
           className={({ isActive }) =>
-            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3 transition-colors duration-200 ${
+            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3  ${
               isActive
                 ? "bg-gray-300 text-black dark:bg-zinc-900 dark:text-white"
                 : "hover:bg-gray-200 hover:text-black dark:hover:bg-zinc-900 dark:hover:text-white"
@@ -54,7 +54,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/recent_contract"
           className={() =>
-            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3 transition-colors duration-200 ${
+            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3  ${
               isRecentContractActive
                 ? "bg-gray-300 text-black dark:bg-zinc-900 dark:text-white"
                 : "hover:bg-gray-200 hover:text-black dark:hover:bg-zinc-900 dark:hover:text-white"
@@ -68,7 +68,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/subscription"
           className={() =>
-            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3 transition-colors duration-200 ${
+            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3  ${
               isSubscriptionActive
                 ? "bg-gray-300 text-black dark:bg-zinc-900 dark:text-white"
                 : "hover:bg-gray-200 hover:text-black dark:hover:bg-zinc-900 dark:hover:text-white"
@@ -82,7 +82,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/all_application"
           className={() =>
-            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3 transition-colors duration-200 ${
+            `flex items-center gap-3 mx-2 rounded-xl px-6 py-3  ${
               isAllApplicationActive
                 ? "bg-gray-300 text-black dark:bg-zinc-900 dark:text-white"
                 : "hover:bg-gray-200 hover:text-black dark:hover:bg-zinc-900 dark:hover:text-white"
@@ -96,7 +96,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/setting"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 mx-2 rounded-xl transition-colors duration-200 ${
+            `flex items-center gap-3 px-6 py-3 mx-2 rounded-xl  ${
               isActive
                 ? "bg-gray-300 text-black dark:bg-zinc-900 dark:text-white"
                 : "hover:bg-gray-200 hover:text-black dark:hover:bg-zinc-900 dark:hover:text-white"

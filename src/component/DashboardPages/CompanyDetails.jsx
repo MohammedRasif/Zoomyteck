@@ -1,12 +1,25 @@
-"use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react";
+import { useDarkMood } from "../../context/ThemeContext";
 
 const CompanyDetails = () => {
-  const [logoPreview, setLogoPreview] = useState("https://res.cloudinary.com/dfsu0cuvb/image/upload/v1742376506/OBJECTS_w80o4b.png")
+  const { darkMode } = useDarkMood();
+  const [logoPreview, setLogoPreview] = useState(
+    darkMode
+      ? "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1746607610/OBJECTS_2_lzivsp.png"
+      : "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1746607610/OBJECTS_q51ayh.png"
+  );
+
+  // Update logoPreview when darkMode changes
+  useEffect(() => {
+    setLogoPreview(
+      darkMode
+        ? "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1746607610/OBJECTS_2_lzivsp.png"
+        : "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1746607610/OBJECTS_q51ayh.png"
+    );
+  }, [darkMode]);
 
   return (
-    <div className="dark:bg-black dark:text-white  text-black p-4">
+    <div className="dark:bg-black dark:text-white text-black p-4">
       <div className="container mx-auto">
         <h1 className="text-4xl font-medium mb-1">Company Details</h1>
         <p className="text-sm text-gray-400 mb-6">Manage Your Company Details</p>
@@ -19,7 +32,7 @@ const CompanyDetails = () => {
                 <img
                   src={logoPreview || "/placeholder.svg"}
                   alt="Company Logo"
-                  className="w-40"
+                  className="w-56"
                 />
               ) : (
                 <div className="flex items-center justify-center w-full h-full">
@@ -37,12 +50,12 @@ const CompanyDetails = () => {
             </div>
 
             <div className="flex gap-2">
-              <label className="dark:bg-black dark:text-white bg-white border dark:hover:bg-zinc-800 dark:border-gray-500 text-black text-[16px] font-[500] px-4 py-1.5 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+              <label className="dark:bg-black dark:text-white bg-white border dark:hover:bg-zinc-800 dark:border-gray-500 text-black text-[16px] font-[500] px-4 py-1.5 rounded-lg cursor-pointer hover:bg-gray-200">
                 <input type="file" className="hidden" accept="image/*" />
                 Upload
               </label>
 
-              <button className="border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition ">
+              <button className="border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
                 Change
               </button>
             </div>
@@ -53,27 +66,27 @@ const CompanyDetails = () => {
         <div className="">
           <div className="flex items-center space-x-10 mt-3">
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Company Name</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Company Name</label>
               <input
                 type="text"
                 placeholder="Enter company name"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
 
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Street Address</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Street Address</label>
               <input
                 type="text"
                 placeholder="Enter street address"
-                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white  placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[500px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
               />
             </div>
           </div>
 
           <div className="flex items-center space-x-10 mt-3">
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Company Email</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Company Email</label>
               <input
                 type="email"
                 placeholder="Enter company email"
@@ -82,7 +95,7 @@ const CompanyDetails = () => {
             </div>
 
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">City</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">City</label>
               <input
                 type="text"
                 placeholder="Enter city"
@@ -93,7 +106,7 @@ const CompanyDetails = () => {
 
           <div className="flex items-center space-x-10 mt-3">
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Company Phone</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Company Phone</label>
               <input
                 type="tel"
                 placeholder="Enter company phone"
@@ -102,7 +115,7 @@ const CompanyDetails = () => {
             </div>
 
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Postal/Zipcode</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Postal/Zipcode</label>
               <input
                 type="text"
                 placeholder="Enter postal/zipcode"
@@ -113,7 +126,7 @@ const CompanyDetails = () => {
 
           <div className="flex items-center space-x-10 mt-3">
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">Company Website</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Company Website</label>
               <input
                 type="url"
                 placeholder="Enter company website"
@@ -122,7 +135,7 @@ const CompanyDetails = () => {
             </div>
 
             <div>
-              <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">State/Prov/Region</label>
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">State/Prov/Region</label>
               <input
                 type="text"
                 placeholder="Enter state/province/region"
@@ -134,7 +147,7 @@ const CompanyDetails = () => {
 
         {/* About Company */}
         <div className="mt-3">
-          <label className="block text-[14px]  text-black font-[500] dark:text-gray-400">About the company</label>
+          <label className="block text-[14px] text-black font-[500] dark:text-gray-400">About the company</label>
           <textarea
             rows={4}
             placeholder="Enter company description..."
@@ -143,12 +156,12 @@ const CompanyDetails = () => {
         </div>
 
         {/* Update Button */}
-        <button className="mt-6 bg-black cursor-pointer hover:bg-gray-300 px-10 py-3 rounded-lg font-[500] text-xl text-white dark:bg-zinc-800  dark:text-white dark:hover:bg-zinc-700">
+        <button className="mt-6 bg-black cursor-pointer hover:bg-gray-300 px-10 py-3 rounded-lg font-[500] text-xl text-white dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700">
           Update Information
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CompanyDetails
+export default CompanyDetails;
