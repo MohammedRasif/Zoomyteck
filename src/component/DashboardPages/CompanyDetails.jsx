@@ -9,7 +9,6 @@ const CompanyDetails = () => {
       : "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1746607610/OBJECTS_q51ayh.png"
   );
 
-  // Update logoPreview when darkMode changes
   useEffect(() => {
     setLogoPreview(
       darkMode

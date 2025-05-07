@@ -1,34 +1,35 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import img from "../Image/western-chinese-business-hong-kong.png";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
-
 import { FcGoogle } from "react-icons/fc";
 import { useDarkMood } from "../../context/ThemeContext";
 
 const Login = () => {
-
   const [showPassword, setShowPassword] = useState(false);
   const { darkMode } = useDarkMood();
 
   return (
-    <div className="flex flex-col lg:flex-row h-auto lg:h-screen bg-white dark:bg-black z-50">
-      {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-20 lg:px-36 py-10 lg:py-0">
+    <div className="flex flex-col h-screen bg-white dark:bg-black z-50 pt-10">
+      {/* Form Section */}
+      <div className="w-full max-w-5xl flex flex-col justify-center items-center px-6 sm:px-20 lg:px-36 py-10 mx-auto">
         <div className="flex justify-center mb-6">
-             <img src={darkMode ? img2 : img1} className="h-20 sm:h-24 w-40 sm:w-48" alt="Logo" />
+          <img
+            src={darkMode ? img2 : img1}
+            className="h-24 sm:h-28 w-48 sm:w-56"
+            alt="Logo"
+          />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-medium text-center text-[#004290] dark:text-[#3b82f6]">
+        <h1 className="text-4xl font-medium text-center text-[#004290] dark:text-[#3b82f6]">
           Welcome Back
         </h1>
-        <p className="text-sm sm:text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">
+        <p className="text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">
           Please enter your details below
         </p>
-        <form className="mt-8 sm:mt-10">
+        <form className="mt-10 w-full">
           <div>
-            <h1 className="text-[16px] sm:text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
+            <h1 className="text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
               Email
             </h1>
             <input
@@ -38,7 +39,7 @@ const Login = () => {
             />
           </div>
           <div className="relative mt-4">
-            <h1 className="text-[16px] sm:text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
+            <h1 className="text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
               Password
             </h1>
             <input
@@ -57,14 +58,14 @@ const Login = () => {
           <div className="flex justify-end items-center mt-5">
             <NavLink
               to="/forgetPassword"
-              className="text-sm sm:text-base text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+              className="text-base text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
             >
               Forgot password?
             </NavLink>
           </div>
           <button
             type="submit"
-            className="mt-8 sm:mt-10 w-full px-7 rounded-md h-12 text-lg font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer"
+            className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer"
           >
             SIGN IN
           </button>
@@ -84,11 +85,6 @@ const Login = () => {
             className="text-[50px] border p-1 rounded-full border-gray-500 dark:border-gray-600"
           />
         </div>
-      </div>
-
-      {/* Right Side - Image */}
-      <div className="w-full lg:w-1/2 h-20 lg:h-full hidden md:block">
-        <img src={img} className="w-full h-full object-cover" alt="Login Image" />
       </div>
     </div>
   );
