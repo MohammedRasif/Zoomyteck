@@ -25,57 +25,59 @@ import Setting from './component/DashboardPages/Setting.jsx';
 import Feature from './component/Pages/Feature.jsx';
 import About from './component/Pages/About.jsx';
 import Pricing from './component/Pages/PaymentCart.jsx';
+import { Provider } from 'react-redux';
+import store from './Redux/authSlice.js';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<Roots/> ,
+    element: <Roots />,
     children: [
       {
         path: "/",
-        element:<Home/> ,
+        element: <Home />,
       },
       {
         path: "/feature",
-        element:<About/> ,
+        element: <About />,
       },
       {
         path: "/pricing",
-        element:<Pricing/> ,
+        element: <Pricing />,
       },
-      
+
       {
-        path:"/about",
-        element:<Feature/>
+        path: "/about",
+        element: <Feature />
       },
-      
+
     ],
   },
 
   {
     path: "/login",
-    element:<Login/> ,
+    element: <Login />,
   },
   {
     path: "/register",
-    element:<Register/> ,
+    element: <Register />,
   },
   {
-    path:"/forgetPassword",
-    element:<ForgetPassword/>
+    path: "/forgetPassword",
+    element: <ForgetPassword />
   },
   {
-    path:"/verification",
-    element:<Verification/>
+    path: "/verification",
+    element: <Verification />
   },
   {
-    path:"/setNewPassoword",
-    element:<SetNewPassword/>
+    path: "/setNewPassoword",
+    element: <SetNewPassword />
   },
   {
-    path:"/passwordChange",
-    element:<PasswordChange/>
+    path: "/passwordChange",
+    element: <PasswordChange />
   },
   {
     path: "/dashboard",
@@ -86,30 +88,30 @@ const router = createBrowserRouter([
         element: <CompanyDetails />
       },
       {
-       path:"/dashboard/recent_contract",
+        path: "/dashboard/recent_contract",
         element: <RecentContact />
       },
       {
-       path:"/dashboard/general_information",
+        path: "/dashboard/general_information",
         element: <Generalinformation />
       },
       {
-       path:"/dashboard/subscription",
+        path: "/dashboard/subscription",
         element: <Subscription />
       },
       {
-       path:"/dashboard/contract_proposal",
+        path: "/dashboard/contract_proposal",
         element: <ContractProposal />
       },
       {
-       path:"/dashboard/all_application",
+        path: "/dashboard/all_application",
         element: <AllApplication />
       },
       {
-       path:"/dashboard/setting",
+        path: "/dashboard/setting",
         element: <Setting />
       },
-      
+
     ]
   }
 
@@ -122,9 +124,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <ThemeProvider>
     <StrictMode>
-    <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-  </StrictMode>
+      <Provider store={store}>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>        
+      </Provider>
+    </StrictMode>
   </ThemeProvider>,
 )
