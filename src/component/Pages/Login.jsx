@@ -11,7 +11,7 @@ const Login = () => {
   const { darkMode } = useDarkMood();
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:bg-black z-50 pt-10">
+    <div className="flex flex-col h-screen bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:from-[#000000] dark:via-[#000000] dark:to-[#000000] dark:bg-black z-50 pt-10">
       {/* Form Section */}
       <div className="w-full max-w-5xl flex flex-col justify-center items-center px-6 sm:px-20 lg:px-36 py-10 mx-auto">
         <div className="flex justify-center mb-6">

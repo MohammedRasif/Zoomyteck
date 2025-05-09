@@ -1,24 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import { authApi } from "./feature/authApi"; // ✅ Import authApi
+import authReducer from "./authSlice"
+import ApiSlice from "./feature/ApiSlice";
 
-// Load accessToken from localStorage when Redux initializes
-const storedAccessToken = localStorage.getItem("accessToken");
-
-const authSlice = createSlice({
-    name: "auth",
-    initialState: {
-        token: storedAccessToken || null  // ✅ Reload করলে Redux state reset হলেও, token localStorage থেকে restore হবে
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        [authApi.reducerPath]: authApi.reducer,
+        [ApiSlice.reducerPath] : ApiSlice.reducer
     },
-    reducers: {
-        setUser: (state, action) => {
-            console.log("Setting Token:", action?.payload?.accessToken);
-            state.token = action.payload.accessToken;
-        },
-        logout: (state) => {
-            state.token = null;
-            localStorage.removeItem("accessToken"); // ✅ Logout করলে localStorage থেকেও remove হবে
-        }
-    }
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(authApi.middleware, ApiSlice.middleware), // ✅ Add API middleware
 });
 
-export const { logout, setUser } = authSlice.actions;
-export default authSlice.reducer;
+export default store;

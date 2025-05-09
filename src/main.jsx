@@ -26,7 +26,8 @@ import Feature from './component/Pages/Feature.jsx';
 import About from './component/Pages/About.jsx';
 import Pricing from './component/Pages/PaymentCart.jsx';
 import { Provider } from 'react-redux';
-import store from './Redux/authSlice.js';
+import store from './Redux/store.js';
+import VerificationRegister from './component/Pages/VerificationRegister.jsx';
 
 
 const router = createBrowserRouter([
@@ -68,7 +69,11 @@ const router = createBrowserRouter([
     element: <ForgetPassword />
   },
   {
-    path: "/verification",
+    path: "/verification_register",
+    element: <VerificationRegister />
+  },
+  {
+    path: "/verification_forget",
     element: <Verification />
   },
   {

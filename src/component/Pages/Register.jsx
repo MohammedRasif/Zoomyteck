@@ -1,30 +1,73 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { FcGoogle } from "react-icons/fc";
 import { useDarkMood } from "../../context/ThemeContext";
+import { useRegisterMutation } from "../../Redux/feature/authApi";
 
 const Register = () => {
     const { darkMode } = useDarkMood();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [formData, setFormData] = useState({
+        full_name: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+    });
     const [error, setError] = useState("");
+    const [RegisterData, { isLoading, error: mutationError }] = useRegisterMutation();
 
-    // Password Validation
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+    const nagivation = useNavigate()
+
+    // Handle input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+
+        // Validate passwords
+        if (name === "confirm_password" || name === "password") {
+            if (name === "confirm_password" && formData.password !== value) {
+                setError("Passwords do not match!");
+            } else if (name === "password" && formData.confirm_password && formData.confirm_password !== value) {
+                setError("Passwords do not match!");
+            } else {
+                setError("");
+            }
+        }
     };
 
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-        if (password !== e.target.value) {
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validate form data
+        if (formData.password !== formData.confirm_password) {
             setError("Passwords do not match!");
-        } else {
-            setError("");
+            return;
+        }
+
+        try {
+            // Send data to the API using the mutation
+            const response = await RegisterData({
+                full_name: formData.full_name,
+                email: formData.email,
+                password: formData.password,
+                confirm_password: formData.confirm_password,
+            }).unwrap();
+
+            // Handle successful registration
+            console.log("Registration successful:", response);
+            nagivation("/verification_register")
+            // Optionally, redirect or show a success message
+        } catch (err) {
+            // Handle errors from the API
+            setError(err?.data?.message || "Registration failed. Please try again.");
         }
     };
 
@@ -45,7 +88,7 @@ const Register = () => {
                 <p className="text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">
                     Please enter your details below
                 </p>
-                <form className="mt-10 w-full">
+                <form className="mt-10 w-full" onSubmit={handleSubmit}>
                     {/* First Name */}
                     <div>
                         <h1 className="text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
@@ -53,8 +96,12 @@ const Register = () => {
                         </h1>
                         <input
                             type="text"
+                            name="full_name"
+                            value={formData.full_name}
+                            onChange={handleInputChange}
                             className="w-full bg-white dark:bg-gray-800 h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 pl-3 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
                             placeholder="Enter your first name"
+                            required
                         />
                     </div>
 
@@ -65,8 +112,12 @@ const Register = () => {
                         </h1>
                         <input
                             type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
                             className="w-full h-12 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 pl-3 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
                             placeholder="Enter your email"
+                            required
                         />
                     </div>
 
@@ -77,10 +128,12 @@ const Register = () => {
                         </h1>
                         <input
                             type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={handlePasswordChange}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
                             className="w-full h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-white dark:bg-gray-800 pl-3 pr-10 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
                             placeholder="Enter password"
+                            required
                         />
                         <button
                             type="button"
@@ -98,10 +151,12 @@ const Register = () => {
                         </h1>
                         <input
                             type={showConfirmPassword ? "text" : "password"}
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
+                            name="confirm_password"
+                            value={formData.confirm_password}
+                            onChange={handleInputChange}
                             className="w-full h-12 border bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 pl-3 pr-10 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
                             placeholder="Re-enter password"
+                            required
                         />
                         <button
                             type="button"
@@ -118,9 +173,10 @@ const Register = () => {
                     {/* Sign Up Button */}
                     <button
                         type="submit"
-                        className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer"
+                        disabled={isLoading}
+                        className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer disabled:opacity-50"
                     >
-                        SIGN UP
+                        {isLoading ? "SIGNING UP..." : "SIGN UP"}
                     </button>
                 </form>
 
