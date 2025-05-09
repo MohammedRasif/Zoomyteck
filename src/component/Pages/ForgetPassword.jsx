@@ -3,37 +3,38 @@ import { useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
+import { useForgetPasswordMutation } from "../../Redux/feature/authApi";
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { darkMode } = useDarkMood();
+    const [forgerPassword, { isLoading }] = useForgetPasswordMutation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
 
+        // Validate email
         if (!email) {
             setError("Please enter your email!");
             return;
         }
 
-        setIsLoading(true);
-        setError("");
-
         try {
-            // Simulate an API request (Replace with real API call)
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            // Send email to the API
+            await forgerPassword({ email }).unwrap();
 
-            console.log("Password reset email sent:", email);
+            // Store email in localStorage
             localStorage.setItem("email", email);
-            navigate("/verification");
+
+            // Navigate to verification_forget route
+            navigate("/verification_forget");
         } catch (err) {
-            console.error("Error sending reset email:", err);
-            setError("Failed to send reset link. Please try again.");
-        } finally {
-            setIsLoading(false);
+            // Extract and display the dynamic error message from the API
+            const errorMessage = err?.data?.detail || "Failed to send reset link. Please try again.";
+            setError(errorMessage);
         }
     };
 

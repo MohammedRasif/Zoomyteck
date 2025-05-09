@@ -3,12 +3,17 @@ import { NavLink, useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
+import { useForgetpasswordVerificationMutation, useForgetRecentVerificationMutation } from "../../Redux/feature/authApi";
 
 const Verification = () => {
     const { darkMode } = useDarkMood();
-    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+    const [otp, setOtp] = useState(["", "", "", ""]);
     const inputs = useRef([]);
     const navigate = useNavigate();
+    const [forgetpasswordVerifcation, { isLoading, error: mutationError }] = useForgetpasswordVerificationMutation();
+    const [resentOtp, { isLoading: isResendLoading }] = useForgetRecentVerificationMutation();
+    const [error, setError] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleInputChange = (e, index) => {
         const value = e.target.value;
@@ -17,7 +22,7 @@ const Verification = () => {
         updatedOtp[index] = value;
         setOtp(updatedOtp);
 
-        if (value !== "" && index < 5) {
+        if (value !== "" && index < 3) {
             inputs.current[index + 1].focus();
         }
     };
@@ -30,18 +35,64 @@ const Verification = () => {
 
     const handlePaste = (e) => {
         const pastedValue = e.clipboardData.getData("Text");
-        const numericValue = pastedValue.replace(/\D/g, "").slice(0, 6);
+        const numericValue = pastedValue.replace(/\D/g, "").slice(0, 4);
         setOtp(numericValue.split(""));
-        setTimeout(() => inputs.current[5].focus(), 100);
+        setTimeout(() => inputs.current[3].focus(), 100);
     };
 
-    const handleVerify = () => {
+    const handleVerify = async () => {
         const otpValue = otp.join("");
-        if (otpValue.length === 6) {
-            console.log("OTP Verified:", otpValue);
-            navigate("/success");
-        } else {
-            alert("Please enter a valid 6-digit OTP");
+        const email = localStorage.getItem("email");
+
+        // Validate OTP and email
+        if (otpValue.length !== 4) {
+            setError("Please enter a valid 4-digit OTP");
+            return;
+        }
+        if (!email) {
+            setError("Email not found. Please request a new reset link.");
+            return;
+        }
+
+        try {
+            // Send OTP and email to the API
+            await forgetpasswordVerifcation({
+                email,
+                otp: otpValue,
+            }).unwrap();
+
+            // Handle successful verification
+            console.log("OTP Verified:", { email, otp: otpValue });
+            navigate("/setNewPassoword");
+        } catch (err) {
+            // Extract and display the dynamic error message from the API
+            const errorMessage = err?.data?.detail || "Verification failed. Please try again.";
+            setError(errorMessage);
+        }
+    };
+
+    const handleResend = async () => {
+        const email = localStorage.getItem("email");
+        setError("");
+        setSuccessMessage("");
+
+        // Validate email
+        if (!email) {
+            setError("Email not found. Please request a new reset link.");
+            return;
+        }
+
+        try {
+            // Send email to the resend OTP API
+            await resentOtp({ email }).unwrap();
+
+            // Show success message
+            setSuccessMessage("A new OTP has been sent to your email.");
+            setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
+        } catch (err) {
+            // Extract and display the dynamic error message from the API
+            const errorMessage = err?.data?.detail || "Failed to resend OTP. Please try again.";
+            setError(errorMessage);
         }
     };
 
@@ -60,7 +111,7 @@ const Verification = () => {
                     Verification Code
                 </h2>
                 <p className="text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">
-                    Please enter the 6-digit code sent to your email.
+                    Please enter the 4-digit code sent to your email.
                 </p>
 
                 {/* OTP Inputs */}
@@ -80,23 +131,33 @@ const Verification = () => {
                     ))}
                 </div>
 
+                {/* Error Message */}
+                {error && <p className="text-red-600 dark:text-red-400 text-sm mt-3 text-center">{error}</p>}
+
+                {/* Success Message */}
+                {successMessage && (
+                    <p className="text-green-600 dark:text-green-400 text-sm mt-3 text-center">{successMessage}</p>
+                )}
+
                 {/* Verify Button */}
                 <button
                     onClick={handleVerify}
-                    className="w-full mt-6 h-12 rounded-md bg-[#004290] dark:bg-[#3b82f6] text-[#FAF1E6] font-medium text-xl hover:bg-[#001a90] dark:hover:bg-[#2563eb] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6] transition-colors"
+                    disabled={isLoading || isResendLoading}
+                    className="w-full mt-6 h-12 rounded-md bg-[#004290] dark:bg-[#3b82f6] text-[#FAF1E6] font-medium text-xl hover:bg-[#001a90] dark:hover:bg-[#2563eb] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6] transition-colors disabled:opacity-50"
                 >
-                    VERIFY
+                    {isLoading ? "VERIFYING..." : "VERIFY"}
                 </button>
 
                 {/* Resend Option */}
                 <p className="text-center text-base mt-5 text-[#364636] dark:text-gray-300">
                     Didn’t receive the email?{" "}
-                    <NavLink
-                        to="/forgetPassword"
-                        className="text-[#004290] dark:text-[#3b82f6] hover:text-[#001a90] dark:hover:text-[#2563eb] hover:underline cursor-pointer"
+                    <button
+                        onClick={handleResend}
+                        disabled={isResendLoading}
+                        className="text-[#004290] dark:text-[#3b82f6] hover:text-[#001a90] dark:hover:text-[#2563eb] hover:underline cursor-pointer disabled:opacity-50"
                     >
-                        Resend
-                    </NavLink>
+                        {isResendLoading ? "SENDING..." : "Resend"}
+                    </button>
                 </p>
             </div>
         </div>

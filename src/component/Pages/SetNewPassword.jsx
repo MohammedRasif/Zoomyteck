@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
+import { useConfrimPasswordMutation } from "../../Redux/feature/authApi";
 
 const SetNewPassword = () => {
     const { darkMode } = useDarkMood();
@@ -12,8 +13,9 @@ const SetNewPassword = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
     const navigate = useNavigate();
+    const [confromPassword, { isLoading }] = useConfrimPasswordMutation();
 
     const handleNewPasswordChange = (e) => {
         setNewPassword(e.target.value);
@@ -33,27 +35,63 @@ const SetNewPassword = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (newPassword !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
+        setError("");
+
+        // Validate inputs
         if (!newPassword || !confirmPassword) {
             setError("Please fill in both fields");
             return;
         }
-        setLoading(true);
-        // Simulate password change logic (replace with actual API call)
-        setTimeout(() => {
-            setLoading(false);
-            console.log("Password changed successfully!");
-            navigate("/login");
-        }, 2000);
+        if (newPassword !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        const email = localStorage.getItem("email");
+        if (!email) {
+            setError("Email not found. Please request a new reset link.");
+            return;
+        }
+
+        try {
+            // Send email and new_password to the API
+            await confromPassword({
+                email,
+                new_password: newPassword,
+            }).unwrap();
+
+            // Show success popup for 2 seconds
+            setShowSuccessPopup(true);
+            setTimeout(() => {
+                setShowSuccessPopup(false);
+                localStorage.removeItem("email"); // Clear email from localStorage
+                navigate("/login");
+            }, 1300);
+        } catch (err) {
+            // Extract and display the dynamic error message from the API
+            const errorMessage = err?.data?.detail || "Failed to change password. Please try again.";
+            setError(errorMessage);
+        }
     };
 
     return (
         <div className="flex flex-col h-screen bg-white dark:bg-black transition-colors z-50 pt-20">
+            {/* Success Popup */}
+            {showSuccessPopup && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[3px] z-50">
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                        <h2 className="text-2xl font-semibold text-[#004290] dark:text-[#3b82f6]">
+                            Congratulations!
+                        </h2>
+                        <p className="text-gray-800 dark:text-gray-200 mt-2">
+                            Successfully changed password
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {/* Form Section */}
             <div className="w-full max-w-5xl flex flex-col justify-center items-center px-6 sm:px-20 lg:px-36 py-10 mx-auto">
                 <div className="flex justify-center mb-6">
@@ -86,6 +124,7 @@ const SetNewPassword = () => {
                                 placeholder="Enter new password"
                                 value={newPassword}
                                 onChange={handleNewPasswordChange}
+                                required
                             />
                             <button
                                 type="button"
@@ -113,6 +152,7 @@ const SetNewPassword = () => {
                                 placeholder="Re-enter password"
                                 value={confirmPassword}
                                 onChange={handleConfirmPasswordChange}
+                                required
                             />
                             <button
                                 type="button"
@@ -126,7 +166,7 @@ const SetNewPassword = () => {
 
                     {/* Error message */}
                     {error && (
-                        <p className="text-red-500 dark:text-red-400 text-sm ating-2 text-center">
+                        <p className="text-red-500 dark:text-red-400 text-sm mt-2 text-center">
                             {error}
                         </p>
                     )}
@@ -134,10 +174,10 @@ const SetNewPassword = () => {
                     {/* Confirm Button */}
                     <button
                         type="submit"
-                        disabled={loading}
+                        disabled={isLoading || showSuccessPopup}
                         className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {loading ? "Changing password..." : "Confirm Password"}
+                        {isLoading ? "Changing password..." : "Confirm Password"}
                     </button>
                 </form>
             </div>

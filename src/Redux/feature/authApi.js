@@ -18,7 +18,7 @@ export const authApi = createApi({
 
         registerVerification: builder.mutation({
             query: (data) => ({
-                url: "/accounts/activate/",
+                url: "/user/activate/",
                 method: "POST",
                 body: data,
             })
@@ -26,7 +26,7 @@ export const authApi = createApi({
 
         login: builder.mutation({
             query: (data) => ({
-                url: "/accounts/login/",
+                url: "/user/login/",
                 method: "POST",
                 body: data,
             })
@@ -34,7 +34,7 @@ export const authApi = createApi({
 
         forgetPassword: builder.mutation({
             query: (data) => ({
-                url: "/accounts/password/request-reset/",
+                url: "/user/password-reset-request/",
                 method: "POST",
                 body: data,
             })
@@ -42,21 +42,21 @@ export const authApi = createApi({
 
         forgetpasswordVerification: builder.mutation({
             query: (data) => ({
-                url: "/accounts/password/verify-otp/",
+                url: "/user/reset-request-activate/",
                 method: "POST",
                 body: data,
             })
         }),
         forgetRecentVerification: builder.mutation({
             query: (data) => ({
-                url: "/accounts/resend-otp/",
+                url: "/user/resend-otp/",
                 method: "POST",
                 body: data,
             })
         }),
         confrimPassword: builder.mutation({
             query: (data) => ({
-                url: "/accounts/password/reset/",
+                url: "/user/reset-password/",
                 method: "POST",
                 body: data,
             })

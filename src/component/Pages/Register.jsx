@@ -63,6 +63,7 @@ const Register = () => {
 
             // Handle successful registration
             console.log("Registration successful:", response);
+            localStorage.setItem("email", formData.email);
             nagivation("/verification_register")
             // Optionally, redirect or show a success message
         } catch (err) {

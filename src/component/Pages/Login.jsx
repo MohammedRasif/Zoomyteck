@@ -1,14 +1,65 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { FcGoogle } from "react-icons/fc";
 import { useDarkMood } from "../../context/ThemeContext";
+import { useLoginMutation } from "../../Redux/feature/authApi";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { darkMode } = useDarkMood();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [useLogin, { isLoading }] = useLoginMutation();
+  const navigate = useNavigate();
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    // Validate inputs
+    if (!formData.email || !formData.password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    try {
+      // Send login data to the API
+      const response = await useLogin({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+
+      // Store access_token and refresh_token in localStorage
+      if (response.access_token && response.refresh_token) {
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem("refresh_token", response.refresh_token);
+      }
+
+      // Handle successful login
+      console.log("Login successful:", response);
+      navigate("/");
+    } catch (err) {
+      // Extract and display the dynamic error message from the API
+      const errorMessage = err?.data?.detail || "Login failed. Please check your credentials.";
+      setError(errorMessage);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:from-[#000000] dark:via-[#000000] dark:to-[#000000] dark:bg-black z-50 pt-10">
@@ -27,15 +78,19 @@ const Login = () => {
         <p className="text-base font-medium text-center text-[#364636] dark:text-gray-300 mt-3">
           Please enter your details below
         </p>
-        <form className="mt-10 w-full">
+        <form className="mt-10 w-full" onSubmit={handleSubmit}>
           <div>
             <h1 className="text-[18px] font-medium mb-2 text-gray-800 dark:text-gray-200">
               Email
             </h1>
             <input
               type="email"
-              className="w-full h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-white dark:bg-gray-800 pl-3 placeholder-gray-500 dark:placeholder-gray-400"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-white dark:bg-gray-800 pl-3 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
               placeholder="Enter your email"
+              required
             />
           </div>
           <div className="relative mt-4">
@@ -44,8 +99,12 @@ const Login = () => {
             </h1>
             <input
               type={showPassword ? "text" : "password"}
-              className="w-full h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-white dark:bg-gray-800 pl-3 pr-10 placeholder-gray-500 dark:placeholder-gray-400"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="w-full h-12 border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-white dark:bg-gray-800 pl-3 pr-10 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6]"
               placeholder="****************"
+              required
             />
             <button
               type="button"
@@ -63,11 +122,14 @@ const Login = () => {
               Forgot password?
             </NavLink>
           </div>
+          {/* Error Message */}
+          {error && <p className="text-red-600 dark:text-red-400 text-sm mt-3">{error}</p>}
           <button
             type="submit"
-            className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer"
+            disabled={isLoading}
+            className="mt-10 w-full px-7 rounded-md h-12 text-xl font-medium text-[#FAF1E6] bg-[#004290] hover:bg-[#001a90] dark:bg-[#3b82f6] dark:hover:bg-[#2563eb] transition cursor-pointer disabled:opacity-50"
           >
-            SIGN IN
+            {isLoading ? "SIGNING IN..." : "SIGN IN"}
           </button>
         </form>
 
