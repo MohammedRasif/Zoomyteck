@@ -93,27 +93,27 @@ const router = createBrowserRouter([
         element: <CompanyDetails />
       },
       {
-        path: "/dashboard/recent_contract",
+        path: "recent_contract",
         element: <RecentContact />
       },
       {
-        path: "/dashboard/general_information",
+        path: "general_information",
         element: <Generalinformation />
       },
       {
-        path: "/dashboard/subscription",
+        path: "subscription",
         element: <Subscription />
       },
       {
-        path: "/dashboard/contract_proposal",
+        path: "contract_proposal/:id",
         element: <ContractProposal />
       },
       {
-        path: "/dashboard/all_application",
+        path: "all_application",
         element: <AllApplication />
       },
       {
-        path: "/dashboard/setting",
+        path: "setting",
         element: <Setting />
       },
 

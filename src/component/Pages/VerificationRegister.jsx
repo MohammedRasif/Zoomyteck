@@ -3,15 +3,14 @@ import { useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
-import { useRegisterVerificationMutation, useRegisterResendVerificationMutation } from "../../Redux/feature/authApi";
+import { useRegisterVerificationMutation } from "../../Redux/feature/authApi";
 
 const VerificationRegister = () => {
     const { darkMode } = useDarkMood();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputs = useRef([]);
     const navigate = useNavigate();
-    const [registerVerify, { isLoading, error: mutationError }] = useRegisterVerificationMutation();
-    const [resendOtp, { isLoading: isResendLoading }] = useRegisterResendVerificationMutation();
+    const [registerVerify, { isLoading, }] = useRegisterVerificationMutation();
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
