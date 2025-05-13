@@ -97,7 +97,7 @@ const router = createBrowserRouter([
         element: <RecentContact />
       },
       {
-        path: "/dashboard/general_information",
+        path: "/dashboard/general_information/:noticeId",
         element: <Generalinformation />
       },
       {
@@ -105,7 +105,7 @@ const router = createBrowserRouter([
         element: <Subscription />
       },
       {
-        path: "/dashboard/contract_proposal",
+        path: "/dashboard/contract_proposal/:id",
         element: <ContractProposal />
       },
       {

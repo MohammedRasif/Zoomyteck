@@ -1,34 +1,69 @@
 import { useState } from "react";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { BiSolidShare } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+  useGetGeneralInformationQuery,
+  useSubmitgenarateProposalMutation,
+  useSubmitRequirementsAnalysisMutation,
+} from "../../Redux/feature/ApiSlice";
+import { FileText, Calendar, FileOutput } from "lucide-react";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw"; // Import rehype-raw for HTML parsing
+import { CircleLoader } from "react-spinners";
+
+// Helper function to decode HTML entities
+const decodeHtml = (html) => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+};
 
 const GeneralInformation = () => {
+  const { noticeId } = useParams();
+  console.log(noticeId, "URL noticeId"); // Debug noticeId
+  const { data: contract, isLoading, isError, error } = useGetGeneralInformationQuery(noticeId);
+  const [submitRequirementsAnalysis] = useSubmitRequirementsAnalysisMutation();
+  const [submitGenerateProposal] = useSubmitgenarateProposalMutation();
+  console.log(contract, "Fetched contract details"); // Debug API response
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProposalPopupOpen, setIsProposalPopupOpen] = useState(false);
   const [proposalInput, setProposalInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for Analyze button
+  const [isProposalSubmitting, setIsProposalSubmitting] = useState(false); // Loading state for Submit Proposal button
 
-  // General information data object
-  const generalInfo = {
-    leftColumn: [
-      { id: 1, icon: "document", label: "Notice ID:", value: "140C7523Q0000007" },
-      { id: 2, icon: "contract", label: "Contract Opportunity Type:", value: "Presolicitation (Original)" },
-      { id: 3, icon: "calendar", label: "Response Date:", value: "Jul 13, 2023" },
-    ],
-    rightColumn: [
-      { id: 1, icon: "calendar", label: "Original Response Date:", value: "Jul 13, 2023 12:00 PM EDT" },
-      { id: 2, icon: "calendar", label: "Original Published Date:", value: "Jun 05, 2023 12:24 PM EDT" },
-      { id: 3, icon: "info", label: "Inactive Policy:", value: "15-30-60" },
-    ],
-  };
+  // Dynamic general information based on fetched contract data
+  const generalInfo = contract
+    ? {
+        leftColumn: [
+          { id: 1, icon: "document", label: "Notice ID:", value: contract.notice_id || contract.noticeId || "N/A" },
+          { id: 2, icon: "contract", label: "Title:", value: contract.title || contract.Title || "N/A" },
+          {
+            id: 3,
+            icon: "calendar",
+            label: "Response Deadline:",
+            value: contract.responseDeadLine || "N/A",
+          },
+        ],
+        rightColumn: [
+          { id: 1, icon: "calendar", label: "Posted Date:", value: contract.archiveDate || contract["Posted Date"] || "N/A" },
+          {
+            id: 2,
+            icon: "document",
+            label: "Solicitation Number:",
+            value: contract.solicitationNumber || "N/A",
+          },
+        ],
+      }
+    : { leftColumn: [], rightColumn: [] };
 
-  // Description paragraphs
-  const descriptionParagraphs = [
-    "The Federal Bureau of Prisons, CLD Contracting Office in Washington, D.C., is seeking qualified providers for community-based residential treatment services for Federal offenders...The Federal Bureau of Prisons, CLD Contracting Office in Washington, D.C., is seeking qualified providers for community-based residential treatment services for Federal offenders...The Federal Bureau of Prisons, CLD Contracting Office in Washington, D.C., is seeking qualified providers for community-based residential treatment services for Federal offenders...",
-    // (Keeping the rest of the paragraphs as they are for brevity)
-  ];
+  // Use description from API if available, decode HTML entities
+  const description = contract?.description || contract?.Description
+    ? decodeHtml(contract.description || contract.Description)
+    : "No description available for this contract.";
 
-  // Modal content (shortened for brevity)
+  // Modal content (unchanged)
   const modalContent = {
     title: "Analysis",
     overview: [
@@ -51,17 +86,14 @@ const GeneralInformation = () => {
     ],
   };
 
-  // Function to render the appropriate icon
   const renderIcon = (iconType) => {
     switch (iconType) {
       case "document":
-        return <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">...</svg>;
+        return <FileText className="w-4 h-4 mr-2 text-gray-400" />;
       case "contract":
-        return <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">...</svg>;
+        return <FileOutput className="w-4 h-4 mr-2 text-gray-400" />;
       case "calendar":
-        return <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">...</svg>;
-      case "info":
-        return <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">...</svg>;
+        return <Calendar className="w-4 h-4 mr-2 text-gray-400" />;
       default:
         return null;
     }
@@ -69,62 +101,160 @@ const GeneralInformation = () => {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-
-  // Modified to close the Analysis modal when opening the Proposal popup
   const handleOpenProposalPopup = () => {
-    setIsModalOpen(false); // Close the Analysis modal
-    setIsProposalPopupOpen(true); // Open the Proposal popup
+    setIsModalOpen(false);
+    setIsProposalPopupOpen(true);
   };
-
   const handleCloseProposalPopup = () => setIsProposalPopupOpen(false);
 
-  const handleSubmitProposal = (e) => {
+  const [modalData, setModalData] = useState({});
+  const [proposalData, setProposalData] = useState({});
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Proposal submitted:", proposalInput);
-    setProposalInput(""); // Clear input after submission
-    setIsProposalPopupOpen(false); // Close popup after submission
+    setIsSubmitting(true); // Start loading
+    try {
+      const data = { notice_id: noticeId };
+      const response = await submitRequirementsAnalysis(data).unwrap(); // Call the mutation
+      console.log("res", response);
+      setModalData(response);
+      handleOpenModal();
+    } catch (err) {
+      console.error("Failed to submit requirements analysis:", err);
+    } finally {
+      setIsSubmitting(false); // Stop loading regardless of success or failure
+    }
+  };
+
+  const navigate = useNavigate();
+
+  const handleSubmitProposal = async (e) => {
+    e.preventDefault();
+    setIsProposalSubmitting(true); // Start loading
+    try {
+      const data = {
+        notice_id: noticeId,
+        description: contract?.description || "",
+        amount: proposalInput,
+      };
+      const response = await submitGenerateProposal(data).unwrap(); // Call the mutation
+      console.log("Proposal Response:", response); // Log for debugging
+      setProposalData(response); // Store response in state
+      setProposalInput(""); // Clear input
+      setIsProposalPopupOpen(false); // Close popup
+      navigate(`/dashboard/contract_proposal/${response.proposal_id}`, {
+        state: { proposalData: response }, // Pass response to new route
+      });
+    } catch (err) {
+      console.error("Failed to submit proposal:", err);
+      // Display user-friendly error message
+      const errorMessage = err.data?.message || "Failed to submit proposal. Please try again.";
+    } finally {
+      setIsProposalSubmitting(false); // Stop loading regardless of success or failure
+    }
   };
 
   return (
-    <div className="relative  dark:bg-black text-black dark:text-white p-4 font-sans container mx-auto">
-      {/* Main Content */}
-      <div className={`${isModalOpen ? "blur-sm" : ""} transition duration-300`}>
+    <div className="relative dark:bg-black text-black dark:text-white p-4 font-sans container mx-auto">
+      <div className={`${isModalOpen || isProposalPopupOpen ? "blur-sm" : ""} transition duration-300`}>
         <h1 className="text-3xl font-bold text-black dark:text-white mb-8">General Information</h1>
-        <div className="flex items-center space-x-20">
-          <div className="space-y-2">
-            {generalInfo.leftColumn.map((item) => (
-              <div key={item.id} className="flex items-start">
-                <div className="flex items-center">{renderIcon(item.icon)}<span>{item.label}</span></div>
-                <span className="text-md ml-2 text-gray-600 dark:text-gray-400">{item.value}</span>
-              </div>
-            ))}
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="text-center py-8">
+            <CircleLoader
+              color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
+              size={150}
+              cssOverride={{
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
           </div>
-          <div className="space-y-2">
-            {generalInfo.rightColumn.map((item) => (
-              <div key={item.id} className="flex items-start">
-                <div className="flex items-center">{renderIcon(item.icon)}<span>{item.label}</span></div>
-                <span className="text-md ml-2 text-gray-600 dark:text-gray-400">{item.value}</span>
-              </div>
-            ))}
+        )}
+
+        {/* Error State */}
+        {isError && (
+          <div className="text-center text-red-600 dark:text-red-400 py-8">
+            Error fetching contract details: {error?.message || "Something went wrong"}
           </div>
-        </div>
-        <div className="mb-4 mt-10">
-          <h2 className="text-3xl font-bold text-black dark:text-white mb-8">Description</h2>
-          {descriptionParagraphs.map((paragraph, index) => (
-            <p key={index} className={`text-sm leading-relaxed text-black dark:text-white ${index > 0 ? "mt-3" : ""}`}>
-              {paragraph}
-            </p>
-          ))}
-        </div>
-        <div className="space-x-3">
+        )}
+
+        {/* No Data State */}
+        {!isLoading && !isError && !contract && (
+          <div className="text-center text-gray-600 dark:text-gray-400 py-8">
+            No contract data available.
+          </div>
+        )}
+
+        {/* Contract Details */}
+        {!isLoading && !isError && contract && (
+          <>
+            <div className="flex items-center space-x-20">
+              <div className="space-y-2">
+                {generalInfo.leftColumn.map((item) => (
+                  <div key={item.id} className="flex items-start">
+                    <div className="flex items-center">
+                      {renderIcon(item.icon)}
+                      <span>{item.label}</span>
+                    </div>
+                    <span className="text-md ml-2 text-gray-600 dark:text-gray-400">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                {generalInfo.rightColumn.map((item) => (
+                  <div key={item.id} className="flex items-start">
+                    <div className="flex items-center">
+                      {renderIcon(item.icon)}
+                      <span>{item.label}</span>
+                    </div>
+                    <span className="text-md ml-2 text-gray-600 dark:text-gray-400">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mb-4 mt-10">
+              <h2 className="text-3xl font-bold text-black dark:text-white mb-8">Description</h2>
+              <Markdown rehypePlugins={[rehypeRaw]}>{description}</Markdown>
+            </div>
+          </>
+        )}
+
+        <div className="flex items-center space-x-3">
           <NavLink to="/dashboard/recent_contract">
-            <button className="border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition">
-              <div className="flex items-center space-x-1"><h1>Back</h1><BiSolidShare className="mt-1" /></div>
+            <button className="border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition flex items-center justify-center h-[40px] min-w-[100px]">
+              <div className="flex items-center space-x-1">
+                <h1>Back</h1>
+                <BiSolidShare className="mt-1" />
+              </div>
             </button>
           </NavLink>
-          <button onClick={handleOpenModal} className="border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition">
-            <div className="flex items-center space-x-1"><h1>Analyze</h1><AiOutlineFileSearch /></div>
-          </button>
+          <div className="relative inline-block">
+            <button
+              onClick={handleSubmit}
+              className="border border-gray-600 text-[16px] font-[500] px-10 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition flex items-center justify-center min-w-[140px] h-[40px]"
+              disabled={isSubmitting}
+            >
+              {!isSubmitting && (
+                <div className="flex items-center space-x-1">
+                  <h1>Analyze</h1>
+                  <AiOutlineFileSearch />
+                </div>
+              )}
+              {isSubmitting && (
+                <CircleLoader
+                  color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
+                  size={25}
+                  cssOverride={{
+                    display: "block",
+                    margin: "0 auto", // Center horizontally
+                    verticalAlign: "middle", // Ensure vertical centering
+                  }}
+                />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -132,31 +262,20 @@ const GeneralInformation = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-60">
           <div className="absolute inset-0 bg-opacity-50 backdrop-blur-[2px]" onClick={handleCloseModal}></div>
-          <div className="relative bg-white dark:bg-zinc-800 text-black dark:text-white p-6 rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto  " style={{ animation: "fadeIn 1s forwards" }}>
-            <button onClick={handleCloseModal} className="absolute top-4 right-4 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer">
+          <div
+            className="relative bg-white dark:bg-zinc-800 text-black dark:text-white p-6 rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            style={{ animation: "fadeIn 1s forwards" }}
+          >
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             <h2 className="text-2xl font-bold mb-4">{modalContent.title}</h2>
-            {modalContent.overview.map((section, index) => (
-              <div key={index} className="mb-6">
-                <p className="text-sm leading-relaxed">{section.title}</p>
-                <ul className="mt-2 space-y-2">{section.details.map((detail, idx) => <li key={idx} className="text-sm leading-relaxed">{detail}</li>)}</ul>
-              </div>
-            ))}
-            {modalContent.coverLetterRecommendations.map((section, index) => (
-              <div key={index} className="mb-6">
-                <h3 className="text-lg font-semibold mb-2">{section.title}</h3>
-                <ul className="space-y-2">{section.items.map((item, idx) => <li key={idx} className="text-sm leading-relaxed">{item}</li>)}</ul>
-              </div>
-            ))}
-            {modalContent.proposalRecommendations.map((section, index) => (
-              <div key={index} className="mb-6">
-                <h3 className="text-lg font-semibold mb-2">{section.title}</h3>
-                <ul className="space-y-2">{section.items.map((item, idx) => <li key={idx} className="text-sm leading-relaxed">{item}</li>)}</ul>
-              </div>
-            ))}
+            <Markdown rehypePlugins={[rehypeRaw]}>{modalData}</Markdown>
             <NavLink to="#" onClick={(e) => { e.preventDefault(); handleOpenProposalPopup(); }}>
               <button className="mt-4 border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition">
                 Generate Proposal
@@ -171,7 +290,10 @@ const GeneralInformation = () => {
         <div className="fixed inset-0 flex items-center justify-center z-60">
           <div className="absolute inset-0 bg-opacity-50 backdrop-blur-[5px]" onClick={handleCloseProposalPopup}></div>
           <div className="relative bg-white dark:bg-zinc-800 text-black dark:text-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <button onClick={handleCloseProposalPopup} className="absolute top-0 right-0 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer p-2">
+            <button
+              onClick={handleCloseProposalPopup}
+              className="absolute top-0 right-0 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer p-2"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -191,16 +313,23 @@ const GeneralInformation = () => {
                     required
                   />
                 </div>
-
               </div>
-              <NavLink to="/dashboard/contract_proposal">
-                <button
-                  type="submit"
-                  className="w-full border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition"
-                >
-                  Submit Proposal
-                </button>
-              </NavLink>
+              <button
+                type="submit"
+                className="w-full border border-gray-600 text-[16px] font-[500] px-4 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer transition flex items-center justify-center"
+                disabled={isProposalSubmitting}
+              >
+                {!isProposalSubmitting && <span>Submit Proposal</span>}
+                {isProposalSubmitting && (
+                  <CircleLoader
+                    color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
+                    size={25}
+                    cssOverride={{
+                      display: "block",
+                    }}
+                  />
+                )}
+              </button>
             </form>
           </div>
         </div>

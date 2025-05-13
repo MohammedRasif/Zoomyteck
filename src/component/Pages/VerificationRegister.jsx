@@ -3,15 +3,14 @@ import { useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
-import { useRegisterVerificationMutation, useRegisterResendVerificationMutation } from "../../Redux/feature/authApi";
+import { useRegisterVerificationMutation,  } from "../../Redux/feature/authApi";
 
 const VerificationRegister = () => {
     const { darkMode } = useDarkMood();
     const [otp, setOtp] = useState(["", "", "", ""]);
     const inputs = useRef([]);
     const navigate = useNavigate();
-    const [registerVerify, { isLoading, error: mutationError }] = useRegisterVerificationMutation();
-    const [resendOtp, { isLoading: isResendLoading }] = useRegisterResendVerificationMutation();
+    const [registerVerify, { isLoading, }] = useRegisterVerificationMutation();
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
@@ -95,7 +94,7 @@ const VerificationRegister = () => {
 
             // Show success message
             setSuccessMessage("A new OTP has been sent to your email.");
-            setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
+            // setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
         } catch (err) {
             // Extract and display the dynamic error message from the API
             const errorMessage = err?.data?.detail || "Failed to resend OTP. Please try again.";
