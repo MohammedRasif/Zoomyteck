@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import img1 from "../Image/OBJECTS.png";
 import img2 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
-import { useRegisterVerificationMutation,  } from "../../Redux/feature/authApi";
+import { useRegisterVerificationMutation } from "../../Redux/feature/authApi";
 
 const VerificationRegister = () => {
     const { darkMode } = useDarkMood();

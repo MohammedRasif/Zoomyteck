@@ -1,15 +1,39 @@
-import { NavLink } from "react-router-dom";
+
+import { NavLink, useNavigate } from "react-router-dom";
 import img from "../Image/OBJECTS.png";
 import img1 from "../Image/OBJECTS (2).png";
 import { useDarkMood } from "../../context/ThemeContext";
 import { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { GoChevronRight } from "react-icons/go";
+import { useGetProfileQuery } from "../../Redux/feature/ApiSlice";
 
 const Navbar = () => {
   const { darkMode, setDarkMode } = useDarkMood();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState(null); // Track active link
-  const menuRef = useRef(null); // Ref for outside click detection
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState(null);
+  const [hasTokens, setHasTokens] = useState(!!localStorage.getItem("access_token"));
+  const menuRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Monitor tokens in localStorage
+  useEffect(() => {
+    const checkTokens = () => {
+      const token = localStorage.getItem("access_token");
+      setHasTokens(!!token);
+    };
+
+    checkTokens();
+    // Optionally, listen for storage changes (e.g., cross-tab logout)
+    window.addEventListener("storage", checkTokens);
+    return () => window.removeEventListener("storage", checkTokens);
+  }, []);
+
+  // Fetch profile data, skip if no tokens
+  const { data: profile } = useGetProfileQuery(undefined, { skip: !hasTokens });
+  console.log(profile?.full_name, "profile");
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -19,16 +43,22 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Close modal on outside click (mobile only)
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Close mobile menu and dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
     };
 
-    if (isMenuOpen && window.innerWidth < 768) {
-      // Only for mobile (< md)
+    if (isMenuOpen || isDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -37,15 +67,14 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isDropdownOpen]);
 
   // Scroll to section with offset
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
-      const offset = 50; // Offset for fixed navbar
-      const sectionPosition =
-        section.getBoundingClientRect().top + window.scrollY;
+      const offset = 50;
+      const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = sectionPosition - offset;
       window.scrollTo({
         top: offsetPosition,
@@ -56,17 +85,40 @@ const Navbar = () => {
 
   // Handle navigation link click
   const handleNavClick = (id) => {
-    setActiveLink(id); // Set active link
-    scrollToSection(id); // Scroll to section
-    setIsMenuOpen(false); // Close mobile menu (if open)
+    setActiveLink(id);
+    scrollToSection(id);
+    setIsMenuOpen(false);
+  };
+
+  // Logout handler
+  const handleDelete = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    setHasTokens(false);
+    setIsDropdownOpen(false);
+    navigate("/login");
   };
 
   return (
-    <nav className={`px-4 py-5 ${darkMode ? 'bg-black' : 'bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]'} lg:border-b ${darkMode ? 'lg:border-gray-700' : 'lg:border-gray-200'}`}>
+    <nav
+      className={`px-4 py-5 ${darkMode
+          ? "bg-black"
+          : "bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]"
+        } lg:border-b ${darkMode ? "lg:border-gray-700" : "lg:border-gray-200"}`}
+    >
       <div className="container mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <div>
-          <img src={darkMode ? img1 : img} className="h-12 md:h-16" alt="Logo" />
+        {/* Logo and Full Name */}
+        <div className="flex items-center space-x-4">
+          <img
+            src={darkMode ? img1 : img}
+            className="h-12 md:h-16"
+            alt="Logo"
+          />
+          {profile?.full_name && (
+            <span className="text-black dark:text-white font-medium text-lg">
+              {profile.full_name}
+            </span>
+          )}
         </div>
 
         {/* Hamburger Menu for Mobile */}
@@ -86,7 +138,11 @@ const Navbar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                d={
+                  isMenuOpen
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M4 6h16M4 12h16M4 18h16"
+                }
               ></path>
             </svg>
           </button>
@@ -97,7 +153,7 @@ const Navbar = () => {
           <NavLink
             to="/"
             className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-            onClick={() => handleNavClick("home")} // Scroll to "home" section
+            onClick={() => handleNavClick("home")}
           >
             Home
           </NavLink>
@@ -105,70 +161,62 @@ const Navbar = () => {
             <NavLink
               to="/feature"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-              onClick={() => handleNavClick("Feature")} // Scroll to "Feature" section
+              onClick={() => handleNavClick("Feature")}
             >
               <div className="flex items-center space-x-1">
                 <h1>Feature</h1>
                 <IoIosArrowDown className="text-black dark:text-white mt-1" />
               </div>
             </NavLink>
-
-            {/* Simplified Popup with Description */}
-            <div
-              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
-            >
+            <div className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate
+                AI-powered proposals, and submit bids—all in one seamless
+                workflow.
               </p>
             </div>
           </div>
-
           <div className="relative group">
             <NavLink
               to="/about"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-              onClick={() => handleNavClick("about")} // Scroll to "about" section
+              onClick={() => handleNavClick("about")}
             >
               <div className="flex items-center space-x-1">
                 <h1>About</h1>
                 <IoIosArrowDown className="text-black dark:text-white mt-1" />
               </div>
             </NavLink>
-
-            {/* Simplified Popup with Description */}
-            <div
-              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
-            >
+            <div className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate
+                AI-powered proposals, and submit bids—all in one seamless
+                workflow.
               </p>
             </div>
           </div>
-
           <div className="relative group">
             <NavLink
               to="/pricing"
               className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-lg"
-              onClick={() => handleNavClick("pricing")} // Scroll to "Pricing" section
+              onClick={() => handleNavClick("pricing")}
             >
               <div className="flex items-center space-x-1">
                 <h1>Pricing</h1>
                 <IoIosArrowDown className="text-black dark:text-white mt-1" />
               </div>
             </NavLink>
-
-            {/* Simplified Popup with Description */}
-            <div
-              className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
-            >
+            <div className="absolute left-0 mt-2 w-44 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transform scale-95 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
               <p className="p-2 text-[12px]">
-                Your all-in-one platform to discover contracts, generate AI-powered proposals, and submit bids—all in one seamless workflow.
+                Your all-in-one platform to discover contracts, generate
+                AI-powered proposals, and submit bids—all in one seamless
+                workflow.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Dark Mode Toggle and Auth Buttons */}
+        {/* Dark Mode Toggle and Conditional Auth Buttons/Full Name */}
         <div className="hidden md:block">
           <div className="space-x-5 flex items-center">
             <button
@@ -194,18 +242,49 @@ const Navbar = () => {
                 ></path>
               </svg>
             </button>
-
-            <NavLink to="/login">
-              <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
-                Sign in
-              </button>
-            </NavLink>
-
-            <NavLink to="/register">
-              <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
-                Sign up
-              </button>
-            </NavLink>
+            {profile?.full_name ? (
+              <div className="relative flex items-center" ref={dropdownRef}>
+                <span className="text-black dark:text-white font-bold text-lg">
+                  {profile.full_name}
+                </span>
+                <button
+                  onClick={toggleDropdown}
+                  className="ml-2 text-black dark:text-white focus:outline-none"
+                >
+                  <GoChevronRight className="w-5 h-5" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-40 bg-gradient-to-b from-white to-gray-200 dark:from-[#3C3C3C] dark:to-[#1A1A1A] text-black dark:text-white shadow-lg rounded-md z-50">
+                    <NavLink
+                      to="/dashboard"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Dashboard
+                    </NavLink>
+                    <button
+                      onClick={handleDelete}
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <NavLink to="/login">
+                  <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
+                    Sign in
+                  </button>
+                </NavLink>
+                <NavLink to="/register">
+                  <button className="px-4 py-2 border rounded-md hover:bg-gray-200 dark:hover:bg-white dark:hover:text-black text-black dark:text-white text-base cursor-pointer">
+                    Sign up
+                  </button>
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -225,32 +304,31 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
-                onClick={() => handleNavClick("home")} // Scroll to "home" section
+                onClick={() => handleNavClick("home")}
               >
                 Home
               </NavLink>
               <NavLink
                 to="/feature"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
-                onClick={() => handleNavClick("Feature")} // Scroll to "Feature" section
+                onClick={() => handleNavClick("Feature")}
               >
                 Feature
               </NavLink>
               <NavLink
                 to="/about"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
-                onClick={() => handleNavClick("about")} // Scroll to "about" section
+                onClick={() => handleNavClick("about")}
               >
                 About
               </NavLink>
               <NavLink
                 to="/pricing"
                 className="hover:text-gray-700 dark:hover:text-gray-300 text-black dark:text-white font-[500] text-base border py-2 px-2 rounded-md"
-                onClick={() => handleNavClick("pricing")} // Scroll to "pricing" section
+                onClick={() => handleNavClick("pricing")}
               >
                 Pricing
               </NavLink>
-
               <button
                 onClick={toggleDarkMode}
                 className="h-10 w-10 rounded-lg p-2 cursor-pointer transition duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 mx-auto my-4"
@@ -274,18 +352,25 @@ const Navbar = () => {
                   ></path>
                 </svg>
               </button>
-
-              <NavLink to="/signin" className="w-full" onClick={toggleMenu}>
-                <button className="w-full px-4 py-2 border rounded-md hover:bg-black dark:hover:bg-gray-700 text-black dark:text-white text-base">
-                  Sign in
-                </button>
-              </NavLink>
-
-              <NavLink to="/signup" className="w-full" onClick={toggleMenu}>
-                <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-950 dark:hover:bg-black text-base">
-                  Sign up
-                </button>
-              </NavLink>
+              {!profile?.full_name && (
+                <>
+                  <NavLink to="/signin" className="w-full" onClick={toggleMenu}>
+                    <button className="w-full px-4 py-2 border rounded-md hover:bg-black dark:hover:bg-gray-700 text-black dark:text-white text-base">
+                      Sign in
+                    </button>
+                  </NavLink>
+                  <NavLink to="/signup" className="w-full" onClick={toggleMenu}>
+                    <button className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-950 dark:hover:bg-black text-base">
+                      Sign up
+                    </button>
+                  </NavLink>
+                </>
+              )}
+              {profile?.full_name && (
+                <span className="text-black dark:text-white font-medium text-base border py-2 px-2 rounded-md text-center">
+                  {profile.full_name}
+                </span>
+              )}
             </div>
           </div>
         </div>

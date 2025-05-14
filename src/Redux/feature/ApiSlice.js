@@ -1,3 +1,4 @@
+import { G } from "@react-pdf/renderer";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
@@ -17,7 +18,7 @@ const baseQuery = fetchBaseQuery({
 export const ApiSlice = createApi({
     reducerPath: "ApiSlice",
     baseQuery,
-    tagTypes: ["question", "addQuestion", "Admin", "Copun", "subscrption", "contract",'proposal','deatils'],
+    tagTypes: ["question", "addQuestion", "Admin", "Copun", "subscrption", "contract", 'proposal', 'deatils'],
     endpoints: (builder) => ({
         // Existing Endpoints
         getContactList: builder.query({
@@ -31,6 +32,17 @@ export const ApiSlice = createApi({
             query: () => "/user/get_company_details/",
         }),
 
+        getContractProposalDeatils: builder.query({
+            query: (id) => `/contract/proposal/${id}/`,
+        }),
+
+        submitProposal: builder.mutation({
+            query: (data) => ({
+                url: "/contract/proposal_pdf/",
+                method: "POST",
+                body: data,
+            })
+        }),
         // New POST Endpoint for Requirements Analysis
         submitRequirementsAnalysis: builder.mutation({
             query: (data) => ({
@@ -48,7 +60,7 @@ export const ApiSlice = createApi({
             }),
             invalidatesTags: ["proposal"], // Invalidate contract-related cache
         }),
-        
+
         saveDrafte: builder.mutation({
             query: (data) => ({
                 url: "/contract/draft-proposals/save/",
@@ -74,11 +86,70 @@ export const ApiSlice = createApi({
             }),
             invalidatesTags: ["proposal", "contract"],
         }),
+
+        subscriptioncart: builder.query({
+            query: () => "/subscription/plan/list/",
+        }),
+
+        //checkout payment
+
+        paymentCheckout: builder.mutation({
+            query: (plan_id) => ({
+                url: "/subscription/checkout-session/",
+                method: "POST",
+                body: { plan_id: plan_id }
+            })
+        }),
+
+        //getpayment info
+        getPaymentInfo: builder.query({
+            query: () => "/subscription/manage/",
+            providesTags: ['subscription']
+        }),
+
+        //cancel subscription
+        cancelSubscription: builder.mutation({
+            query: () => ({
+                url: "/subscription/manage/",
+                method: "POST",
+            }),
+            invalidatesTags: ['subscription']
+        }),
+
+        //get draft proposal
+        getDraftProposal: builder.query({
+            query: () => "/contract/draft-proposals/list/",
+            providesTags: ['draftProposal']
+        }),
+
+        //get proposal list
+        getProposalList: builder.query({
+            query: () => "/contract/submitted-proposals/",
+            providesTags: ['proposalList']
+        }),
+
+        //delete draft proposal
+        deleteDraftProposal: builder.mutation({
+            query: (id) => ({
+                url: `/contract/draft-proposals/delete/${id}/`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['draftProposal'],
+        }),
+        getProfile: builder.query({
+            query: () => "/user/profile/"
+        }),
+
+
+
+
+
+
     }),
 });
 
 // Export hooks for usage in components
-export const { 
+export const {
     useGetContactListQuery,
     useGetGeneralInformationQuery,
     useSubmitRequirementsAnalysisMutation, // Export the new mutation hook
@@ -87,6 +158,18 @@ export const {
     useSubmitDeatilsMutation,
     useGetCompantDeatilsQuery,
     useSaveDrafteMutation,
+    useSubscriptioncartQuery,
+    usePaymentCheckoutMutation,
+    useGetPaymentInfoQuery,
+    useCancelSubscriptionMutation,
+    useGetDraftProposalQuery,
+    useGetProposalListQuery,
+    useGetProfileQuery,
+    useDeleteDraftProposalMutation,
+    useGetContractProposalDeatilsQuery,
+    useSubmitProposalMutation,
 } = ApiSlice;
 
-export default ApiSlice;
+
+
+
