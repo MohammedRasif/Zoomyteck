@@ -29,7 +29,6 @@ const Register = () => {
             ...prev,
             [name]: value,
         }));
-
         // Validate passwords
         if (name === "confirm_password" || name === "password") {
             if (name === "confirm_password" && formData.password !== value) {

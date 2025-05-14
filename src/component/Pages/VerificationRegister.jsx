@@ -94,7 +94,7 @@ const VerificationRegister = () => {
 
             // Show success message
             setSuccessMessage("A new OTP has been sent to your email.");
-            setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
+            // setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
         } catch (err) {
             // Extract and display the dynamic error message from the API
             const errorMessage = err?.data?.detail || "Failed to resend OTP. Please try again.";
