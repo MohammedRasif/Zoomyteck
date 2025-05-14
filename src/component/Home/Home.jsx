@@ -17,7 +17,7 @@ const Home = () => {
            <Testimonial></Testimonial>
            <PaymentCart></PaymentCart>
            <Proposals></Proposals>
-           {/* <Footer></Footer> */}
+           
         </div>
     );
 }

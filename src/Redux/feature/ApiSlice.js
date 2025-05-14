@@ -142,6 +142,14 @@ export const ApiSlice = createApi({
 
 
 
+            //password chaange
+            changePassword: builder.mutation({
+                query: (password) => ({
+                    url: "/user/change-password/",
+                    method: "POST",
+                    body: password,
+                }),
+            }),
 
 
 
@@ -166,9 +174,12 @@ export const {
     useGetProposalListQuery,
     useGetProfileQuery,
     useDeleteDraftProposalMutation,
+
+
     useGetContractProposalDeatilsQuery,
     useSubmitProposalMutation,
 } = ApiSlice;
+
 
 
 
