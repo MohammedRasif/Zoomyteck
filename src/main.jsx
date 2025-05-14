@@ -28,6 +28,7 @@ import Pricing from './component/Pages/PaymentCart.jsx';
 import { Provider } from 'react-redux';
 import store from './Redux/store.js';
 import VerificationRegister from './component/Pages/VerificationRegister.jsx';
+import ProviderRoute from './Root/ProviderRoute.jsx';
 
 
 const router = createBrowserRouter([
@@ -86,7 +87,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: (<DashboardLayout />),
+    element: <ProviderRoute><DashboardLayout /></ProviderRoute>,
     children: [
       {
         index: true,
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
         element: <RecentContact />
       },
       {
-        path: "general_information",
+        path: "general_information/:noticeId",
         element: <Generalinformation />
       },
       {
