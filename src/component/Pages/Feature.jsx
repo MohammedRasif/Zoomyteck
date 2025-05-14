@@ -123,7 +123,7 @@ const Feature = () => {
 
         {/* Top Contracting Agencies Table */}
         <div className="mb-8">
-          <div className={`${darkMode ? 'bg-[#1A1F2C]/60 border-white/10' : 'bg-white/80 border-gray-200'} border rounded-xl  backdrop-blur-sm p-4`}>
+          {/* <div className={`${darkMode ? 'bg-[#1A1F2C]/60 border-white/10' : 'bg-white/80 border-gray-200'} border rounded-xl  backdrop-blur-sm p-4`}>
             <h3 className="text-sm font-medium mb-4">Top Construction Contractors</h3>
             <div className="overflow-auto">
               <table className="w-full text-sm">
@@ -153,11 +153,11 @@ const Feature = () => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className={`${darkMode ? 'bg-[#1A1F2C]/60 border-white/10' : 'bg-white/80 border-gray-200'} border rounded-xl  backdrop-blur-sm p-6`}>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-medium">Project Portfolio</h3>
@@ -205,7 +205,7 @@ const Feature = () => {
               <ArrowRight className="h-3 w-3 ml-1" />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Description Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
