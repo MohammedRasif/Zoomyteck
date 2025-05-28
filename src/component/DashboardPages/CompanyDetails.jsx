@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from "react";
-import { useDarkMood } from "../../context/ThemeContext";
-import { useGetCompantDeatilsQuery, useSubmitDeatilsMutation } from "../../Redux/feature/ApiSlice";
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { useGetCompantDeatilsQuery, useSubmitDeatilsMutation } from "../../Redux/feature/ApiSlice"
+import { CircleLoader } from "react-spinners"
 
 const CompanyDetails = () => {
-  const { darkMode } = useDarkMood();
-  const [submitDetails, { isLoading: isSubmitting, error: submitError }] = useSubmitDeatilsMutation();
-  const { data, isLoading: isFetching, error: fetchError } = useGetCompantDeatilsQuery();
-  const fileInputRef = useRef(null);
+  const [submitDetails, { isLoading: isSubmitting, error: submitError }] = useSubmitDeatilsMutation()
+  const { data, isLoading: isFetching, error: fetchError } = useGetCompantDeatilsQuery()
+  const fileInputRef = useRef(null)
 
-  // Form state for all fields
   const [formData, setFormData] = useState({
     logo: "",
     logoFile: null,
@@ -21,12 +21,11 @@ const CompanyDetails = () => {
     zipcode: "",
     state: "",
     description: "",
-  });
+  })
 
-  // Logo preview state (initialize empty)
-  const [logoPreview, setLogoPreview] = useState("");
+  const [logoPreview, setLogoPreview] = useState("")
+  const [hasNewLogo, setHasNewLogo] = useState(false)
 
-  // Populate form with fetched data
   useEffect(() => {
     if (data) {
       setFormData({
@@ -41,80 +40,107 @@ const CompanyDetails = () => {
         zipcode: data.zipcode || "",
         state: data.state || "",
         description: data.description || "",
-      });
-      setLogoPreview(data.logo || "");
+      })
+      setLogoPreview(data.logo || "")
+      setHasNewLogo(false)
     }
-  }, [data]);
+  }, [data])
 
-  // Handle input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
-  // Handle logo file upload
   const handleLogoChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0]
     if (file) {
       if (file.size > 2.5 * 1024 * 1024) {
-        console.error("File size exceeds 2.5 MB");
-        return;
+        alert("File size exceeds 2.5 MB. Please choose a smaller file.")
+        return
       }
-      setFormData((prev) => ({ ...prev, logoFile: file, logo: "" }));
-      const reader = new FileReader();
+      if (!file.type.startsWith("image/")) {
+        alert("Please upload a valid image file (e.g., PNG, JPEG).")
+        return
+      }
+      setFormData((prev) => ({ ...prev, logoFile: file, logo: "" }))
+      setHasNewLogo(true)
+
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setLogoPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+        setLogoPreview(reader.result)
+        setFormData((prev) => ({ ...prev, logo: reader.result }))
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
-  // Trigger file input for "Change" button
   const handleChangeClick = () => {
-    fileInputRef.current.click();
-  };
+    fileInputRef.current?.click()
+  }
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const dataToSubmit = {
-        logoFile: formData.logoFile,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        website: formData.website,
-        street: formData.street,
-        city: formData.city,
-        zipcode: formData.zipcode,
-        state: formData.state,
-        description: formData.description,
-      };
-      const response = await submitDetails(dataToSubmit).unwrap();
-      console.log("Response:", response);
-      // Update formData with response logo URL if provided
+      // Create the payload with data wrapped in a "data" object
+      const payload = {
+        data: {
+          logo: formData.logo || "",
+          logoFile: formData.logoFile ? formData.logoFile.name : "",
+          name: formData.name || "",
+          email: formData.email || "",
+          phone: formData.phone || "",
+          website: formData.website || "",
+          street: formData.street || "",
+          city: formData.city || "",
+          zipcode: formData.zipcode || "",
+          state: formData.state || "",
+          description: formData.description || "",
+        }
+      }
+
+      console.log("Payload:", payload) // Log the payload for debugging
+
+      const response = await submitDetails(payload).unwrap()
+      console.log("Response:", response)
+
       if (response.logo) {
-        setFormData((prev) => ({ ...prev, logo: response.logo, logoFile: null }));
-        setLogoPreview(response.logo);
+        setFormData((prev) => ({ ...prev, logo: response.logo, logoFile: null }))
+        setLogoPreview(response.logo)
+        setHasNewLogo(false)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""
+        }
       }
     } catch (err) {
-      console.error("Failed to update company details:", err);
+      console.error("Failed to update company details:", err)
+      alert(`Failed to update company details: ${err.data?.message || err.message || "Unknown error"}`)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""
+      }
     }
-  };
+  }
 
-  // Fetching loading state
   if (isFetching) {
     return (
       <div className="dark:bg-black dark:text-white text-black p-4">
         <div className="container mx-auto">
           <h1 className="text-4xl font-medium mb-1">Company Details</h1>
           <p className="text-sm text-gray-400 mb-6">Manage Your Company Details</p>
+          <div className="flex justify-center items-center min-h-[200px]">
+            <CircleLoader
+              color={document?.documentElement?.classList?.contains("dark") ? "#FFFFFF" : "#4B5563"}
+              size={45}
+              cssOverride={{
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
+          </div>
         </div>
       </div>
-    );
+    )
   }
 
-  // Fetch error state
   if (fetchError) {
     return (
       <div className="dark:bg-black dark:text-white text-black p-4">
@@ -124,7 +150,7 @@ const CompanyDetails = () => {
           <p className="text-red-500">Error: {fetchError.data?.message || "Failed to load company details"}</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -133,16 +159,11 @@ const CompanyDetails = () => {
         <h1 className="text-4xl font-medium mb-1">Company Details</h1>
         <p className="text-sm text-gray-400 mb-6">Manage Your Company Details</p>
 
-        {/* Company Logo Section */}
         <div className="flex items-start gap-6 mb-8">
           <div className="w-80 h-44 rounded-lg overflow-hidden">
             <div className="w-full h-full bg-gradient-to-b dark:from-zinc-900 dark:to-black border border-gray-500 from-gray-200 to-white rounded-lg overflow-hidden flex items-center justify-center">
               {logoPreview ? (
-                <img
-                  src={logoPreview}
-                  alt="Company Logo"
-                  className="w-56 object-contain"
-                />
+                <img src={logoPreview || "/placeholder.svg"} alt="Company Logo" className="w-56 object-contain" />
               ) : (
                 <div className="flex items-center justify-center w-full h-full">
                   <img src="/placeholder.svg?height=50&width=50" alt="Default Logo" className="w-12 h-12" />
@@ -156,17 +177,12 @@ const CompanyDetails = () => {
               <h2 className="text-3xl font-medium mb-1">Company Logo</h2>
               <p className="text-[14px] text-gray-400 mb-1">The Proposed size is 300px*300px.</p>
               <p className="text-[14px] text-gray-400 mb-3">No Bigger Than 2.5 MB.</p>
+              {hasNewLogo && <p className="text-[12px] text-green-500 mb-2">✓ New logo selected</p>}
             </div>
 
             <div className="flex gap-2">
               <label className="dark:bg-black dark:text-white bg-white border dark:hover:bg-zinc-800 dark:border-gray-500 text-black text-[16px] font-[500] px-4 py-1.5 rounded-lg cursor-pointer hover:bg-gray-200">
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleLogoChange}
-                  ref={fileInputRef}
-                />
+                <input type="file" className="hidden" accept="image/*" onChange={handleLogoChange} ref={fileInputRef} />
                 Upload
               </label>
 
@@ -181,7 +197,6 @@ const CompanyDetails = () => {
           </div>
         </div>
 
-        {/* Form Fields */}
         <form onSubmit={handleSubmit}>
           <div className="">
             <div className="flex items-center space-x-10 mt-3">
@@ -295,9 +310,20 @@ const CompanyDetails = () => {
                 />
               </div>
             </div>
+
+            <div className="mt-3">
+              <label className="block text-[14px] text-black font-[500] dark:text-gray-400">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Enter company description"
+                className="border-[2px] border-gray-500 dark:border-zinc-800 rounded-lg py-[9px] w-[1030px] mt-2 pl-2 bg-white text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 dark:bg-zinc-900"
+                rows={4}
+              />
+            </div>
           </div>
 
-          {/* Submit Button with Loading Indicator */}
           <div className="mt-6 flex items-center gap-4">
             <button
               type="submit"
@@ -308,13 +334,17 @@ const CompanyDetails = () => {
             </button>
 
             {isSubmitting && (
-              <div className="flex items-center justify-center">
-                <div className="w-6 h-6 border-4 border-t-transparent border-white dark:border-gray-400 rounded-full animate-spin"></div>
-              </div>
+              <CircleLoader
+                color={document?.documentElement?.classList?.contains("dark") ? "#FFFFFF" : "#4B5563"}
+                size={24}
+                cssOverride={{
+                  display: "block",
+                  margin: "0",
+                }}
+              />
             )}
           </div>
 
-          {/* Error Message */}
           {submitError && (
             <p className="mt-2 text-red-500">
               Error: {submitError.data?.message || "Failed to update company details"}
@@ -323,7 +353,7 @@ const CompanyDetails = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CompanyDetails;
+export default CompanyDetails

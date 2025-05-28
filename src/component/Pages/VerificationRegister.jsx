@@ -148,7 +148,7 @@ const VerificationRegister = () => {
                 {/* Verify Button */}
                 <button
                     onClick={handleVerify}
-                    disabled={isLoading || isResendLoading}
+                    disabled={isLoading }
                     className="w-full mt-6 h-12 rounded-md bg-[#004290] dark:bg-[#3b82f6] text-[#FAF1E6] font-medium text-xl hover:bg-[#001a90] dark:hover:bg-[#2563eb] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004290] dark:focus:ring-[#3b82f6] transition-colors disabled:opacity-50"
                 >
                     {isLoading ? "VERIFYING..." : "VERIFY"}
@@ -159,10 +159,10 @@ const VerificationRegister = () => {
                     Didn’t receive the email?{" "}
                     <button
                         onClick={handleResend}
-                        disabled={isResendLoading}
+                        disabled={isLoading}
                         className="text-[#004290] dark:text-[#3b82f6] hover:text-[#001a90] dark:hover:text-[#2563eb] hover:underline cursor-pointer disabled:opacity-50"
                     >
-                        {isResendLoading ? "SENDING..." : "Resend"}
+                        {isLoading ? "SENDING..." : "Resend"}
                     </button>
                 </p>
             </div>

@@ -2,7 +2,7 @@ import { G } from "@react-pdf/renderer";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://192.168.10.124:1000/api/v1",
+    baseUrl: "https://zoomytech.duckdns.org/api/v1",
     prepareHeaders: (headers, { getState }) => {
         const accessToken = localStorage.getItem("access_token");
         console.log(accessToken);
@@ -142,14 +142,24 @@ export const ApiSlice = createApi({
 
 
 
-            //password chaange
-            changePassword: builder.mutation({
-                query: (password) => ({
-                    url: "/user/change-password/",
-                    method: "POST",
-                    body: password,
-                }),
+        updateUserProfile: builder.mutation({
+            query: (formData) => ({
+                url: 'user/update-profile/',
+                method: 'PUT',
+                body: formData,
             }),
+            invalidatesTags: ['UserProfile'], // Refetch profile after update
+        }),
+        // Change password (already exists)
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: 'user/change-password/',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
+
 
 
 
@@ -174,7 +184,8 @@ export const {
     useGetProposalListQuery,
     useGetProfileQuery,
     useDeleteDraftProposalMutation,
-
+    useUpdateUserProfileMutation,
+    useChangePasswordMutation,
 
     useGetContractProposalDeatilsQuery,
     useSubmitProposalMutation,

@@ -114,11 +114,7 @@ const Navbar = () => {
             className="h-12 md:h-16"
             alt="Logo"
           />
-          {profile?.full_name && (
-            <span className="text-black dark:text-white font-medium text-lg">
-              {profile.full_name}
-            </span>
-          )}
+          
         </div>
 
         {/* Hamburger Menu for Mobile */}

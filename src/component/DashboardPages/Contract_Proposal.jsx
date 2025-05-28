@@ -1,15 +1,13 @@
-
 import { useEffect, useState } from "react";
 import { PDFDownloadLink, Document, Page, Text, StyleSheet } from "@react-pdf/renderer";
 import { FaCloudDownloadAlt, FaEdit, FaSave, FaArrowLeft, FaPaperPlane } from "react-icons/fa";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { RiDraftLine } from "react-icons/ri";
 import {
   useEditGenerateProposalMutation,
   useGetContractProposalDeatilsQuery,
   useSaveDrafteMutation,
-  useSubmitDeatilsMutation,
   useSubmitProposalMutation,
 } from "../../Redux/feature/ApiSlice";
 import { CircleLoader } from "react-spinners";
@@ -43,35 +41,39 @@ const ProposalPDF = ({ title, description }) => (
 );
 
 const ContractProposal = () => {
+  const { id } = useParams(); // Extract id from URL (e.g., 18)
+  console.log(id);
   const [isEditing, setIsEditing] = useState(false);
-  const [showPopup, setShowPopup] = useState(false); // Popup for Save Proposal
-  const [showDraftPopup, setShowDraftPopup] = useState(false); // Popup for Draft success
-  const [showSubmitPopup, setShowSubmitPopup] = useState(false); // Popup for Submit success
+  const [showPopup, setShowPopup] = useState(false);
+  const [showDraftPopup, setShowDraftPopup] = useState(false);
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
   const [title] = useState("Contract Proposal");
-  const location = useLocation();
-  const { proposalData } = location.state || {};
   const [description, setDescription] = useState("");
- const [editGenerateProposal, { isLoading: isSaveLoading, error: saveError }] = useEditGenerateProposalMutation();
+
+  // Fetch proposal data using id
+  const { data: contractProposal, isLoading: isQueryLoading, error: queryError } = useGetContractProposalDeatilsQuery(id, {
+    skip: !id, 
+  });
+
+  const [editGenerateProposal, { isLoading: isSaveLoading, error: saveError }] = useEditGenerateProposalMutation();
   const [saveDraft, { isLoading: isDraftLoading, error: draftError }] = useSaveDrafteMutation();
   const [submitProposal, { isLoading: isSubmitLoading, error: submitError }] = useSubmitProposalMutation();
-  const { data: contractProposal } = useGetContractProposalDeatilsQuery();
-  const { data: pdf } = useSubmitDeatilsMutation();
-  console.log(contractProposal);
 
+  // Debug logs
   useEffect(() => {
-    if (proposalData) {
-      setDescription(proposalData.proposal || "");
+    console.log("URL ID:", id);
+    console.log("Fetched Proposal Data:", contractProposal);
+    if (contractProposal?.proposal) {
+      setDescription(contractProposal.proposal);
     }
-  }, [proposalData]);
+  }, [id, contractProposal]);
 
   // Validate base64 string
   const isValidBase64 = (str) => {
     try {
       if (typeof str !== "string") return false;
-      // Check if string is base64 (allows padding with =)
       const base64Regex = /^[A-Za-z0-9+/=]+$/;
       if (!base64Regex.test(str)) return false;
-      // Try decoding to catch invalid base64
       atob(str);
       return true;
     } catch (e) {
@@ -81,10 +83,14 @@ const ContractProposal = () => {
 
   // Handle save/edit toggle and mutation
   const handleSaveProposal = async () => {
+    if (!id) {
+      alert("Error: Proposal ID is missing.");
+      return;
+    }
     if (isEditing) {
       try {
         const data = {
-          proposal_id: proposalData?.proposal_id,
+          proposal_id: id,
           update_proposal: description,
         };
         const response = await editGenerateProposal(data).unwrap();
@@ -103,9 +109,13 @@ const ContractProposal = () => {
 
   // Handle draft button click
   const handleSaveDraft = async () => {
+    if (!id) {
+      alert("Error: Proposal ID is missing.");
+      return;
+    }
     try {
       const data = {
-        proposal_id: proposalData?.proposal_id,
+        proposal_id: id,
       };
       const response = await saveDraft(data).unwrap();
       console.log("Draft Save Response:", response);
@@ -118,30 +128,20 @@ const ContractProposal = () => {
 
   // Handle submit proposal
   const handleSubmitProposal = async () => {
-    if (!proposalData?.proposal_id) {
+    if (!id) {
       alert("Error: Proposal ID is missing.");
       return;
     }
-
     try {
       const data = {
-        proposal_id: proposalData.proposal_id,
-        
+        proposal_id: id,
       };
       const response = await submitProposal(data).unwrap();
       console.log("Submit Proposal Response:", response);
-
-      // Validate PDF if included in response
-      if (response.pdf) {
-        if (!isValidBase64(response.pdf)) {
-          console.error("Invalid Base64 string received:", response.pdf);
-          throw new Error("Invalid Base64 string received for PDF");
-        }
-        // PDF is valid but not needed since backend sends email
-        console.log("PDF base64 received but handled by backend email");
+      if (response.pdf && !isValidBase64(response.pdf)) {
+        console.error("Invalid Base64 string received:", response.pdf);
+        throw new Error("Invalid Base64 string received for PDF");
       }
-
-      // Show success popup
       setShowSubmitPopup(true);
     } catch (err) {
       console.error("Failed to submit proposal:", err);
@@ -150,21 +150,52 @@ const ContractProposal = () => {
   };
 
   // Close popups
-  const closePopup = () => {
-    setShowPopup(false);
-  };
+  const closePopup = () => setShowPopup(false);
+  const closeDraftPopup = () => setShowDraftPopup(false);
+  const closeSubmitPopup = () => setShowSubmitPopup(false);
 
-  const closeDraftPopup = () => {
-    setShowDraftPopup(false);
-  };
+  // Handle loading state
+  if (isQueryLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen dark:bg-black">
+        <CircleLoader color="#4B5563" size={50} />
+      </div>
+    );
+  }
 
-  const closeSubmitPopup = () => {
-    setShowSubmitPopup(false);
-  };
+  // Handle error state
+  if (queryError) {
+    return (
+      <div className="container mx-auto p-4 dark:bg-black dark:text-white">
+        <p className="text-red-500">Error: {queryError.data?.message || "Failed to load proposal data"}</p>
+        <NavLink to="/dashboard/recent_contract">
+          <button className="flex items-center border border-gray-400 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition cursor-pointer">
+            <FaArrowLeft className="mr-2" />
+            Back
+          </button>
+        </NavLink>
+      </div>
+    );
+  }
+
+  // Handle case when id is missing
+  if (!id) {
+    return (
+      <div className="container mx-auto p-4 dark:bg-black dark:text-white">
+        <p className="text-red-500">Error: Proposal ID is missing in the URL</p>
+        <NavLink to="/dashboard/recent_contract">
+          <button className="flex items-center border border-gray-400 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition cursor-pointer">
+            <FaArrowLeft className="mr-2" />
+            Back
+          </button>
+        </NavLink>
+      </div>
+    );
+  }
 
   return (
     <div className={`container mx-auto p-4 dark:bg-black dark:text-white ${showPopup || showDraftPopup || showSubmitPopup ? "" : ""}`}>
-      {/* Popup Modal for Save Proposal */}
+      {/* Popup Modals */}
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 backdrop-blur-[3px]">
           <div className="bg-gray-200 dark:bg-zinc-800 p-6 rounded-md shadow-lg dark:text-white">
@@ -182,7 +213,6 @@ const ContractProposal = () => {
         </div>
       )}
 
-      {/* Popup Modal for Draft Success */}
       {showDraftPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 backdrop-blur-[3px]">
           <div className="bg-gray-200 dark:bg-zinc-800 p-6 rounded-md shadow-lg dark:text-white">
@@ -200,7 +230,6 @@ const ContractProposal = () => {
         </div>
       )}
 
-      {/* Popup Modal for Submit Success */}
       {showSubmitPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 backdrop-blur-[3px]">
           <div className="bg-gray-200 dark:bg-zinc-800 p-6 rounded-md shadow-lg dark:text-white">
@@ -235,16 +264,13 @@ const ContractProposal = () => {
           <button
             onClick={handleSaveDraft}
             className="flex items-center border border-gray-300 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition space-x-2 cursor-pointer"
-            disabled={isDraftLoading}
+            disabled={isDraftLoading || !id}
           >
             {isDraftLoading ? (
               <CircleLoader
                 color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
                 size={20}
-                cssOverride={{
-                  display: "block",
-                  margin: "0 auto",
-                }}
+                cssOverride={{ display: "block", margin: "0 auto" }}
               />
             ) : (
               <>
@@ -264,7 +290,7 @@ const ContractProposal = () => {
             className="w-full h-[65vh] p-2 border border-gray-400 rounded dark:bg-black dark:text-white focus:outline-none"
           />
         ) : (
-          <div className="whitespace-pre-line">{description}</div>
+          <div className="whitespace-pre-line">{description || "No proposal data available"}</div>
         )}
       </div>
 
@@ -278,7 +304,7 @@ const ContractProposal = () => {
         <button
           onClick={handleSaveProposal}
           className="flex items-center border border-gray-400 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition cursor-pointer"
-          disabled={isSaveLoading}
+          disabled={isSaveLoading || !id}
         >
           {isEditing ? <FaSave className="mr-2" /> : <FaEdit className="mr-2" />}
           {isEditing ? (isSaveLoading ? "Saving..." : "Save Proposal") : "Edit Proposal"}
@@ -286,7 +312,7 @@ const ContractProposal = () => {
         <button
           onClick={handleSubmitProposal}
           className="flex items-center border border-gray-400 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition cursor-pointer min-w-[140px] h-[40px] justify-center"
-          disabled={isSubmitLoading}
+          disabled={isSubmitLoading || !id}
         >
           {!isSubmitLoading && (
             <div className="flex items-center space-x-2">
@@ -298,11 +324,7 @@ const ContractProposal = () => {
             <CircleLoader
               color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
               size={20}
-              cssOverride={{
-                display: "block",
-                margin: "0 auto",
-                verticalAlign: "middle",
-              }}
+              cssOverride={{ display: "block", margin: "0 auto", verticalAlign: "middle" }}
             />
           )}
         </button>
