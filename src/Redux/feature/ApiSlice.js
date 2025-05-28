@@ -1,16 +1,21 @@
 import { G } from "@react-pdf/renderer";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+export const baseUrl = "https://zoomytech.duckdns.org";
+export const baseApiUrl = `${baseUrl}/api/v1`
+
 const baseQuery = fetchBaseQuery({
-    baseUrl: "https://zoomytech.duckdns.org/api/v1",
-    prepareHeaders: (headers, { getState }) => {
+    baseUrl: baseApiUrl,
+    prepareHeaders: (headers, { getState, endpoint }) => {
         const accessToken = localStorage.getItem("access_token");
         console.log(accessToken);
         const token = getState().auth.token || accessToken;
         if (token) {
             headers.set("Authorization", `Bearer ${token}`);
         }
-        headers.set("Content-Type", "application/json");
+        if(endpoint !== "submitDeatils") {
+            headers.set("Content-Type", "application/json");
+        }
         return headers;
     },
 });

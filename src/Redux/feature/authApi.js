@@ -1,11 +1,12 @@
 
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApiUrl } from "./ApiSlice";
 
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://zoomytech.duckdns.org/api/v1", // ✅ Update this with your backend URL
+        baseUrl: baseApiUrl, // ✅ Update this with your backend URL
     }),
     endpoints: (builder) => ({
         register: builder.mutation({
