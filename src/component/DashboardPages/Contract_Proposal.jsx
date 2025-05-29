@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PDFDownloadLink, Document, Page, Text, StyleSheet } from "@react-pdf/renderer";
+import { PDFDownloadLink, Document, Page, Text, StyleSheet, pdf } from "@react-pdf/renderer";
 import { FaCloudDownloadAlt, FaEdit, FaSave, FaArrowLeft, FaPaperPlane } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import { MdOutlineVerifiedUser } from "react-icons/md";
@@ -8,6 +8,7 @@ import {
   useEditGenerateProposalMutation,
   useGetContractProposalDeatilsQuery,
   useSaveDrafteMutation,
+  useSubitContractProposalMutation,
   useSubmitProposalMutation,
 } from "../../Redux/feature/ApiSlice";
 import { CircleLoader } from "react-spinners";
@@ -52,12 +53,13 @@ const ContractProposal = () => {
 
   // Fetch proposal data using id
   const { data: contractProposal, isLoading: isQueryLoading, error: queryError } = useGetContractProposalDeatilsQuery(id, {
-    skip: !id, 
+    skip: !id,
   });
 
   const [editGenerateProposal, { isLoading: isSaveLoading, error: saveError }] = useEditGenerateProposalMutation();
   const [saveDraft, { isLoading: isDraftLoading, error: draftError }] = useSaveDrafteMutation();
   const [submitProposal, { isLoading: isSubmitLoading, error: submitError }] = useSubmitProposalMutation();
+  const [submiteContractProposal] = useSubitContractProposalMutation();
 
   // Debug logs
   useEffect(() => {
@@ -69,17 +71,18 @@ const ContractProposal = () => {
   }, [id, contractProposal]);
 
   // Validate base64 string
-  const isValidBase64 = (str) => {
-    try {
-      if (typeof str !== "string") return false;
-      const base64Regex = /^[A-Za-z0-9+/=]+$/;
-      if (!base64Regex.test(str)) return false;
-      atob(str);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
+  // const isValidBase64 = (str) => {
+  //   try {
+  //     if (typeof str !== "string" || !str) return false;
+  //     const base64Regex = /^[A-Za-z0-9+/=]+$/;
+  //     if (!base64Regex.test(str)) return false;
+  //     atob(str);
+  //     return true;
+  //   } catch (e) {
+  //     console.error("Base64 validation failed:", e);
+  //     return false;
+  //   }
+  // };
 
   // Handle save/edit toggle and mutation
   const handleSaveProposal = async () => {
@@ -126,28 +129,57 @@ const ContractProposal = () => {
     }
   };
 
-  // Handle submit proposal
-  const handleSubmitProposal = async () => {
-    if (!id) {
-      alert("Error: Proposal ID is missing.");
-      return;
-    }
-    try {
-      const data = {
-        proposal_id: id,
-      };
-      const response = await submitProposal(data).unwrap();
-      console.log("Submit Proposal Response:", response);
-      if (response.pdf && !isValidBase64(response.pdf)) {
-        console.error("Invalid Base64 string received:", response.pdf);
-        throw new Error("Invalid Base64 string received for PDF");
-      }
-      setShowSubmitPopup(true);
-    } catch (err) {
-      console.error("Failed to submit proposal:", err);
-      alert(`Error: ${err.data?.message || err.message || "Failed to submit proposal or send email. Please try again."}`);
-    }
+  // Generate PDF Blob for attachment
+  const generatePDFBlob = async () => {
+    const pdfDoc = <ProposalPDF title={title} description={description} />;
+    const blob = await pdf(pdfDoc).toBlob();
+    return blob;
   };
+
+  // Handle submit proposal and open email client
+  const handleSubmitProposal = async () => {
+  if (!id) {
+    alert("Error: Proposal ID is missing.");
+    return;
+  }
+  try {
+    // Call submiteContractProposal to get the PDF
+    const contractResponse = await submiteContractProposal({ proposal_id: Number(id) }).unwrap();
+    console.log("Contract Proposal Response:", contractResponse);
+
+    // Generate client-side PDF as fallback
+    const pdfBlob = await generatePDFBlob();
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // Trigger download of the PDF
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = "contract_proposal.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(pdfUrl);
+
+    // Prepare Gmail URL with prefilled subject and body
+    const emailSubject = encodeURIComponent("Contract Proposal Submission");
+    const emailBody = encodeURIComponent(
+      `Dear [Recipient],\n\nPlease find the contract proposal attached (${description}).\n\nBest regards,\n[Your Name]`
+    );
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${emailSubject}&body=${emailBody}`;
+
+    // Open Gmail in a new tab/window
+    window.open(gmailUrl, "_blank");
+
+    // Submit the proposal
+    const submitResponse = await submitProposal({ proposal_id: id }).unwrap();
+    console.log("Submit Proposal Response:", submitResponse);
+
+    setShowSubmitPopup(true);
+  } catch (err) {
+    console.error("Failed to submit proposal:", err);
+    alert(`Error: ${err.data?.message || err.message || "Failed to submit proposal or open email. Please try again."}`);
+  }
+};
 
   // Close popups
   const closePopup = () => setShowPopup(false);
@@ -314,18 +346,17 @@ const ContractProposal = () => {
           className="flex items-center border border-gray-400 px-3 py-1 rounded-md dark:text-white dark:hover:bg-gray-700 hover:bg-gray-200 transition cursor-pointer min-w-[140px] h-[40px] justify-center"
           disabled={isSubmitLoading || !id}
         >
-          {!isSubmitLoading && (
-            <div className="flex items-center space-x-2">
-              <FaPaperPlane className="mr-2" />
-              <span>Submit Proposal</span>
-            </div>
-          )}
-          {isSubmitLoading && (
+          {isSubmitLoading ? (
             <CircleLoader
               color={document.documentElement.classList.contains("dark") ? "#FFFFFF" : "#4B5563"}
               size={20}
               cssOverride={{ display: "block", margin: "0 auto", verticalAlign: "middle" }}
             />
+          ) : (
+            <div className="flex items-center space-x-2">
+              <FaPaperPlane className="mr-2" />
+              <span>Submit Contract</span>
+            </div>
           )}
         </button>
       </div>

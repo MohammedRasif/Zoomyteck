@@ -164,6 +164,16 @@ export const ApiSlice = createApi({
             }),
         }),
 
+        // submit contrac proposal
+
+        subitContractProposal:builder.mutation({
+            query: (data) =>({
+                url:"/contract/send-pdf-email/",
+                method:'POST',
+                body:data
+            }),
+        })
+
 
 
 
@@ -191,6 +201,7 @@ export const {
     useDeleteDraftProposalMutation,
     useUpdateUserProfileMutation,
     useChangePasswordMutation,
+    useSubitContractProposalMutation,
 
     useGetContractProposalDeatilsQuery,
     useSubmitProposalMutation,
