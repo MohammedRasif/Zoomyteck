@@ -142,11 +142,11 @@ const Login = () => {
           </NavLink>
         </div>
 
-        <div className="flex justify-center mt-3 cursor-pointer">
+        {/* <div className="flex justify-center mt-3 cursor-pointer">
           <FcGoogle
             className="text-[50px] border p-1 rounded-full border-gray-500 dark:border-gray-600"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

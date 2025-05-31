@@ -16,7 +16,7 @@ const Testimonial = () => {
             id: 1,
             name: "John Doe",
             position: "CEO, TechCorp",
-            image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1738148405/fotor-2025010923230_1_u9l6vi.png",
+            image: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg",
             text: "I'm extremely satisfied with this product. After months of looking, the AI-powered features genuinely saved me countless hours of work. And the real-time collaboration feature lets us make smarter decisions. Team collaboration is seamless, and we never miss a deadline thanks to automated notifications. It's a game-changer for our business.",
         },
         {

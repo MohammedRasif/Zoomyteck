@@ -1,6 +1,3 @@
-
-
-
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoCameraReverseOutline } from "react-icons/io5";
@@ -50,7 +47,7 @@ const Setting = () => {
       }
 
       try {
-        const response = await fetch("http://192.168.10.124:1000/api/v1/user/profile/", {
+        const response = await fetch("https://zoomytech.duckdns.org/api/v1/user/profile/", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -96,8 +93,13 @@ const Setting = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        setError("Please select a valid image file.");
+        return;
+      }
       setImage(file);
       setImagePreview(URL.createObjectURL(file));
+      setError(""); // Clear any previous errors
     }
   };
 
@@ -126,11 +128,18 @@ const Setting = () => {
     // Create FormData for profile update
     const formData = new FormData();
     formData.append("full_name", fullName);
-    formData.append("email", email); // Include email as required by backend, even though it's read-only
-    formData.append("image", image || null);
+    formData.append("email", email); // Include email as required by backend
+    if (image) {
+      formData.append("image", image); // Only append image if it exists
+    }
+
+    // Debugging FormData content
+    for (let [key, value] of formData.entries()) {
+      console.log(`FormData ${key}:`, value);
+    }
 
     try {
-      const endpoint = "http://192.168.10.124:1000/api/v1/user/update-profile/";
+      const endpoint = "https://zoomytech.duckdns.org/api/v1/user/update-profile/";
       console.log("Sending PUT request to:", endpoint);
 
       // Send request to backend using fetch with PUT method
@@ -138,6 +147,7 @@ const Setting = () => {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          // Do not set Content-Type manually for FormData; browser sets it with boundary
         },
         body: formData,
       });
@@ -155,6 +165,12 @@ const Setting = () => {
           errorMessage = "Unauthorized: Invalid or missing token.";
         } else if (response.status === 404) {
           errorMessage = "Profile update endpoint not found. Please check the server URL or endpoint.";
+        } else if (response.status === 400) {
+          const errorData = hasJson ? await response.json() : {};
+          errorMessage = errorData.message || "Invalid data provided. Please check the form.";
+          if (errorData.image) {
+            errorMessage = `Image error: ${errorData.image}`;
+          }
         } else if (hasJson) {
           const errorData = await response.json();
           errorMessage = errorData.message || errorMessage;
@@ -179,7 +195,7 @@ const Setting = () => {
       // Update state with response data
       setFullName(data.full_name || fullName);
       setEmail(data.email || email);
-      setImagePreview(data.image || "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1738148405/fotor-2025010923230_1_u9l6vi.png");
+      setImagePreview(data.image || imagePreview); // Use existing preview if no new image
       setImage(null); // Clear image input
       setSuccess("Profile updated successfully!");
     } catch (err) {
@@ -253,7 +269,9 @@ const Setting = () => {
             <div className="relative">
               <h1
                 className={`cursor-pointer mt-2 ${
-                  activeSection === "editProfile" ? "text-[#00BF63] dark:text-[#00a357]" : "text-gray-700 dark:text-gray-300"
+                  activeSection === "editProfile"
+                    ? "text-[#00BF63] dark:text-[#00a357]"
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
                 onClick={() => setActiveSection("editProfile")}
               >
@@ -266,7 +284,9 @@ const Setting = () => {
             <div className="relative">
               <h1
                 className={`cursor-pointer mt-2 ${
-                  activeSection === "changePassword" ? "text-[#00BF63] dark:text-[#00a357]" : "text-gray-700 dark:text-gray-300"
+                  activeSection === "changePassword"
+                    ? "text-[#00BF63] dark:text-[#00a357]"
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
                 onClick={() => setActiveSection("changePassword")}
               >
@@ -285,16 +305,16 @@ const Setting = () => {
               </h1>
               {error && <p className="text-red-500 text-center">{error}</p>}
               {success && <p className="text-green-500 text-center">{success}</p>}
-              <form onSubmit={handleProfileUpdate}>
+              <form onSubmit={handleProfileUpdate} encType="multipart/form-data">
                 <div className="pt-2">
                   <h1 className="text-[18px] font-[500] mb-2 mt-3 text-gray-800 dark:text-gray-200">
                     Full Name
                   </h1>
                   <input
                     type="text"
-                    className="w-full h-[40px] border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-gray-50 dark:bg-gray-950 pl-3"
+                    className="w-full h-[40px] border border-gray-400 dark:border-gray-600 rounded-md text-[#364636] dark:text-gray-200 bg-gray-50 dark:bg-gray-800 pl-3"
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    onChange={(e) => setFullName(e.target.value)} // Allow editing
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -385,7 +405,6 @@ const Setting = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    {/* hello */}
                     <button
                       type="button"
                       onClick={toggleConfirmPassword}
